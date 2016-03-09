@@ -10,8 +10,45 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_main" tools:context=".MainActivity">
 
-    <TextView android:text="@string/main_title"
+    <TextView android:id="@+id/txt_main_title"
+        android:text="@string/main_title"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
-    />
+        />
+
+    <Button android:id="@+id/btn_app_01"
+        android:text="@string/app_spotify"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:layout_below="@id/txt_main_title"
+        />
+
+    <Button android:id="@+id/btn_app_02"
+        android:text="@string/app_scores"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:layout_below="@id/btn_app_01"
+        />
+
+    <Button android:id="@+id/btn_app_03"
+        android:text="@string/app_library"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:layout_below="@id/btn_app_02"
+        />
+
+    <Button android:id="@+id/btn_app_04"
+        android:text="@string/app_bigger"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:layout_below="@id/btn_app_03"
+        />
+
+    <Button android:id="@+id/btn_app_05"
+        android:text="@string/app_reader"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:layout_below="@id/btn_app_04"
+        />
+
+    <Button android:id="@+id/btn_app_06"
+        android:text="@string/app_capstone"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:layout_below="@id/btn_app_05"
+        />
 
 </RelativeLayout>
