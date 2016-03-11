@@ -28,7 +28,7 @@
             <fragment android:id="@+id/list_fragment"
                 android:layout_width="0dp" android:layout_height="wrap_content"
                 android:layout_weight="1"
-                class="me.makeachoice.myappportfolio.fragment.SimpleListFragment"/>
+                class="me.makeachoice.myappportfolio.fragment.SimpleGridFragment"/>
 
             <fragment android:id="@+id/detail_fragment"
                 android:layout_width="0dp" android:layout_height="wrap_content"
