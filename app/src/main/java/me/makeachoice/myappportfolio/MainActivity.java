@@ -12,10 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import me.makeachoice.myappportfolio.fragment.SimpleGridFragment;
-import me.makeachoice.myappportfolio.fragment.SimpleListFragment;
+import me.makeachoice.myappportfolio.fragment.list.SimpleListFragment;
 
 public class MainActivity extends AppCompatActivity {
 

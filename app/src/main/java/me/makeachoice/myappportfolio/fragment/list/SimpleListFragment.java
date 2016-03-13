@@ -1,4 +1,4 @@
-package me.makeachoice.myappportfolio.fragment;
+package me.makeachoice.myappportfolio.fragment.list;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
