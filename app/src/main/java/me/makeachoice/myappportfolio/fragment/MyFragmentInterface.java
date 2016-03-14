@@ -11,12 +11,6 @@ import android.view.ViewGroup;
  * Fragment abstract used for all my fragments
  */
 public interface MyFragmentInterface {
-    /** onAttach(...) is called when a fragment is first attached to its context. onCreate(...) will
-     * will be called after this.
-     *
-     * OnAttach(Activity) has been deprecated in API level 23
-     */
-    public void onAttach(Context ctx);
 
     /** onCreate(...) is called to do initial creation of a fragment. This is called after
      * onAttach(...) and before onCreateView(...)
