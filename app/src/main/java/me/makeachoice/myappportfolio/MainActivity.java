@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        myOrientationEventListener
+        /*myOrientationEventListener
                 = new OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL){
 
             @Override
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         else{
             Toast.makeText(this, "Can't DetectOrientation", Toast.LENGTH_SHORT).show();
             finish();
-        }
+        }*/
 
 
 
