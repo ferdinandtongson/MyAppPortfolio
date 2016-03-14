@@ -55,7 +55,8 @@ public interface MyFragmentInterface {
      */
     public void onPause();
 
-    /** onStop()
+    /** onStop() is called when the Fragment is no longer started. This is generally tied to
+     * Activity.onStop of the containing Activity's lifecycle.
      *
      */
     public void onStop();
