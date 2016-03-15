@@ -6,10 +6,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import me.makeachoice.myappportfolio.fragment.list.SimpleListFragment;
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
             // Create a new Fragment to be placed in the activity layout
             SimpleListFragment listFragment = new SimpleListFragment();
             listFragment.setLayout(R.layout.list_fragment);
+
+            Log.d("SimpleListFragment", "MainActivity.onCreate:");
 
             // In case this activity was started with special instructions from an
             // Intent, pass the Intent's extras to the fragment as arguments

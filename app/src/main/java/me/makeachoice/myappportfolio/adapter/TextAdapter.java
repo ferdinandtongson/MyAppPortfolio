@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import me.makeachoice.myappportfolio.R;
-import me.makeachoice.myappportfolio.adapter.item.OnlyText;
+import me.makeachoice.myappportfolio.adapter.item.OnlyTitleItem;
 
 /**
  * Created by Usuario on 3/15/2016.
@@ -19,11 +19,11 @@ import me.makeachoice.myappportfolio.adapter.item.OnlyText;
 public class TextAdapter extends BaseAdapter {
     Context mContext;
     LayoutInflater mInflator;
-    List<OnlyText> mRowItem;
+    List<OnlyTitleItem> mRowItem;
     int mItemLayoutId;
     int mTitleViewId;
 
-    public TextAdapter(Context c, List<OnlyText> rowItem) {
+    public TextAdapter(Context c, List<OnlyTitleItem> rowItem) {
         Log.d("SimpleListFragment", "TextAdapter");
         Log.d("SimpleListFragment", "     row: " + rowItem.size());
         mContext = c;
@@ -33,7 +33,7 @@ public class TextAdapter extends BaseAdapter {
         mTitleViewId = R.id.item_onlytext_title;
     }
 
-    public TextAdapter(Context c, List<OnlyText> rowItem, int layoutId, int titleViewId){
+    public TextAdapter(Context c, List<OnlyTitleItem> rowItem, int layoutId, int titleViewId){
         Log.d("SimpleListFragment", "TextAdapter");
         Log.d("SimpleListFragment", "     row: " + rowItem.size());
         Log.d("SimpleListFragment", "     dynamic layout and titleView");
@@ -78,7 +78,7 @@ public class TextAdapter extends BaseAdapter {
 
         TextView txtTitle = (TextView)aView.findViewById(mTitleViewId);
 
-        OnlyText row_pos = mRowItem.get(position);
+        OnlyTitleItem row_pos = mRowItem.get(position);
         txtTitle.setText(row_pos.getTitle());
         return aView;
     }

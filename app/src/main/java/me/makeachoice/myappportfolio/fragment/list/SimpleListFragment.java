@@ -1,22 +1,17 @@
 package me.makeachoice.myappportfolio.fragment.list;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import me.makeachoice.myappportfolio.R;
 import me.makeachoice.myappportfolio.adapter.TextAdapter;
-import me.makeachoice.myappportfolio.adapter.item.OnlyText;
+import me.makeachoice.myappportfolio.adapter.item.OnlyTitleItem;
 import me.makeachoice.myappportfolio.fragment.MyFragmentInterface;
 
 /**************************************************************************************************/
@@ -104,10 +99,10 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
                 "Test9", "Test0"
         };
 
-        ArrayList<OnlyText> rowItems = new ArrayList<OnlyText>();
+        ArrayList<OnlyTitleItem> rowItems = new ArrayList<OnlyTitleItem>();
         for(int i = 0; i < mTest_array.length; i++){
             Log.d(DEBUG_STR, "     row: " + mTest_array[i]);
-            OnlyText item = new OnlyText(mTest_array[i]);
+            OnlyTitleItem item = new OnlyTitleItem(mTest_array[i]);
             rowItems.add(item);
         }
 
