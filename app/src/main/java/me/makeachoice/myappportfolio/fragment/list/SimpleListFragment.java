@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import me.makeachoice.myappportfolio.R;
-import me.makeachoice.myappportfolio.adapter.TextAdapter;
+import me.makeachoice.myappportfolio.adapter.TitleAdapter;
 import me.makeachoice.myappportfolio.adapter.item.OnlyTitleItem;
 import me.makeachoice.myappportfolio.fragment.MyFragmentInterface;
 
@@ -106,7 +106,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
             rowItems.add(item);
         }
 
-        TextAdapter adapter = new TextAdapter(getContext(), rowItems,
+        TitleAdapter adapter = new TitleAdapter(getContext(), rowItems,
                 R.layout.item_onlytitle, R.id.item_onlytext_title);
 
         setListAdapter(adapter);

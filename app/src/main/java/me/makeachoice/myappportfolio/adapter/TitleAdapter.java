@@ -16,15 +16,15 @@ import me.makeachoice.myappportfolio.adapter.item.OnlyTitleItem;
 /**
  * Created by Usuario on 3/15/2016.
  */
-public class TextAdapter extends BaseAdapter {
+public class TitleAdapter extends BaseAdapter {
     Context mContext;
     LayoutInflater mInflator;
     List<OnlyTitleItem> mRowItem;
     int mItemLayoutId;
     int mTitleViewId;
 
-    public TextAdapter(Context c, List<OnlyTitleItem> rowItem) {
-        Log.d("SimpleListFragment", "TextAdapter");
+    public TitleAdapter(Context c, List<OnlyTitleItem> rowItem) {
+        Log.d("SimpleListFragment", "TitleAdapter");
         Log.d("SimpleListFragment", "     row: " + rowItem.size());
         mContext = c;
         mInflator = LayoutInflater.from(c);
@@ -33,8 +33,8 @@ public class TextAdapter extends BaseAdapter {
         mTitleViewId = R.id.item_onlytext_title;
     }
 
-    public TextAdapter(Context c, List<OnlyTitleItem> rowItem, int layoutId, int titleViewId){
-        Log.d("SimpleListFragment", "TextAdapter");
+    public TitleAdapter(Context c, List<OnlyTitleItem> rowItem, int layoutId, int titleViewId){
+        Log.d("SimpleListFragment", "TitleAdapter");
         Log.d("SimpleListFragment", "     row: " + rowItem.size());
         Log.d("SimpleListFragment", "     dynamic layout and titleView");
         mContext = c;
@@ -62,7 +62,7 @@ public class TextAdapter extends BaseAdapter {
     // create a new ImageView for each item referenced by the Adapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.d("SimpleListFragment", "TextAdapter.getView");
+        Log.d("SimpleListFragment", "TitleAdapter.getView");
         View aView;
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
