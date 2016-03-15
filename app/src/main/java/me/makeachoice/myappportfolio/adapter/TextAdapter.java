@@ -29,7 +29,7 @@ public class TextAdapter extends BaseAdapter {
         mContext = c;
         mInflator = LayoutInflater.from(c);
         mRowItem = rowItem;
-        mItemLayoutId = R.layout.item_onlytext;
+        mItemLayoutId = R.layout.item_onlytitle;
         mTitleViewId = R.id.item_onlytext_title;
     }
 

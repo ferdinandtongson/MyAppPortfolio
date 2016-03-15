@@ -107,7 +107,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
         }
 
         TextAdapter adapter = new TextAdapter(getContext(), rowItems,
-                R.layout.item_onlytext, R.id.item_onlytext_title);
+                R.layout.item_onlytitle, R.id.item_onlytext_title);
 
         setListAdapter(adapter);
     }
