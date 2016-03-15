@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -21,6 +20,8 @@ public class TextAdapter extends BaseAdapter {
     Context mContext;
     LayoutInflater mInflator;
     List<OnlyText> mRowItem;
+    int mItemLayoutId;
+    int mTitleViewId;
 
     public TextAdapter(Context c, List<OnlyText> rowItem) {
         Log.d("SimpleListFragment", "TextAdapter");
@@ -28,6 +29,19 @@ public class TextAdapter extends BaseAdapter {
         mContext = c;
         mInflator = LayoutInflater.from(c);
         mRowItem = rowItem;
+        mItemLayoutId = R.layout.item_onlytext;
+        mTitleViewId = R.id.item_onlytext_title;
+    }
+
+    public TextAdapter(Context c, List<OnlyText> rowItem, int layoutId, int titleViewId){
+        Log.d("SimpleListFragment", "TextAdapter");
+        Log.d("SimpleListFragment", "     row: " + rowItem.size());
+        Log.d("SimpleListFragment", "     dynamic layout and titleView");
+        mContext = c;
+        mInflator = LayoutInflater.from(c);
+        mRowItem = rowItem;
+        mItemLayoutId = layoutId;
+        mTitleViewId = titleViewId;
     }
 
     @Override
@@ -52,22 +66,21 @@ public class TextAdapter extends BaseAdapter {
         View aView;
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
-            aView = mInflator.inflate(R.layout.item_onlytext, null);
+            aView = mInflator.inflate(mItemLayoutId, null);
             /*textView.setLayoutParams(new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));*/
 
             Log.d("SimpleListFragment", "     createTextView: " + aView.toString());
-            //textView.setPadding(8, 8, 8, 8);
+
         } else {
             aView = (View)convertView;
         }
 
-        TextView txtTitle = (TextView)aView.findViewById(R.id.item_onlytext_title);
+        TextView txtTitle = (TextView)aView.findViewById(mTitleViewId);
 
         OnlyText row_pos = mRowItem.get(position);
         txtTitle.setText(row_pos.getTitle());
         return aView;
     }
-
 
 }
