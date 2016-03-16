@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.BaseAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.makeachoice.myappportfolio.adapter.item.MyBaseRowItem;
@@ -15,5 +16,5 @@ import me.makeachoice.myappportfolio.adapter.item.MyBaseRowItem;
 public abstract class MyBaseAdapter extends BaseAdapter{
     Context mContext;
     LayoutInflater mInflator;
-    List<MyBaseRowItem> mRowItem;
+    ArrayList<MyBaseRowItem> mItem;
 }
