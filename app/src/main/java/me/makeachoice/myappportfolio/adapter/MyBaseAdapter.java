@@ -18,5 +18,5 @@ public abstract class MyBaseAdapter extends BaseAdapter{
     Context mContext;
     LayoutInflater mInflator;
 
-    abstract void updateView(View view);
+    abstract void updateView(int position, View view);
 }
