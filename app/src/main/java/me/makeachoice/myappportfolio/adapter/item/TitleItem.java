@@ -40,7 +40,7 @@ public TitleItem(String title){
 /**
  * Getter and Setter for text value Title
  * getTitle() returns the Title; String
- * setTitle(...) sets the string value of the Title
+ * setTitle(String) sets the string value of the Title
  */
     public String getTitle(){
         return mTitle;
