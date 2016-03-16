@@ -2,6 +2,7 @@ package me.makeachoice.myappportfolio.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
@@ -16,4 +17,6 @@ import me.makeachoice.myappportfolio.adapter.item.MyBaseRowItem;
 public abstract class MyBaseAdapter extends BaseAdapter{
     Context mContext;
     LayoutInflater mInflator;
+
+    abstract void updateView(View view);
 }
