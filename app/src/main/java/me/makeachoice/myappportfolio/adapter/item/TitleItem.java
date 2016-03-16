@@ -39,8 +39,8 @@ public TitleItem(String title){
 /**************************************************************************************************/
 /**
  * Getter and Setter for text value Title
- * getTitle() returns mTitle
- * setTitle(...) sets mTitle
+ * getTitle() returns the string value of the Title
+ * setTitle(...) sets the string value of the Title
  */
     public String getTitle(){
         return mTitle;
