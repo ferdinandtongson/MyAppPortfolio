@@ -1,11 +1,7 @@
 package me.makeachoice.myappportfolio.adapter.item;
 
-import android.text.Layout;
-import android.view.View;
-import android.widget.TextView;
-
 /**
- * TitleItem extends RowItem base class is used by a BaseAdapter to populate a ListView. This
+ * TitleItem extends MyBaseRowItem base class is used by a BaseAdapter to populate a ListView. This
  * class is associated with item_onlytitle.xml layout resource file and encapsulates the View
  * created by item_onlytitle.xml.
  *
@@ -14,7 +10,7 @@ import android.widget.TextView;
  * In your Presenter, adding data to your adapter before calling setListAdapter():
  *      ArrayList<TitleItem> rowItems = new ArrayList<TitleItem>();
  *      for(int i = 0; i < count; i++){
- *          RowItem item = new TitleItem(title_array[i]);
+ *          MyBaseRowItem item = new TitleItem(title_array[i]);
  *          rowItems.add(item);
  *      }
  *
@@ -28,7 +24,7 @@ import android.widget.TextView;
  *      txtTitle.setText(item.getTitle());
  *
  */
-public class TitleItem extends RowItem{
+public class TitleItem extends MyBaseRowItem {
     //mTitle - holds the text value for Title
     private String mTitle;
 
