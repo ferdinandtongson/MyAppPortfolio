@@ -5,16 +5,16 @@ import android.view.View;
 import android.widget.TextView;
 
 /**
- * OnlyTitleItem extends RowItem base class is used by a BaseAdapter to populate a ListView. This
+ * TitleItem extends RowItem base class is used by a BaseAdapter to populate a ListView. This
  * class is associated with item_onlytitle.xml layout resource file and encapsulates the View
  * created by item_onlytitle.xml.
  *
- * OnlyTitleItem will be populated in the Presenter taking data from the Model.
+ * TitleItem will be populated in the Presenter taking data from the Model.
  *
  * In your Presenter, adding data to your adapter before calling setListAdapter():
  *      ArrayList<TitleItem> rowItems = new ArrayList<TitleItem>();
  *      for(int i = 0; i < count; i++){
- *          RowItem item = new OnlyTitleItem(title_array[i]);
+ *          RowItem item = new TitleItem(title_array[i]);
  *          rowItems.add(item);
  *      }
  *
@@ -28,7 +28,7 @@ import android.widget.TextView;
  *      txtTitle.setText(item.getTitle());
  *
  */
-public class OnlyTitleItem extends RowItem{
+public class TitleItem extends RowItem{
     //mTitle - holds the text value for Title
     private String mTitle;
 
@@ -36,7 +36,7 @@ public class OnlyTitleItem extends RowItem{
 /**
  * TitleItem(String) - constructor, accepts string value for title
  */
-public OnlyTitleItem(String title){
+public TitleItem(String title){
         mTitle = title;
     }
 

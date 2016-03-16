@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import me.makeachoice.myappportfolio.R;
 import me.makeachoice.myappportfolio.adapter.TitleAdapter;
-import me.makeachoice.myappportfolio.adapter.item.OnlyTitleItem;
+import me.makeachoice.myappportfolio.adapter.item.TitleItem;
 import me.makeachoice.myappportfolio.fragment.MyFragmentInterface;
 
 /**************************************************************************************************/
@@ -99,10 +99,10 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
                 "Test9", "Test0"
         };
 
-        ArrayList<OnlyTitleItem> rowItems = new ArrayList<OnlyTitleItem>();
+        ArrayList<TitleItem> rowItems = new ArrayList<TitleItem>();
         for(int i = 0; i < mTest_array.length; i++){
             Log.d(DEBUG_STR, "     row: " + mTest_array[i]);
-            OnlyTitleItem item = new OnlyTitleItem(mTest_array[i]);
+            TitleItem item = new TitleItem(mTest_array[i]);
             rowItems.add(item);
         }
 
