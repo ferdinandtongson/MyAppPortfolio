@@ -16,5 +16,4 @@ import me.makeachoice.myappportfolio.adapter.item.MyBaseRowItem;
 public abstract class MyBaseAdapter extends BaseAdapter{
     Context mContext;
     LayoutInflater mInflator;
-    ArrayList<MyBaseRowItem> mItem;
 }
