@@ -1,5 +1,7 @@
 package me.makeachoice.myappportfolio.fragment.list;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -10,9 +12,7 @@ import android.widget.ListAdapter;
 
 import java.util.ArrayList;
 
-import me.makeachoice.myappportfolio.R;
-import me.makeachoice.myappportfolio.adapter.TitleAdapter;
-import me.makeachoice.myappportfolio.adapter.item.TitleItem;
+import me.makeachoice.myappportfolio.MainActivity;
 import me.makeachoice.myappportfolio.fragment.MyFragmentInterface;
 
 /**************************************************************************************************/
@@ -52,12 +52,12 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
-        setRetainInstance(true);
         Log.d(DEBUG, "onCreate");
+
+        //Retain Instance true will retain the fragment instance across Activity re-creation
+        //setRetainInstance(true);
         if (savedInstanceState != null){
-            mLayoutId = savedInstanceState.getInt(
-                    SimpleListFragmentContract.Value.BUNDLE_LAYOUT);
+            mLayoutId = savedInstanceState.getInt(SimpleListFragmentContract.Value.BUNDLE_LAYOUT);
         }
     }
 
@@ -92,9 +92,18 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
     }
 
     @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+        Log.d(DEBUG, "onAttach");
+        mActivity = (MainActivity)getActivity();
+        Log.d(DEBUG, "     activity: " + mActivity.toString());
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.d(DEBUG,"SimpleListFragment.onActivityCreated: ");
+        Log.d(DEBUG, "onActivityCreated");
+        Log.d(DEBUG,"     activity: " + mActivity.toString());
         if(savedInstanceState != null){
             Log.d(DEBUG, "     bundle NOT null");
         }
@@ -110,24 +119,77 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
                 R.array.app_planets, android.R.layout.simple_list_item_1);*/
         // references to our images
 
-        //Log.d(DEBUG, "     adapter: " + mAdapter.toString());
-        //setListAdapter(mAdapter);
+        ListAdapter list = mActivity.getListAdapter();
+        Log.d(DEBUG, "     in Frag - list: " + list.toString());
+        this.setListAdapter(list);
+
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle inState){
+        super.onViewStateRestored(inState);
+        Log.d(DEBUG, "onViewStateRestored");
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        Log.d(DEBUG, "onStart");
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.d(DEBUG, "onResume");
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        Log.d(DEBUG, "onPause");
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        Log.d(DEBUG, "onStop");
     }
 
     public void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
-        Log.d(DEBUG, "SimpleListFragment - save instance state");
+        Log.d(DEBUG, "onSaveInstanceState");
         Log.d(DEBUG, "     layout: " + mLayoutId);
         outState.putInt(SimpleListFragmentContract.Value.BUNDLE_LAYOUT, mLayoutId);
 
     }
 
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        Log.d(DEBUG, "onDestroyView");
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        Log.d(DEBUG, "onDestroy");
+    }
+
+    @Override
+    public void onDetach(){
+        super.onDetach();
+        Log.d(DEBUG, "onDetach");
+    }
+
     private int mLayoutId;
-    private ListAdapter mAdapter;
+
     public void setLayout(int aId){
         Log.d(DEBUG, "SimpleListFragment.setLayout: " + aId);
         //mAdapter = adapter;
         mLayoutId = aId;
     }
+
+    private MainActivity mActivity;
+
 
 }

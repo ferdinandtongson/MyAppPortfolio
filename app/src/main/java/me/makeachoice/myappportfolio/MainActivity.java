@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -44,30 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
             // Create a new Fragment to be placed in the activity layout
             SimpleListFragment listFragment = new SimpleListFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt(SimpleListFragmentContract.Value.BUNDLE_KEY_LAYOUT_PRT, R.layout.list_fragment);
-            listFragment.setArguments(bundle);
-
-            String[] mTest_array = {
-                    "Test1", "Test2",
-                    "Test3", "Test4",
-                    "Test5", "Test6",
-                    "Test7", "Test8",
-                    "Test9", "Test0"
-            };
-
-            ArrayList<TitleItem> rowItems = new ArrayList<TitleItem>();
-            for(int i = 0; i < mTest_array.length; i++){
-                TitleItem item = new TitleItem(mTest_array[i]);
-                rowItems.add(item);
-            }
-
-            TitleAdapter adapter = new TitleAdapter(this, rowItems,
-                    R.layout.item_onlytitle, R.id.item_onlytext_title);
-
 
             listFragment.setLayout(R.layout.list_fragment);
-            listFragment.setListAdapter(adapter);
+            createListItems();
 
             Log.d("SimpleListFragment", "MainActivity.onCreate:");
 
@@ -114,6 +94,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onStart(){
+        Log.d("SimpleListFragment", "Main.onStart");
+        super.onStart();
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.d("SimpleListFragment", "Main.onResume");
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        Log.d("SimpleListFragment", "Main.onPause");
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        Log.d("SimpleListFragment", "Main.onStop");
+    }
+
+    @Override
+    public void onRestart(){
+        super.onRestart();
+        Log.d("SimpleListFragment", "Main.onRestart");
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -146,4 +157,39 @@ public class MainActivity extends AppCompatActivity {
         toast.show();
         return super.onOptionsItemSelected(item);
     }
+
+    private ListAdapter mListAdapter;
+    public ListAdapter getListAdapter(){
+        Log.d("SimpleListFragment", "Main.getListAdapter" );
+
+        if(mListAdapter == null){
+            Log.d("SimpleListFragment", "     adapter is null");
+            mListAdapter = new TitleAdapter(this, createListItems(),
+                    R.layout.item_onlytitle, R.id.item_onlytext_title);
+            Log.d("SimpleListFragment", "          size: " + mListAdapter.getCount());
+
+        }
+        Log.d("SimpleListFragment", "     adapter: " + mListAdapter.toString());
+        return mListAdapter;
+    }
+
+    String[] mTest_array = {
+            "Test1", "Test2",
+            "Test3", "Test4",
+            "Test5", "Test6",
+            "Test7", "Test8",
+            "Test9", "Test0"
+    };
+
+    private ArrayList<TitleItem> createListItems( ){
+
+        ArrayList<TitleItem> itemList = new ArrayList<TitleItem>();
+        for(int i = 0; i < mTest_array.length; i++){
+            TitleItem item = new TitleItem(mTest_array[i]);
+            itemList.add(item);
+        }
+
+        return itemList;
+    }
+
 }
