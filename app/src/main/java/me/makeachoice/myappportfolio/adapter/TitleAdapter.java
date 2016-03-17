@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import me.makeachoice.myappportfolio.R;
 import me.makeachoice.myappportfolio.adapter.item.TitleItem;
+import me.makeachoice.myappportfolio.adapter.util.ViewHolder;
 
 /**
  * TitleAdapter extends MyBaseAdapter base class and is used as a List Adapter for the Android
@@ -126,30 +127,30 @@ public class TitleAdapter extends MyBaseAdapter {
         //Check if we can recycle old view object
         if (convertView == null) {
             // if not recycled, inflate layout of new view object
-            view = mInflator.inflate(mItemLayoutId, null);
+            convertView = mInflator.inflate(mItemLayoutId, null);
 
-        } else {
-            //recycle old view object
-            view = (View)convertView;
         }
 
         //updateView with data
-        updateView(position, view);
+        updateView(position, convertView);
 
-        return view;
+        return convertView;
     }
 
 /**************************************************************************************************/
 /**
  * updateView(int, View) - get object from ArrayList<TitleItem> and update TextView with Title
  * @param position
- * @param view
+ * @param convertView
  */
-    protected void updateView(int position, View view){
+    protected void updateView(int position, View convertView){
 
+        //get bean for view - encapsulated data
         TitleItem item = mItems.get(position);
 
-        TextView txtTitle = (TextView)view.findViewById(mTitleViewId);
+        //get child view using ViewHolder class
+        TextView txtTitle = ViewHolder.get(convertView, mTitleViewId);
+        //update child view
         txtTitle.setText(item.getTitle());
     }
 /**************************************************************************************************/
