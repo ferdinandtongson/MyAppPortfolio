@@ -57,7 +57,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
         Log.d(DEBUG, "onCreate");
         if (savedInstanceState != null){
             mLayoutId = savedInstanceState.getInt(
-                    SimpleListFragmentContract.Value.BUNDLE_KEY_LAYOUT_PRT);
+                    SimpleListFragmentContract.Value.BUNDLE_LAYOUT);
         }
     }
 
@@ -76,7 +76,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
         Log.d(DEBUG, "onCreateView");
         if(savedInstanceState != null){
             Log.d(DEBUG, " bundle not Null");
-            mLayoutId = savedInstanceState.getInt(SimpleListFragmentContract.Value.BUNDLE_KEY_LAYOUT_PRT);
+            mLayoutId = savedInstanceState.getInt(SimpleListFragmentContract.Value.BUNDLE_LAYOUT);
             Log.d(DEBUG, "     bundle: " + mLayoutId);
         }
         else{
@@ -118,7 +118,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
         super.onSaveInstanceState(outState);
         Log.d(DEBUG, "SimpleListFragment - save instance state");
         Log.d(DEBUG, "     layout: " + mLayoutId);
-        outState.putInt(SimpleListFragmentContract.Value.BUNDLE_KEY_LAYOUT_PRT, mLayoutId);
+        outState.putInt(SimpleListFragmentContract.Value.BUNDLE_LAYOUT, mLayoutId);
 
     }
 

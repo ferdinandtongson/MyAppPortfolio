@@ -8,8 +8,6 @@ public class SimpleListFragmentContract {
     public SimpleListFragmentContract () {}
 
     public static abstract class Value {
-        public static final String BUNDLE_KEY_LIST = "List";
-        public static final String BUNDLE_KEY_LAYOUT_PRT = "Layout_portrait";
-        public static final String BUNDLE_KEY_LAYOUT_LND = "Layout_landscape";
+        public static final String BUNDLE_LAYOUT = "Layout";
     }
 }
