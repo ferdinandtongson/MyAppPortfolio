@@ -14,7 +14,12 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
+import me.makeachoice.myappportfolio.adapter.TitleAdapter;
+import me.makeachoice.myappportfolio.adapter.item.TitleItem;
 import me.makeachoice.myappportfolio.fragment.list.SimpleListFragment;
+import me.makeachoice.myappportfolio.fragment.list.SimpleListFragmentContract;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,14 +44,36 @@ public class MainActivity extends AppCompatActivity {
 
             // Create a new Fragment to be placed in the activity layout
             SimpleListFragment listFragment = new SimpleListFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(SimpleListFragmentContract.Value.BUNDLE_KEY_LAYOUT_PRT, R.layout.list_fragment);
+            listFragment.setArguments(bundle);
+
+            String[] mTest_array = {
+                    "Test1", "Test2",
+                    "Test3", "Test4",
+                    "Test5", "Test6",
+                    "Test7", "Test8",
+                    "Test9", "Test0"
+            };
+
+            ArrayList<TitleItem> rowItems = new ArrayList<TitleItem>();
+            for(int i = 0; i < mTest_array.length; i++){
+                TitleItem item = new TitleItem(mTest_array[i]);
+                rowItems.add(item);
+            }
+
+            TitleAdapter adapter = new TitleAdapter(this, rowItems,
+                    R.layout.item_onlytitle, R.id.item_onlytext_title);
+
+
             listFragment.setLayout(R.layout.list_fragment);
+            listFragment.setListAdapter(adapter);
 
             Log.d("SimpleListFragment", "MainActivity.onCreate:");
 
             // In case this activity was started with special instructions from an
             // Intent, pass the Intent's extras to the fragment as arguments
             listFragment.setArguments(getIntent().getExtras());
-
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, listFragment).commit();
