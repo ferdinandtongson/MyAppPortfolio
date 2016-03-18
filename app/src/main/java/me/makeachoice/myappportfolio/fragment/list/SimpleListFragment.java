@@ -34,15 +34,15 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
 
 
     //Container Activity must implement this interface
-    public interface OnSimpleListFragmentListener{
+    public interface Bridge{
         void onSimpleListItemClick(int position);
         ListAdapter getListAdapter();
     }
-
+//OnSimpleListFragmentListener - to Bridge mCallback to mBridge
 /**************************************************************************************************/
 
     private static String DEBUG = "SimpleListFragment";
-    private OnSimpleListFragmentListener mCallback;
+    private Bridge mBridge;
     private int mLayoutId;
 
 /**************************************************************************************************/
@@ -63,7 +63,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
 
         Activity activity = getActivity();
         try{
-            mCallback = (OnSimpleListFragmentListener)activity;
+            mBridge = (Bridge)activity;
         }catch(ClassCastException e){
             throw new ClassCastException(activity.toString() +
                 " must implement OnSimpleListListener");
@@ -125,7 +125,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
         Log.d(DEBUG, "onActivityCreated");
 
         //create the list by setting the list adapter
-        setListAdapter(mCallback.getListAdapter());
+        setListAdapter(mBridge.getListAdapter());
 
     }
 
@@ -218,7 +218,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
     public void onDetach(){
         super.onDetach();
         Log.d(DEBUG, "onDetach");
-        mCallback = null;
+        mBridge = null;
     }
 
 /**************************************************************************************************/
@@ -244,7 +244,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
     public void onListItemClick(ListView l, View v, int position, long id){
 
         //sends the click event across the bridge for the activity to handle
-        mCallback.onSimpleListItemClick(position);
+        mBridge.onSimpleListItemClick(position);
     }
 /**************************************************************************************************/
 

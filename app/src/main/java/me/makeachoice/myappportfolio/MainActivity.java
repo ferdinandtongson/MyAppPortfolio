@@ -23,7 +23,7 @@ import me.makeachoice.myappportfolio.fragment.list.SimpleListFragment;
 import me.makeachoice.myappportfolio.fragment.list.SimpleListFragmentContract;
 
 public class MainActivity extends AppCompatActivity implements
-        SimpleListFragment.OnSimpleListFragmentListener {
+        SimpleListFragment.Bridge {
 
     OrientationEventListener myOrientationEventListener;
 
