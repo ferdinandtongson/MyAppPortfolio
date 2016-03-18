@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 
@@ -34,13 +35,43 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
 
     public SimpleListFragment(){}
 
+
+    //Container Activity must implement this interface
+    public interface OnSimpleListFragmentListener{
+        public void onSimpleListItemClick(int position);
+        public ListAdapter getListAdapter();
+    }
+
 /**************************************************************************************************/
 
     private static String DEBUG = "SimpleListFragment";
+    private OnSimpleListFragmentListener mCallback;
 
 /**************************************************************************************************/
+/**
+ * onAttach(...) called once the fragment is associated with its activity. Fragments are usually
+ * created in the Activities onCreate( ) method.
+ *
+ * This is where you can check if the container activity has implemented the callback interface. If
+ * not, it throws an exception
+ * @param context
+ */
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+
+        Activity activity = getActivity();
+        try{
+            mCallback = (OnSimpleListFragmentListener)activity;
+        } catch(ClassCastException e){
+            throw new ClassCastException(activity.toString() +
+                " must implement OnSimpleListListener");
+        }
+
+    }
+
 /** onCreate(...) is called to do initial creation of a fragment. This is called after
- * onAttach(...) and before onCreateView(...)
+ * onAttach(...)
  *
  * You should initialize essential components of the fragment that you want to retain when
  * the fragment is paused or stopped, then resumed.
@@ -54,8 +85,6 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
         super.onCreate(savedInstanceState);
         Log.d(DEBUG, "onCreate");
 
-        //Retain Instance true will retain the fragment instance across Activity re-creation
-        //setRetainInstance(true);
         if (savedInstanceState != null){
             mLayoutId = savedInstanceState.getInt(SimpleListFragmentContract.Value.BUNDLE_LAYOUT);
         }
@@ -68,58 +97,34 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
  * This is called between onCreate(...) and onActivityCreated(...). If you return a View from
  * here, you will later be called in onDestroyView() when the view is being released.
  */
-    View _rootView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         Log.d(DEBUG, "onCreateView");
+
+        //check if bundle has been sent/saved
         if(savedInstanceState != null){
-            Log.d(DEBUG, " bundle not Null");
+            //get layout id to inflate root view
             mLayoutId = savedInstanceState.getInt(SimpleListFragmentContract.Value.BUNDLE_LAYOUT);
-            Log.d(DEBUG, "     bundle: " + mLayoutId);
-        }
-        else{
-            Log.d(DEBUG, "     bundle null");
         }
 
-        if(_rootView == null){
-            Log.d(DEBUG, "     rootView = null");
-            _rootView = inflater.inflate(mLayoutId, container, false);
-        }
+        //create fragment view from file found in res/layout/xxx.xml, use R.layout.xxx (mLayoutId)
+        View rootView = inflater.inflate(mLayoutId, container, false);
 
-        return _rootView;
+        return rootView;
     }
 
-    @Override
-    public void onAttach(Context context){
-        super.onAttach(context);
-        Log.d(DEBUG, "onAttach");
-        mActivity = (MainActivity)getActivity();
-        Log.d(DEBUG, "     activity: " + mActivity.toString());
-    }
-
+/**
+ * onActivityCreated(...) is called when the activity the fragment is attached to completed its
+ * own Activity.onCreate( )
+ * @param savedInstanceState
+ */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d(DEBUG, "onActivityCreated");
-        Log.d(DEBUG,"     activity: " + mActivity.toString());
-        if(savedInstanceState != null){
-            Log.d(DEBUG, "     bundle NOT null");
-        }
-        else{
-            Log.d(DEBUG, "     bundle null");
-        }
-        /*String[] items = new String[3];
-        items[0] = "test1";
-        items[1] = "test2";
-        items[2] = "test3";*/
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
-        /*ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.app_planets, android.R.layout.simple_list_item_1);*/
-        // references to our images
 
-        ListAdapter list = mActivity.getListAdapter();
+        ListAdapter list = mCallback.getListAdapter();
         Log.d(DEBUG, "     in Frag - list: " + list.toString());
         this.setListAdapter(list);
 
@@ -179,6 +184,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
     public void onDetach(){
         super.onDetach();
         Log.d(DEBUG, "onDetach");
+        mCallback = null;
     }
 
     private int mLayoutId;
@@ -189,7 +195,10 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
         mLayoutId = aId;
     }
 
-    private MainActivity mActivity;
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id){
+        mCallback.onSimpleListItemClick(position);
+    }
 
 
 }

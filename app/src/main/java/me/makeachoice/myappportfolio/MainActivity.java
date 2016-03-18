@@ -22,7 +22,8 @@ import me.makeachoice.myappportfolio.adapter.item.TitleItem;
 import me.makeachoice.myappportfolio.fragment.list.SimpleListFragment;
 import me.makeachoice.myappportfolio.fragment.list.SimpleListFragmentContract;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements
+        SimpleListFragment.OnSimpleListFragmentListener {
 
     OrientationEventListener myOrientationEventListener;
 
@@ -190,6 +191,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return itemList;
+    }
+
+    public void onSimpleListItemClick(int position){
+        Log.d("SimpleListFragment", "Main.onListItemClick");
+        Log.d("SimpleListFragment", "     position: " + position);
     }
 
 }
