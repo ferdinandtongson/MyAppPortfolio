@@ -35,6 +35,8 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
 
     //Container Activity must implement this interface
     public interface Bridge{
+        String KEY_LAYOUT = "Layout";
+
         void onSimpleListItemClick(int position);
         ListAdapter getListAdapter();
     }
@@ -87,7 +89,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
         Log.d(DEBUG, "onCreate");
 
         if (savedInstanceState != null){
-            mLayoutId = savedInstanceState.getInt(SimpleListFragmentContract.Value.BUNDLE_LAYOUT);
+            mLayoutId = savedInstanceState.getInt(Bridge.KEY_LAYOUT);
         }
     }
 
@@ -106,7 +108,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
         //check if bundle has been sent/saved
         if(savedInstanceState != null){
             //get layout id to inflate root view
-            mLayoutId = savedInstanceState.getInt(SimpleListFragmentContract.Value.BUNDLE_LAYOUT);
+            mLayoutId = savedInstanceState.getInt(Bridge.KEY_LAYOUT);
         }
 
         //create and return fragment layout view from file found in res/layout/xxx.xml,
@@ -177,7 +179,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
     public void onSaveInstanceState(Bundle saveState){
         super.onSaveInstanceState(saveState);
         Log.d(DEBUG, "onSaveInstanceState");
-        saveState.putInt(SimpleListFragmentContract.Value.BUNDLE_LAYOUT, mLayoutId);
+        saveState.putInt(Bridge.KEY_LAYOUT, mLayoutId);
 
     }
 
