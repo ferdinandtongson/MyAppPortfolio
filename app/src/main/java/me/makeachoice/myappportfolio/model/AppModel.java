@@ -47,8 +47,16 @@ public class AppModel {
         }
     }
 
+    public AppModel(){
+        //AppModel constructor
+    }
+
     public AppDetail getApp(int index){
         return mList.get(index);
+    }
+
+    public void addApp(String appName, String appInfo){
+        mList.add(new AppDetail(appName, appInfo));
     }
 
     public void addApp(AppDetail app){
