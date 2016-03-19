@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import me.makeachoice.myappportfolio.controller.Boss;
 import me.makeachoice.myappportfolio.fragment.MyFragmentInterface;
 
 /**************************************************************************************************/
@@ -43,7 +44,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
 //OnSimpleListFragmentListener - to Bridge mCallback to mBridge
 /**************************************************************************************************/
 
-    private final static String DEBUG = "SimpleListFragment";
+    private static String DEBUG = "SimpleListFragment";
     private Bridge mBridge;
     private int mLayoutId;
 
@@ -63,11 +64,11 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
     public void onAttach(Context context){
         super.onAttach(context);
 
-        Activity activity = getActivity();
+        Boss boss = (Boss)getActivity().getApplicationContext();
         try{
-            mBridge = (Bridge)activity;
+            mBridge = (Bridge)boss;
         }catch(ClassCastException e){
-            throw new ClassCastException(activity.toString() +
+            throw new ClassCastException(boss.toString() +
                 " must implement OnSimpleListListener");
         }
 

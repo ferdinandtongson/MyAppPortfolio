@@ -17,12 +17,13 @@ import java.util.ArrayList;
 
 import me.makeachoice.myappportfolio.adapter.TitleAdapter;
 import me.makeachoice.myappportfolio.adapter.item.TitleItem;
+import me.makeachoice.myappportfolio.controller.Boss;
 import me.makeachoice.myappportfolio.fragment.list.SimpleListFragment;
 import me.makeachoice.myappportfolio.model.AppModel;
 
-public class MainActivity extends AppCompatActivity implements SimpleListFragment.Bridge {
+public class MainActivity extends AppCompatActivity {
 
-    OrientationEventListener myOrientationEventListener;
+    private OrientationEventListener myOrientationEventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +42,12 @@ public class MainActivity extends AppCompatActivity implements SimpleListFragmen
                 return;
             }
 
+            final Boss mBoss = (Boss)getApplicationContext();
+
             // Create a new Fragment to be placed in the activity layout
             SimpleListFragment listFragment = new SimpleListFragment();
 
             listFragment.setLayout(R.layout.list_fragment);
-            createListItems();
 
             Log.d("SimpleListFragment", "MainActivity.onCreate:");
 
@@ -156,55 +158,6 @@ public class MainActivity extends AppCompatActivity implements SimpleListFragmen
         return super.onOptionsItemSelected(item);
     }
 
-    private ListAdapter mListAdapter;
-    public ListAdapter getListAdapter(){
-        Log.d("SimpleListFragment", "Main.getListAdapter" );
 
-        if(mListAdapter == null){
-            Log.d("SimpleListFragment", "     adapter is null");
-            mListAdapter = new TitleAdapter(this, createListItems(),
-                    R.layout.item_onlytitle, R.id.item_onlytext_title);
-            Log.d("SimpleListFragment", "          size: " + mListAdapter.getCount());
-
-        }
-        Log.d("SimpleListFragment", "     adapter: " + mListAdapter.toString());
-        return mListAdapter;
-    }
-
-    String[] mTest_array = {
-            "Test1", "Test2",
-            "Test3", "Test4",
-            "Test5", "Test6",
-            "Test7", "Test8",
-            "Test9", "Test0"
-    };
-
-    AppModel mAppModel;
-    private ArrayList<TitleItem> createListItems( ){
-        Log.d("SimpleListFragment", "Main.createListItems()");
-        mAppModel = new AppModel();
-        Log.d("SimpleListFragment", "     created appModel object");
-
-        mAppModel.addApp("App1", "Info1");
-        mAppModel.addApp("App2", "Info2");
-        mAppModel.addApp("App3", "Info3");
-        mAppModel.addApp("App4", "Info4");
-        mAppModel.addApp("App5", "Info5");
-
-
-        ArrayList<TitleItem> itemList = new ArrayList<TitleItem>();
-        int count = mAppModel.getAppCount();
-        for(int i = 0; i < count; i++){
-            TitleItem item = new TitleItem(mAppModel.getApp(i).getAppName());
-            itemList.add(item);
-        }
-
-        return itemList;
-    }
-
-    public void onSimpleListItemClick(int position){
-        Log.d("SimpleListFragment", "Main.onListItemClick");
-        Log.d("SimpleListFragment", "     info: " + mAppModel.getApp(position).getmAppInfo());
-    }
 
 }
