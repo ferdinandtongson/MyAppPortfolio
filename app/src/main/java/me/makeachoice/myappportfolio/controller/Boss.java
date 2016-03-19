@@ -10,7 +10,7 @@ import me.makeachoice.myappportfolio.R;
 import me.makeachoice.myappportfolio.adapter.TitleAdapter;
 import me.makeachoice.myappportfolio.adapter.item.TitleItem;
 import me.makeachoice.myappportfolio.fragment.list.SimpleListFragment;
-import me.makeachoice.myappportfolio.model.AppModel;
+import me.makeachoice.myappportfolio.model.AppDemoModel;
 
 /**
  * Boss is the "boss", main controller of the app and interfaces with the View and Model. Boss
@@ -43,10 +43,10 @@ public class Boss extends Application implements SimpleListFragment.Bridge{
         return mListAdapter;
     }
 
-    AppModel mAppModel;
+    AppDemoModel mAppModel;
     private ArrayList<TitleItem> createListItems( ){
         Log.d("SimpleListFragment", "Boss.createListItems()");
-        mAppModel = new AppModel();
+        mAppModel = new AppDemoModel();
         Log.d("SimpleListFragment", "     created appModel object");
 
         mAppModel.addApp("App1", "Info1");

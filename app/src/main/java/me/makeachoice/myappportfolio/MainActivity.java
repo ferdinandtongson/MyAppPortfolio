@@ -10,16 +10,13 @@ import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListAdapter;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 
-import me.makeachoice.myappportfolio.adapter.TitleAdapter;
-import me.makeachoice.myappportfolio.adapter.item.TitleItem;
+
 import me.makeachoice.myappportfolio.controller.Boss;
 import me.makeachoice.myappportfolio.fragment.list.SimpleListFragment;
-import me.makeachoice.myappportfolio.model.AppModel;
+
 
 public class MainActivity extends AppCompatActivity {
 

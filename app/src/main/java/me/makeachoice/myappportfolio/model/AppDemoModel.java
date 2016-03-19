@@ -5,10 +5,10 @@ import android.util.Log;
 import java.util.ArrayList;
 
 /**
- * AppModel models the information data for an Android Application
+ * AppDemoModel models the information data for a demo Android Application
  */
-public class AppModel {
-    private static String DEBUG = "AppModel";
+public class AppDemoModel {
+    private static String DEBUG = "AppDemoModel";
     private ArrayList<AppDetail> mList = new ArrayList<AppDetail>();
 
     public class AppDetail{
@@ -71,8 +71,8 @@ public class AppModel {
         public ArrayList getAppList(){return mList;}
     }
 
-    public AppModel(){
-        //AppModel constructor
+    public AppDemoModel(){
+        //AppDemoModel constructor
     }
 
     public AppDetail getApp(int index){
