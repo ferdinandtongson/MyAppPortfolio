@@ -13,38 +13,62 @@ public class AppModel {
 
     public class AppDetail{
 
-        private String mAppName;
-        private String mAppInfo;
+        private String mName;
+        private String mDescription;
+        private int mIcon = -1;
+        private String[] mTags = null;
+        private String mVideoFile = "";
+        private String mAppLink = "";
 
-        public AppDetail(String appName, String appInfo){
+        public AppDetail(String name, String description){
             super();
             Log.d(DEBUG, "AppDetail.create");
-            Log.d(DEBUG, "     name: " + appName);
-            Log.d(DEBUG, "     info: " + appInfo);
+            Log.d(DEBUG, "     name: " + name);
+            Log.d(DEBUG, "     info: " + description);
 
-            mAppName = appName;
-            mAppInfo = appInfo;
+            mName = name;
+            mDescription = description;
         }
 
-        public String getAppName(){
-            return mAppName;
+        public AppDetail(String name, String description, int icon){
+            super();
+            Log.d(DEBUG, "AppDetail.create");
+            Log.d(DEBUG, "     name: " + name);
+            Log.d(DEBUG, "     info: " + description);
+
+            mName = name;
+            mDescription = description;
+            mIcon = icon;
         }
 
-        public String getmAppInfo(){
-            return mAppInfo;
+        public AppDetail(String name, String description, String icon, String[] tags,
+                         String vidoeFile, String appLink){
+            super();
+            Log.d(DEBUG, "AppDetail.create");
+            Log.d(DEBUG, "     name: " + name);
+            Log.d(DEBUG, "     info: " + description);
+
+            mName = name;
+            mDescription = description;
         }
 
-        public void setAppName(String appName){
-            mAppName = appName;
-        }
+        public String getName(){return mName;}
+        public String getDescription(){return mDescription;}
+        public int getIcon(){return mIcon;}
+        public String[] getTags(){return mTags;}
+        public String getVideoFile(){return mVideoFile;}
+        public String getAppLink(){return mAppLink;}
 
-        public void setAppInfo(String appInfo){
-            mAppInfo = appInfo;
-        }
 
-        public ArrayList getAppList(){
-            return mList;
-        }
+        public void setName(String appName){mName = appName;}
+        public void setDescription(String description){mDescription = description;}
+        public void setIcon(int icon){mIcon = icon;}
+        public void setTags(String[] tags){mTags = tags;}
+        public void setVideoFile(String file){mVideoFile = file;}
+        public void setAppLink(String link){mAppLink = link;}
+
+
+        public ArrayList getAppList(){return mList;}
     }
 
     public AppModel(){
@@ -55,8 +79,8 @@ public class AppModel {
         return mList.get(index);
     }
 
-    public void addApp(String appName, String appInfo){
-        mList.add(new AppDetail(appName, appInfo));
+    public void addApp(String name, String description){
+        mList.add(new AppDetail(name, description));
     }
 
     public void addApp(AppDetail app){
