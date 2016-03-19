@@ -18,9 +18,9 @@ import java.util.ArrayList;
 import me.makeachoice.myappportfolio.adapter.TitleAdapter;
 import me.makeachoice.myappportfolio.adapter.item.TitleItem;
 import me.makeachoice.myappportfolio.fragment.list.SimpleListFragment;
+import me.makeachoice.myappportfolio.model.AppModel;
 
-public class MainActivity extends AppCompatActivity implements
-        SimpleListFragment.Bridge {
+public class MainActivity extends AppCompatActivity implements SimpleListFragment.Bridge {
 
     OrientationEventListener myOrientationEventListener;
 
@@ -179,11 +179,23 @@ public class MainActivity extends AppCompatActivity implements
             "Test9", "Test0"
     };
 
+    AppModel mAppModel;
     private ArrayList<TitleItem> createListItems( ){
+        Log.d("SimpleListFragment", "Main.createListItems()");
+        mAppModel = new AppModel();
+        Log.d("SimpleListFragment", "     created appModel object");
+
+        mAppModel.addApp("App1", "Info1");
+        mAppModel.addApp("App2", "Info2");
+        mAppModel.addApp("App3", "Info3");
+        mAppModel.addApp("App4", "Info4");
+        mAppModel.addApp("App5", "Info5");
+
 
         ArrayList<TitleItem> itemList = new ArrayList<TitleItem>();
-        for(int i = 0; i < mTest_array.length; i++){
-            TitleItem item = new TitleItem(mTest_array[i]);
+        int count = mAppModel.getAppCount();
+        for(int i = 0; i < count; i++){
+            TitleItem item = new TitleItem(mAppModel.getApp(i).getAppName());
             itemList.add(item);
         }
 
@@ -192,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements
 
     public void onSimpleListItemClick(int position){
         Log.d("SimpleListFragment", "Main.onListItemClick");
-        Log.d("SimpleListFragment", "     position: " + position);
+        Log.d("SimpleListFragment", "     info: " + mAppModel.getApp(position).getmAppInfo());
     }
 
 }
