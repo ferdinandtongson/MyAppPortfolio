@@ -43,7 +43,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
 //OnSimpleListFragmentListener - to Bridge mCallback to mBridge
 /**************************************************************************************************/
 
-    private static String DEBUG = "SimpleListFragment";
+    private final static String DEBUG = "SimpleListFragment";
     private Bridge mBridge;
     private int mLayoutId;
 
