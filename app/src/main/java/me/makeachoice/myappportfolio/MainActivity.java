@@ -46,19 +46,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-            // Create a new Fragment to be placed in the activity layout
-            SimpleListFragment listFragment = new SimpleListFragment();
-
-            listFragment.setLayout(mBoss.getLayout(mBoss.KEY_LIST_FRAG));
-
-            Log.d("SimpleListFragment", "MainActivity.onCreate:");
-
-            // In case this activity was started with special instructions from an
-            // Intent, pass the Intent's extras to the fragment as arguments
-            listFragment.setArguments(getIntent().getExtras());
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
-                    .add(mBoss.getLayout(mBoss.KEY_MAIN_CONTAINER), listFragment).commit();
+                    .add(mBoss.getLayout(mBoss.KEY_MAIN_CONTAINER), mBoss.getListFragment()).commit();
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

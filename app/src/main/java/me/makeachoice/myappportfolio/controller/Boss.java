@@ -2,6 +2,7 @@ package me.makeachoice.myappportfolio.controller;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.ListAdapter;
 
@@ -21,7 +22,7 @@ import me.makeachoice.myappportfolio.model.AppDemoModel;
  * tries to adhere to the MVP (Model-View-Presenter) model so Model-View communication is
  * prevented; in MVC (Model-View-Controller) model, the Model and View can communicate
  */
-public class Boss extends Application implements SimpleListFragment.Bridge{
+public class Boss extends Application{
     public final static String KEY_MAIN_SCREEN = "Main";
     public final static String KEY_MAIN_CONTAINER = "Main Container";
     public final static String KEY_LIST_FRAG = "List Fragment";
@@ -32,8 +33,14 @@ public class Boss extends Application implements SimpleListFragment.Bridge{
     private final static int LAYOUT_LIST_FRAG = R.layout.list_fragment;
 
     Context mActivityContext;
+    AppListMaid mMaid;
+    AppDemoButler mButler;
     public void setActivityContext(Context ctx){
         mActivityContext = ctx;
+        mMaid = new AppListMaid(mActivityContext);
+        mButler = new AppDemoButler(mActivityContext);
+
+        mMaid.setModel(mButler.getModel());
         createLayoutMap();
     }
 
@@ -49,28 +56,13 @@ public class Boss extends Application implements SimpleListFragment.Bridge{
         return mLayoutMap.get(key);
     }
 
-
-    private ListAdapter mListAdapter;
-    public ListAdapter getListAdapter(){
-        Log.d("SimpleListFragment", "Boss.getListAdapter");
-
-        if(mListAdapter == null){
-            AppDemoButler butler = new AppDemoButler(mActivityContext);
-            AppListMaid maid = new AppListMaid(mActivityContext);
-
-            Log.d("SimpleListFragment", "     adapter is null");
-            mListAdapter = maid.getListAdapter(butler.getModel());
-            Log.d("SimpleListFragment", "          size: " + mListAdapter.getCount());
-
-        }
-        Log.d("SimpleListFragment", "     adapter: " + mListAdapter.toString());
-
-        return mListAdapter;
+    public Fragment getListFragment(){
+        return mMaid.getFragment();
     }
 
-    public void onSimpleListItemClick(int position){
-        Log.d("SimpleListFragment", "Boss.onListItemClick");
-        //Log.d("SimpleListFragment", "     info: " + mAppModel.getApp(position).getDescription());
+    public AppListMaid getMaid(){
+        return mMaid;
     }
+
 
 }

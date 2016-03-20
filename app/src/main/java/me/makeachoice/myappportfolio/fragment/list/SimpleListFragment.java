@@ -66,7 +66,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
 
         Boss boss = (Boss)getActivity().getApplicationContext();
         try{
-            mBridge = (Bridge)boss;
+            mBridge = (Bridge)boss.getMaid();
         }catch(ClassCastException e){
             throw new ClassCastException(boss.toString() +
                 " must implement OnSimpleListListener");
