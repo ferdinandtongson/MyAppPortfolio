@@ -6,8 +6,6 @@ import android.widget.ListAdapter;
 
 import java.util.ArrayList;
 
-import me.makeachoice.myappportfolio.R;
-import me.makeachoice.myappportfolio.adapter.TitleAdapter;
 import me.makeachoice.myappportfolio.adapter.item.TitleItem;
 import me.makeachoice.myappportfolio.model.AppDemoModel;
 
@@ -21,25 +19,9 @@ public class AppDemoButler {
         mActivityContext = ctx;
     }
 
-    private ListAdapter mListAdapter;
-    public ListAdapter getListAdapter(){
-        Log.d("SimpleListFragment", "Boss.getListAdapter");
-
-        if(mListAdapter == null){
-            Log.d("SimpleListFragment", "     adapter is null");
-            mListAdapter = new TitleAdapter(mActivityContext, createListItems(),
-                    R.layout.item_onlytitle, R.id.item_onlytext_title);
-            Log.d("SimpleListFragment", "          size: " + mListAdapter.getCount());
-
-        }
-        Log.d("SimpleListFragment", "     adapter: " + mListAdapter.toString());
-
-        return mListAdapter;
-    }
-
 
     AppDemoModel mAppModel;
-    private ArrayList<TitleItem> createListItems( ){
+    public AppDemoModel getModel( ){
         Log.d("SimpleListFragment", "Boss.createListItems()");
         mAppModel = new AppDemoModel();
         Log.d("SimpleListFragment", "     created appModel object");
@@ -50,15 +32,7 @@ public class AppDemoButler {
         mAppModel.addApp("App4", "Info4");
         mAppModel.addApp("App5", "Info5");
 
-
-        ArrayList<TitleItem> itemList = new ArrayList<TitleItem>();
-        int count = mAppModel.getAppCount();
-        for(int i = 0; i < count; i++){
-            TitleItem item = new TitleItem(mAppModel.getApp(i).getName());
-            itemList.add(item);
-        }
-
-        return itemList;
+        return mAppModel;
     }
 
 

@@ -12,6 +12,7 @@ import me.makeachoice.myappportfolio.R;
 import me.makeachoice.myappportfolio.adapter.TitleAdapter;
 import me.makeachoice.myappportfolio.adapter.item.TitleItem;
 import me.makeachoice.myappportfolio.controller.butler.AppDemoButler;
+import me.makeachoice.myappportfolio.controller.maid.AppListMaid;
 import me.makeachoice.myappportfolio.fragment.list.SimpleListFragment;
 import me.makeachoice.myappportfolio.model.AppDemoModel;
 
@@ -55,8 +56,10 @@ public class Boss extends Application implements SimpleListFragment.Bridge{
 
         if(mListAdapter == null){
             AppDemoButler butler = new AppDemoButler(mActivityContext);
+            AppListMaid maid = new AppListMaid(mActivityContext);
+
             Log.d("SimpleListFragment", "     adapter is null");
-            mListAdapter = butler.getListAdapter();
+            mListAdapter = maid.getListAdapter(butler.getModel());
             Log.d("SimpleListFragment", "          size: " + mListAdapter.getCount());
 
         }
