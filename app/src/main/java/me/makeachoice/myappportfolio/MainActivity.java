@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             final Boss mBoss = (Boss)getApplicationContext();
+            mBoss.setActivityContext(this);
 
             // Create a new Fragment to be placed in the activity layout
             SimpleListFragment listFragment = new SimpleListFragment();
