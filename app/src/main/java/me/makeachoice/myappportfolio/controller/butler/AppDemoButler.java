@@ -2,38 +2,38 @@ package me.makeachoice.myappportfolio.controller.butler;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.ListAdapter;
 
-import java.util.ArrayList;
-
-import me.makeachoice.myappportfolio.adapter.item.TitleItem;
 import me.makeachoice.myappportfolio.model.AppDemoModel;
 
 /**
- * Created by Usuario on 3/19/2016.
+ * AppDemoButler handles the creation of the AppDemo model, taking resources from a flat file,
+ * database or webservice and converting it into a model for consumption by the controller
  */
 public class AppDemoButler {
 
     Context mActivityContext;
     public AppDemoButler(Context ctx){
         mActivityContext = ctx;
+        createModel();
     }
 
-
     AppDemoModel mAppModel;
-    public AppDemoModel getModel( ){
-        Log.d("SimpleListFragment", "Boss.createListItems()");
+    private void createModel(){
+        //this is where the threads, database or resource access is called to create the model
+        Log.d("SimpleListFragment", "AppDemoButler.createModel()");
         mAppModel = new AppDemoModel();
-        Log.d("SimpleListFragment", "     created appModel object");
 
         mAppModel.addApp("App1", "Info1");
         mAppModel.addApp("App2", "Info2");
         mAppModel.addApp("App3", "Info3");
         mAppModel.addApp("App4", "Info4");
         mAppModel.addApp("App5", "Info5");
-
-        return mAppModel;
     }
 
+
+
+    public AppDemoModel getModel( ){
+        return mAppModel;
+    }
 
 }
