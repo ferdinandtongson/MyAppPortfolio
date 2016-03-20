@@ -25,12 +25,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //start Boss
+        final Boss mBoss = (Boss)getApplicationContext();
+        mBoss.setActivityContext(this);
+
         //Note setContent must happen before toolbar
-        setContentView(R.layout.activity_main);
+        setContentView(mBoss.getLayout(mBoss.KEY_MAIN_SCREEN));
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
-        if (findViewById(R.id.fragment_container) != null) {
+        if (findViewById(mBoss.getLayout(mBoss.KEY_MAIN_CONTAINER)) != null) {
 
             // However, if we're being restored from a previous state,
             // then we don't need to do anything and should return or else
@@ -39,13 +44,12 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            final Boss mBoss = (Boss)getApplicationContext();
-            mBoss.setActivityContext(this);
+
 
             // Create a new Fragment to be placed in the activity layout
             SimpleListFragment listFragment = new SimpleListFragment();
 
-            listFragment.setLayout(R.layout.list_fragment);
+            listFragment.setLayout(mBoss.getLayout(mBoss.KEY_LIST_FRAG));
 
             Log.d("SimpleListFragment", "MainActivity.onCreate:");
 
@@ -54,29 +58,8 @@ public class MainActivity extends AppCompatActivity {
             listFragment.setArguments(getIntent().getExtras());
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, listFragment).commit();
+                    .add(mBoss.getLayout(mBoss.KEY_MAIN_CONTAINER), listFragment).commit();
         }
-
-
-        /*myOrientationEventListener
-                = new OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL){
-
-            @Override
-            public void onOrientationChanged(int arg0) {
-
-                Toast.makeText(getApplicationContext(), "Orientation: " + String.valueOf(arg0), Toast.LENGTH_LONG).show();
-            }};
-
-        if (myOrientationEventListener.canDetectOrientation()){
-            Toast.makeText(this, "Can DetectOrientation", Toast.LENGTH_SHORT).show();
-            myOrientationEventListener.enable();
-        }
-        else{
-            Toast.makeText(this, "Can't DetectOrientation", Toast.LENGTH_SHORT).show();
-            finish();
-        }*/
-
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
