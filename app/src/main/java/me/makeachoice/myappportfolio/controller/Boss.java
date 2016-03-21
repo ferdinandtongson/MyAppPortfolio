@@ -30,25 +30,115 @@ public class Boss extends Application{
 
     private final static int LAYOUT_MAIN = R.layout.activity_main;
     private final static int LAYOUT_MAIN_CONTAINER = R.id.fragment_container;
-    private final static int LAYOUT_LIST_FRAG = R.layout.list_fragment;
+
+
 
     Context mActivityContext;
-    AppListMaid mMaid;
+
     AppDemoButler mButler;
     public void setActivityContext(Context ctx){
         mActivityContext = ctx;
-        mMaid = new AppListMaid(mActivityContext);
         mButler = new AppDemoButler(mActivityContext);
-
-        mMaid.setModel(mButler.getModel());
+        mAppListMaid = getAppListMaid();
         createLayoutMap();
     }
+
+    AppListMaid mAppListMaid;
+    public void requestMaid(String key){
+        if(key == KEY_MAIN_SCREEN){
+
+        }
+        else if(key == KEY_LIST_FRAG){
+            mAppListMaid = getAppListMaid();
+        }
+    }
+
+/**************************************************************************************************/
+
+    private final static int LAYOUT_APP_LIST_FRAGMENT = R.layout.list_fragment;
+    private final static int LAYOUT_APP_LIST_ITEM_ID = R.layout.item_onlytitle;
+    private final static int LAYOUT_APP_LIST_ITEM_TITLE_ID = R.id.item_onlytext_title;
+
+    public interface AppListBridge{
+        String KEY_APP_LIST_LAYOUT = "AppList Fragment";
+        String KEY_ITEM_VIEW_TITLE = "ListItem ViewTitle";
+
+        HashMap<String, Integer> mLayoutMap = new HashMap<String,Integer>(){
+            {
+                put(KEY_APP_LIST_LAYOUT, LAYOUT_APP_LIST_ITEM_ID);
+                put(KEY_ITEM_VIEW_TITLE, LAYOUT_APP_LIST_ITEM_TITLE_ID);
+            };
+        };
+
+        //Interface are methods the Maid has to implement but it is a one-way
+        //communication.
+        void setListAdapter(ListAdapter adapter);
+        void setFragment(Fragment fragment);
+    }
+
+    private AppListMaid getAppListMaid(){
+        Log.d("SimpleListFragment", "Boss.getAppListMaid");
+        if(mAppListMaid == null){
+            mAppListMaid = new AppListMaid(this);
+
+            mAppListAdapter = initAppListAdapter(mButler.getModel());
+            mAppListFragment = initAppListFragment();
+            mAppListMaid.setListAdapter(mAppListAdapter);
+            mAppListMaid.setFragment(mAppListFragment);
+            Log.d("SimpleListFragment", "     init Frag and set ListAdapter");
+        }
+        return mAppListMaid;
+    }
+
+    ListAdapter mAppListAdapter;
+    public ListAdapter createAppListAdapter(){
+        Log.d("SimpleListFragment", "Boss.createAppListAdapter");
+        if(mAppListAdapter == null){
+            mAppListAdapter = initAppListAdapter(mButler.getModel());
+        }
+
+        return mAppListAdapter;
+    }
+
+    private ListAdapter initAppListAdapter(AppDemoModel model){
+        Log.d("SimpleListFragment", "Boss.createListItems()");
+
+        ArrayList<TitleItem> itemList = new ArrayList<TitleItem>();
+        int count = model.getAppCount();
+        Log.d("SimpleListFragment", "     model: " + count);
+        for(int i = 0; i < count; i++){
+            TitleItem item = new TitleItem(model.getApp(i).getName());
+            Log.d("SimpleListFragment", "          name: " + model.getApp(i).getName());
+            itemList.add(item);
+        }
+
+        ListAdapter adapter = new TitleAdapter(mActivityContext, itemList,
+                LAYOUT_APP_LIST_ITEM_ID, LAYOUT_APP_LIST_ITEM_TITLE_ID);
+        //ListAdapter adapter = new TitleAdapter(mActivityContext, itemList);
+        return adapter;
+    }
+
+    Fragment mAppListFragment;
+    private Fragment initAppListFragment(){
+        Log.d("SimpleListFragment", "Boss.initAppListFragment");
+        // Create a new Fragment to be placed in the activity layout
+        SimpleListFragment frag = new SimpleListFragment();
+
+        frag.setLayout(LAYOUT_APP_LIST_FRAGMENT);
+        Log.d("SimpleListFragment", "     setlayout to frag");
+
+        return (Fragment)frag;
+    }
+
+/**************************************************************************************************/
+
+
 
     HashMap<String,Integer> mLayoutMap = new HashMap<String,Integer>();
     private void createLayoutMap(){
         mLayoutMap.put(KEY_MAIN_SCREEN, LAYOUT_MAIN);
         mLayoutMap.put(KEY_MAIN_CONTAINER, LAYOUT_MAIN_CONTAINER);
-        mLayoutMap.put(KEY_LIST_FRAG, LAYOUT_LIST_FRAG);
+        mLayoutMap.put(KEY_LIST_FRAG, LAYOUT_APP_LIST_FRAGMENT);
         mLayoutMap.put(KEY_INFO_FRAG, -1);
     }
 
@@ -57,11 +147,11 @@ public class Boss extends Application{
     }
 
     public Fragment getListFragment(){
-        return mMaid.getFragment();
+        return mAppListMaid.getFragment();
     }
 
     public AppListMaid getMaid(){
-        return mMaid;
+        return mAppListMaid;
     }
 
 

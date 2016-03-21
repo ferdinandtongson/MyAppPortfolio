@@ -230,7 +230,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
  * @param id  - resource layout id
  */
     public void setLayout(int id){
-        Log.d(DEBUG, "setLayout");
+        Log.d(DEBUG, "SimpleListFragment.setLayout");
 
         //save layout id to an instance variable
         mLayoutId = id;
