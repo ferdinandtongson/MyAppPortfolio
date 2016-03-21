@@ -1,7 +1,6 @@
 package me.makeachoice.myappportfolio.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,8 +49,8 @@ public class TitleAdapter extends MyBaseAdapter {
 /**************************************************************************************************/
 /**
  * TitleAdapter - constructor, uses default values for Layout and TextView (for Title)
- * @param c
- * @param items
+ * @param c - activity context
+ * @param items - array list of TitleItem objects; data used to populate view objects
  */
     public TitleAdapter(Context c, ArrayList<TitleItem> items) {
         //initialize class variables
@@ -66,10 +65,10 @@ public class TitleAdapter extends MyBaseAdapter {
 
 /**
  * TitleAdapter - constructor, accept Presenter values for Layout and TextView (for Title)
- * @param c
- * @param items
- * @param layoutId
- * @param titleViewId
+ * @param c - activity context
+ * @param items - array list of TitleItem objects; data used to populate view objects
+ * @param layoutId - list item layout id
+ * @param titleViewId - child view of list item layout, textView for "title" value
  */
     public TitleAdapter(Context c, ArrayList<TitleItem> items, int layoutId, int titleViewId){
         //initialize class varialbes
@@ -85,7 +84,7 @@ public class TitleAdapter extends MyBaseAdapter {
 /**************************************************************************************************/
 /**
  * getCount() - returns the size of the ArrayList<TitleItem>
- * @return int
+ * @return int - returns number of items in list
  */
     @Override
     public int getCount() {
@@ -94,8 +93,8 @@ public class TitleAdapter extends MyBaseAdapter {
 
 /**
  * getItem(int) - returns the object in the ArrayList<TitleItem> position; TitleItem Object
- * @param position
- * @return Object
+ * @param position - position of list item
+ * @return Object - item object at that given position
  */
     @Override
     public Object getItem(int position) {
@@ -104,8 +103,8 @@ public class TitleAdapter extends MyBaseAdapter {
 
 /**
  * getItemId(int) - returns index of the object in the ArrayList<TitleItem></TitleItem>
- * @param position
- * @return int
+ * @param position - position of list item
+ * @return int - id of list item
  */
     @Override
     public long getItemId(int position) {
@@ -114,21 +113,18 @@ public class TitleAdapter extends MyBaseAdapter {
 
 /**
  * getView(int, View, ViewGroup) - create or recylce View object then update and return View
- * @param position
- * @param convertView
- * @param parent
- * @return View
+ * @param position - position of view
+ * @param convertView - view object
+ * @param parent - parent of view, list view object
+ * @return View - return updated item view of list
  */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        //view object return to be used in ListView
-        View view;
 
         //Check if we can recycle old view object
         if (convertView == null) {
             // if not recycled, inflate layout of new view object
             convertView = mInflator.inflate(mItemLayoutId, null);
-
         }
 
         //updateView with data
@@ -140,16 +136,18 @@ public class TitleAdapter extends MyBaseAdapter {
 /**************************************************************************************************/
 /**
  * updateView(int, View) - get object from ArrayList<TitleItem> and update TextView with Title
- * @param position
- * @param convertView
+ * @param position - list item position
+ * @param convertView - layout of list item view
  */
     protected void updateView(int position, View convertView){
-
         //get bean for view - encapsulated data
         TitleItem item = mItems.get(position);
 
         //get child view using ViewHolder class
         TextView txtTitle = ViewHolder.get(convertView, mTitleViewId);
+        if(txtTitle == null){
+            txtTitle = (TextView) convertView.findViewById(mTitleViewId);
+        }
         //update child view
         txtTitle.setText(item.getTitle());
     }
