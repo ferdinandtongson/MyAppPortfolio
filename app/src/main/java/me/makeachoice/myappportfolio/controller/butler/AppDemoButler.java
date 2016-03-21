@@ -13,6 +13,7 @@ public class AppDemoButler {
 
     Context mActivityContext;
     public AppDemoButler(Context ctx){
+        Log.d("SimpleListFragment", "AppDemoButler");
         mActivityContext = ctx;
         createModel();
     }
