@@ -26,12 +26,14 @@ package me.makeachoice.myappportfolio.adapter.item;
  */
 public class TitleItem extends MyBaseRowItem {
     //mTitle - holds the text value for Title
-    private String mTitle;
+    protected String mTitle;
 
 /**************************************************************************************************/
 /**
  * TitleItem(String) - constructor, accepts string value for title
  */
+public TitleItem(){}
+
 public TitleItem(String title){
         mTitle = title;
     }
