@@ -38,7 +38,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
     public interface Bridge{
         String KEY_LAYOUT = "Layout";
 
-        void onSimpleListItemClick(int position);
+        void onItemClick(int position);
         ListAdapter getListAdapter();
     }
 //OnSimpleListFragmentListener - to Bridge mCallback to mBridge
@@ -247,7 +247,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
     public void onListItemClick(ListView l, View v, int position, long id){
 
         //sends the click event across the bridge for the activity to handle
-        mBridge.onSimpleListItemClick(position);
+        mBridge.onItemClick(position);
     }
 /**************************************************************************************************/
 

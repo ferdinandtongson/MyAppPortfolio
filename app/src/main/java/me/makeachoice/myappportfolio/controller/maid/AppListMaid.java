@@ -42,7 +42,7 @@ public class AppListMaid implements SimpleListFragment.Bridge, Boss.AppListBridg
 
 
 
-    public void onSimpleListItemClick(int position){
+    public void onItemClick(int position){
         Log.d("SimpleListFragment", "Maid.onListItemClick");
         //Log.d("SimpleListFragment", "     info: " + mAppModel.getApp(position).getDescription());
     }
