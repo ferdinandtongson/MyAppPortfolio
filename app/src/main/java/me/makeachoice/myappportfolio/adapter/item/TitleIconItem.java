@@ -33,8 +33,11 @@ public class TitleIconItem extends TitleItem{
 /**************************************************************************************************/
 /**
  * TitleIconItem(String) - constructor, accepts string value for title and int value for icon id.
- * Inherits from TitleItem:
- *      mTitle - holds the string value of the title
+ *
+ * Variables from TitleItem:
+ *      String mTitle - holds the string value of the title
+ *
+ * Methods from TitleItem:
  *      String getTitle() - getter method for title
  *      void setTitle(String title) - setter method for title
  */
