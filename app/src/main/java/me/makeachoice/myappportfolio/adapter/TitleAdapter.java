@@ -125,7 +125,6 @@ public class TitleAdapter extends MyBaseAdapter{
         if (convertView == null) {
             // if not recycled, inflate layout of new view object
             convertView = mInflator.inflate(mItemLayoutId, null);
-            convertView.setOnClickListener(mOnClickListener);
         }
 
         //updateView with data

@@ -4,7 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,31 +62,41 @@ public class Boss extends Application{
     private final static int LAYOUT_APP_LIST_ITEM_TITLE_ID = R.id.item_title;
 
     public interface AppListBridge{
-        String KEY_APP_LIST_LAYOUT = "AppList Fragment";
-        String KEY_ITEM_VIEW_TITLE = "ListItem ViewTitle";
-
-        HashMap<String, Integer> mLayoutMap = new HashMap<String,Integer>(){
-            {
-                put(KEY_APP_LIST_LAYOUT, LAYOUT_APP_LIST_ITEM_ID);
-                put(KEY_ITEM_VIEW_TITLE, LAYOUT_APP_LIST_ITEM_TITLE_ID);
-            };
-        };
-
         //Interface are methods the Maid has to implement but it is a one-way
         //communication.
+        Fragment getFragment();
+
         void setListAdapter(ListAdapter adapter);
-        void setFragment(Fragment fragment);
+        void setFragmentType(int fragmentType);
     }
 
+
+    View.OnClickListener mAppListOnClickListener = new View.OnClickListener(){
+        @Override
+        public void onClick(View v){
+            Log.d("SimpleListFragment", "Boss.onClickListner");
+            Log.d("SimpleListFragment", "     view: " + this.toString());
+            onClickHere(v);
+            //this.toString();
+            //Log.d("SimpleListFragment", "     position: " + v.getTag().toString());
+        }
+    };
+
+    public void onClickHere(View v){
+        TextView txtTitle = (TextView) v.findViewById(LAYOUT_APP_LIST_ITEM_TITLE_ID);
+        Log.d("SimpleListFragment", "Boss.onClickHere");
+        TitleItem item = (TitleItem)txtTitle.getTag();
+        Log.d("SimpleListFragment", "     title: " + item.getTitle());
+    }
     private AppListMaid getAppListMaid(){
         Log.d("SimpleListFragment", "Boss.getAppListMaid");
         if(mAppListMaid == null){
-            mAppListMaid = new AppListMaid(this);
+            mAppListMaid = new AppListMaid(this, AppListMaid.TYPE_LIST_FRAGMENT);
 
             mAppListAdapter = initAppListAdapter(mButler.getModel());
-            mAppListFragment = initAppListFragment();
+            //mAppListFragment = initAppListFragment();
             mAppListMaid.setListAdapter(mAppListAdapter);
-            mAppListMaid.setFragment(mAppListFragment);
+            mAppListMaid.setFragmentType(AppListMaid.TYPE_LIST_FRAGMENT);
             Log.d("SimpleListFragment", "     init Frag and set ListAdapter");
         }
         return mAppListMaid;
@@ -105,17 +117,15 @@ public class Boss extends Application{
 
         ArrayList<TitleItem> itemList = new ArrayList<TitleItem>();
         int count = model.getAppCount();
-        Log.d("SimpleListFragment", "     model: " + count);
         for(int i = 0; i < count; i++){
             TitleItem item = new TitleItem(model.getApp(i).getName());
-            Log.d("SimpleListFragment", "          name: " + model.getApp(i).getName());
             itemList.add(item);
         }
 
-        ListAdapter adapter = new TitleAdapter(mActivityContext, itemList,
+        TitleAdapter adapter = new TitleAdapter(mActivityContext, itemList,
                 LAYOUT_APP_LIST_ITEM_ID, LAYOUT_APP_LIST_ITEM_TITLE_ID);
-        //ListAdapter adapter = new TitleAdapter(mActivityContext, itemList);
-        return adapter;
+        adapter.setOnClickListener(mAppListOnClickListener);
+        return (ListAdapter)adapter;
     }
 
     Fragment mAppListFragment;
@@ -154,5 +164,13 @@ public class Boss extends Application{
         return mAppListMaid;
     }
 
+ /*String KEY_APP_LIST_LAYOUT = "AppList Fragment";
+        String KEY_ITEM_VIEW_TITLE = "ListItem ViewTitle";
 
+        HashMap<String, Integer> mLayoutMap = new HashMap<String,Integer>(){
+            {
+                put(KEY_APP_LIST_LAYOUT, LAYOUT_APP_LIST_ITEM_ID);
+                put(KEY_ITEM_VIEW_TITLE, LAYOUT_APP_LIST_ITEM_TITLE_ID);
+            };
+        };*/
 }

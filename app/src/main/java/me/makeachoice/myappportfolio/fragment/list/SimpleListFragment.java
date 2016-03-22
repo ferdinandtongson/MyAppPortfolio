@@ -87,11 +87,8 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        Log.d(DEBUG, "onCreate");
+        Log.d(DEBUG, "SimpleListFragment.onCreate");
 
-        if (savedInstanceState != null){
-            mLayoutId = savedInstanceState.getInt(Bridge.KEY_LAYOUT);
-        }
     }
 
 /** onCreateView(...) is called when it's time for the fragment to draw its UI for the first
@@ -104,7 +101,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(DEBUG, "onCreateView");
+        Log.d(DEBUG, "SimpleListFragment.onCreateView");
 
         //check if bundle has been sent/saved
         if(savedInstanceState != null){
@@ -125,7 +122,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.d(DEBUG, "onActivityCreated");
+        Log.d(DEBUG, "SimpleListFragment.onActivityCreated");
 
         //create the list by setting the list adapter
         setListAdapter(mBridge.getListAdapter());
@@ -140,7 +137,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
     @Override
     public void onViewStateRestored(Bundle savedInstanceState){
         super.onViewStateRestored(savedInstanceState);
-        Log.d(DEBUG, "onViewStateRestored");
+        Log.d(DEBUG, "SimpleListFragment.onViewStateRestored");
     }
 
 /**
@@ -150,7 +147,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
     @Override
     public void onStart(){
         super.onStart();
-        Log.d(DEBUG, "onStart");
+        Log.d(DEBUG, "SimpleListFragment.onStart");
     }
 
 /**
@@ -159,7 +156,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
     @Override
     public void onResume(){
         super.onResume();
-        Log.d(DEBUG, "onResume");
+        Log.d(DEBUG, "SimpleListFragment.onResume");
     }
 
 /**
@@ -169,7 +166,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
     @Override
     public void onPause(){
         super.onPause();
-        Log.d(DEBUG, "onPause");
+        Log.d(DEBUG, "SimpleListFragment.onPause");
     }
 
 /**
@@ -179,7 +176,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
  */
     public void onSaveInstanceState(Bundle saveState){
         super.onSaveInstanceState(saveState);
-        Log.d(DEBUG, "onSaveInstanceState");
+        Log.d(DEBUG, "SimpleListFragment.onSaveInstanceState");
         saveState.putInt(Bridge.KEY_LAYOUT, mLayoutId);
 
     }
@@ -191,7 +188,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
     @Override
     public void onStop(){
         super.onStop();
-        Log.d(DEBUG, "onStop");
+        Log.d(DEBUG, "SimpleListFragment.onStop");
     }
 
 /**
@@ -200,7 +197,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
     @Override
     public void onDestroyView(){
         super.onDestroyView();
-        Log.d(DEBUG, "onDestroyView");
+        Log.d(DEBUG, "SimpleListFragment.onDestroyView");
     }
 
 /**
@@ -210,7 +207,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
     @Override
     public void onDestroy(){
         super.onDestroy();
-        Log.d(DEBUG, "onDestroy");
+        Log.d(DEBUG, "SimpleListFragment.onDestroy");
     }
 
 /**
@@ -220,7 +217,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
     @Override
     public void onDetach(){
         super.onDetach();
-        Log.d(DEBUG, "onDetach");
+        Log.d(DEBUG, "SimpleListFragment.onDetach");
         mBridge = null;
     }
 
@@ -245,7 +242,7 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
  */
     @Override
     public void onListItemClick(ListView l, View v, int position, long id){
-
+        Log.d(DEBUG, "SimpleListFragment.onListItemClick");
         //sends the click event across the bridge for the activity to handle
         mBridge.onItemClick(position);
     }
