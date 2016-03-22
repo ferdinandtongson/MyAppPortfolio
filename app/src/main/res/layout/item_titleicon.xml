@@ -4,7 +4,7 @@
 
 
     <ImageView
-        android:id="@+id/item_texticon_icon"
+        android:id="@+id/item_icon"
         android:layout_width="80dp" android:layout_height="80dp"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
@@ -13,9 +13,9 @@
         android:src="@drawable/sample_0"/>
 
     <TextView
-        android:id="@+id/item_texticon_title"
+        android:id="@+id/item_title"
         android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/item_texticon_icon"
+        android:layout_toRightOf="@id/item_icon"
         android:layout_centerVertical="true"
         android:textAlignment="center"
         android:text=""

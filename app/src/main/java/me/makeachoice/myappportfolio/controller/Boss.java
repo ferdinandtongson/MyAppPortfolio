@@ -56,8 +56,8 @@ public class Boss extends Application{
 /**************************************************************************************************/
 
     private final static int LAYOUT_APP_LIST_FRAGMENT = R.layout.list_fragment;
-    private final static int LAYOUT_APP_LIST_ITEM_ID = R.layout.item_onlytitle;
-    private final static int LAYOUT_APP_LIST_ITEM_TITLE_ID = R.id.item_onlytext_title;
+    private final static int LAYOUT_APP_LIST_ITEM_ID = R.layout.item_titleicon;
+    private final static int LAYOUT_APP_LIST_ITEM_TITLE_ID = R.id.item_title;
 
     public interface AppListBridge{
         String KEY_APP_LIST_LAYOUT = "AppList Fragment";
