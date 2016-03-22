@@ -32,7 +32,7 @@ import me.makeachoice.myappportfolio.adapter.util.ViewHolder;
  *      setListAdapter(adapter)
  *
  */
-public class TitleAdapter extends MyBaseAdapter {
+public class TitleAdapter extends MyBaseAdapter{
     //Default layout id found in project Resources res/layout
     public int DEFAULT_LAYOUT_ID = R.layout.item_onlytitle;
     //Default TextView id found in the default layout
@@ -125,6 +125,7 @@ public class TitleAdapter extends MyBaseAdapter {
         if (convertView == null) {
             // if not recycled, inflate layout of new view object
             convertView = mInflator.inflate(mItemLayoutId, null);
+            convertView.setOnClickListener(mOnClickListener);
         }
 
         //updateView with data
@@ -148,8 +149,11 @@ public class TitleAdapter extends MyBaseAdapter {
         if(txtTitle == null){
             txtTitle = (TextView) convertView.findViewById(mTitleViewId);
         }
-        //update child view
+        //update child view data - title
         txtTitle.setText(item.getTitle());
+
+        //put item object i
+        txtTitle.setTag(item);
     }
 /**************************************************************************************************/
 }
