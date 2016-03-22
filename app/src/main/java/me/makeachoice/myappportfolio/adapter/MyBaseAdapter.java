@@ -5,12 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import me.makeachoice.myappportfolio.adapter.item.MyBaseRowItem;
-
-
 /**
  * MyBaseAdapter - abstract class to act as my Base class for all my custom Adapters
  */
@@ -19,4 +13,10 @@ public abstract class MyBaseAdapter extends BaseAdapter{
     LayoutInflater mInflator;
 
     abstract void updateView(int position, View convertView);
+
+    View.OnClickListener mOnClickListener;
+    public void setOnClickListener(View.OnClickListener listener){
+        mOnClickListener = listener;
+    }
+
 }
