@@ -1,6 +1,5 @@
 package me.makeachoice.myappportfolio.fragment.list;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -12,13 +11,14 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import me.makeachoice.myappportfolio.controller.Boss;
-import me.makeachoice.myappportfolio.fragment.MyFragmentInterface;
+import me.makeachoice.myappportfolio.fragment.MyFragment;
+import me.makeachoice.myappportfolio.fragment.MyListFragment;
 
 /**************************************************************************************************/
 /*
- * SimpleListFragment - a simple list view fragment
+ * SimpleListFragment is a Fragment with only a ListView as a child.
  */
-public class SimpleListFragment extends ListFragment implements MyFragmentInterface {
+public class SimpleListFragment extends MyListFragment {
 /**
  *  Fragment subclasses require an empty default constructor. If you don't provide one but
  *  specify a non-empty constructor, Lint will give you an error.
@@ -33,20 +33,10 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
 
     public SimpleListFragment(){}
 
-
-    //Container Activity must implement this interface
-    public interface Bridge{
-        String KEY_LAYOUT = "Layout";
-
-        void onItemClick(int position);
-        ListAdapter getListAdapter();
-    }
-//OnSimpleListFragmentListener - to Bridge mCallback to mBridge
 /**************************************************************************************************/
 
     private static String DEBUG = "SimpleListFragment";
     private Bridge mBridge;
-    private int mLayoutId;
 
 /**************************************************************************************************/
 /**
@@ -74,22 +64,6 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
 
     }
 
-/** onCreate(...) is called to do initial creation of a fragment. This is called after
- * onAttach(...)
- *
- * You should initialize essential components of the fragment that you want to retain when
- * the fragment is paused or stopped, then resumed.
- *
- * Note that this can be called while the fragment's activity is still in the process of being
- * created. As such, you can not rely on things like the activity's content view hierarchy being
- * initialized at this point; use onActivityCreated(...)
- */
-    @Override
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        Log.d(DEBUG, "SimpleListFragment.onCreate");
-
-    }
 
 /** onCreateView(...) is called when it's time for the fragment to draw its UI for the first
  * time. To draw a UI for your fragment, you must return a View from this method that is the
@@ -130,46 +104,6 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
     }
 
 /**
- * OnViewStateRestored(...) tells the fragment that all of the saved state of its view hierarchy
- * has been restored. Basically, the fragment is ready to be seen.
- * @param savedInstanceState - bundle object containing saved instance states
- */
-    @Override
-    public void onViewStateRestored(Bundle savedInstanceState){
-        super.onViewStateRestored(savedInstanceState);
-        Log.d(DEBUG, "SimpleListFragment.onViewStateRestored");
-    }
-
-/**
- * onStart( ) makes the fragment visible to the user (based on its containing activity being
- * started.
- */
-    @Override
-    public void onStart(){
-        super.onStart();
-        Log.d(DEBUG, "SimpleListFragment.onStart");
-    }
-
-/**
- * onResume( ) the fragment is visible and is interacting with the user
- */
-    @Override
-    public void onResume(){
-        super.onResume();
-        Log.d(DEBUG, "SimpleListFragment.onResume");
-    }
-
-/**
- * onPause( ) is when the fragment is no longer interacting with the user either because its
- * activity is being paused or a fragment operation is modifying it in the activity
- */
-    @Override
-    public void onPause(){
-        super.onPause();
-        Log.d(DEBUG, "SimpleListFragment.onPause");
-    }
-
-/**
  * onSaveInstanceState(...) is called any time before onDestroy( ) and is where you can save
  * instance states by placing them into a bundle
  * @param saveState - bundle object used to save any instance states
@@ -179,35 +113,6 @@ public class SimpleListFragment extends ListFragment implements MyFragmentInterf
         Log.d(DEBUG, "SimpleListFragment.onSaveInstanceState");
         saveState.putInt(Bridge.KEY_LAYOUT, mLayoutId);
 
-    }
-
-/**
- * onStop( ) is called when the fragment is no longer visible to the user either because its
- * activity is being stopped or a fragment operation is modifying it in the activity.
- */
-    @Override
-    public void onStop(){
-        super.onStop();
-        Log.d(DEBUG, "SimpleListFragment.onStop");
-    }
-
-/**
- * onDestroyView( ) allows the fragment to clean up resources associated with its View
- */
-    @Override
-    public void onDestroyView(){
-        super.onDestroyView();
-        Log.d(DEBUG, "SimpleListFragment.onDestroyView");
-    }
-
-/**
- * onDestroy( ) is called to do final clean up of the fragment's state.
- *
- */
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-        Log.d(DEBUG, "SimpleListFragment.onDestroy");
     }
 
 /**
