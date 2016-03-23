@@ -11,6 +11,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import me.makeachoice.myappportfolio.controller.Boss;
+import me.makeachoice.myappportfolio.controller.maid.Maid;
 import me.makeachoice.myappportfolio.fragment.MyFragment;
 import me.makeachoice.myappportfolio.fragment.MyListFragment;
 
@@ -53,13 +54,13 @@ public class SimpleListFragment extends MyListFragment {
     public void onAttach(Context context){
         super.onAttach(context);
 
-        Boss boss = (Boss)getActivity().getApplicationContext();
+        /*Boss boss = (Boss)getActivity().getApplicationContext();
         try{
             mBridge = (Bridge)boss.getMaid();
         }catch(ClassCastException e){
             throw new ClassCastException(boss.toString() +
                 " must implement OnSimpleListListener");
-        }
+        }*/
 
     }
 
@@ -136,6 +137,15 @@ public class SimpleListFragment extends MyListFragment {
         //save layout id to an instance variable
         mLayoutId = id;
     }
+
+/**
+ * void setMaid(Maid) sets the maid class that will maintain this fragment
+ * @param maid - maid class that implements the Bridge interface
+ */
+    public void setBridge(Maid maid){
+        mBridge = (Bridge)maid;
+    }
+
 
 /**
  * onListItemClick(...) is called when the user clicks on a list item
