@@ -160,7 +160,12 @@ public class Boss extends Application{
         return mAppListMaid.getFragment();
     }
 
-    public AppListMaid getMaid(){
+    public AppListMaid getMaid(String name){
+
+        if(name == mAppListMaid.MAID_APP_LIST){
+            return mAppListMaid;
+        }
+
         return mAppListMaid;
     }
 

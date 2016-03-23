@@ -14,6 +14,7 @@ public abstract class MyFragment extends Fragment{
     protected Maid mMaid;
     protected Bridge mBridge;
     abstract public void setLayout(int id);
+    abstract public void setMaid(Maid maid);
 
     //Upkeeping Maid class must implement this interface
     public interface Bridge{
