@@ -138,7 +138,7 @@ public class SimpleGridFragment extends MyFragment {
 
 /**
  * void setMaid(Maid) sets the maid class that will maintain this fragment
- * @param maid
+ * @param maid - maid class that implements the Bridge interface
  */
     public void setBridge(Maid maid){
         mBridge = (Bridge)maid;
