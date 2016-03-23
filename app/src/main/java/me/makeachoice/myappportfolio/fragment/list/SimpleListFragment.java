@@ -36,7 +36,6 @@ public class SimpleListFragment extends MyListFragment {
 /**************************************************************************************************/
 
     private static String DEBUG = "SimpleListFragment";
-    private Bridge mBridge;
 
 /**************************************************************************************************/
 /**
