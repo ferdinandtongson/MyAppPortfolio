@@ -55,7 +55,7 @@ public class TitleAdapter extends MyBaseAdapter{
     public TitleAdapter(Context c, ArrayList<TitleItem> items) {
         //initialize class variables
         mContext = c;
-        mInflator = LayoutInflater.from(c);
+        mInflater = LayoutInflater.from(c);
         mItems = items;
 
         //use default values for Layout and TextView to display the Title
@@ -73,7 +73,7 @@ public class TitleAdapter extends MyBaseAdapter{
     public TitleAdapter(Context c, ArrayList<TitleItem> items, int layoutId, int titleViewId){
         //initialize class varialbes
         mContext = c;
-        mInflator = LayoutInflater.from(c);
+        mInflater = LayoutInflater.from(c);
         mItems = items;
 
         //use Presenter values for Layout and TextView to display the Title
@@ -124,7 +124,7 @@ public class TitleAdapter extends MyBaseAdapter{
         //Check if we can recycle old view object
         if (convertView == null) {
             // if not recycled, inflate layout of new view object
-            convertView = mInflator.inflate(mItemLayoutId, null);
+            convertView = mInflater.inflate(mItemLayoutId, null);
         }
 
         //updateView with data

@@ -10,7 +10,7 @@ import android.widget.BaseAdapter;
  */
 public abstract class MyBaseAdapter extends BaseAdapter{
     Context mContext;
-    LayoutInflater mInflator;
+    LayoutInflater mInflater;
 
     abstract void updateView(int position, View convertView);
 
