@@ -8,13 +8,13 @@ import me.makeachoice.myappportfolio.controller.maid.Maid;
 /**
  * Fragment abstract used for all my fragments
  */
-public abstract class MyFragment extends Fragment{
+public abstract class MyFragment extends Fragment implements MyFragmentInterface{
 
     protected int mLayoutId;
-    protected Maid mMaid;
     protected Bridge mBridge;
+
     abstract public void setLayout(int id);
-    abstract public void setMaid(Maid maid);
+    abstract public void setBridge(Maid maid);
 
     //Upkeeping Maid class must implement this interface
     public interface Bridge{

@@ -8,4 +8,5 @@ import me.makeachoice.myappportfolio.controller.maid.Maid;
 public interface MyFragmentInterface {
 
     void setLayout(int id);
+    void setBridge(Maid maid);
 }

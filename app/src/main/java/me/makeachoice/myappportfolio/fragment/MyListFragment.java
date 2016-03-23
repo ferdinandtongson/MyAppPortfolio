@@ -10,9 +10,10 @@ import me.makeachoice.myappportfolio.controller.maid.Maid;
  */
 public abstract class MyListFragment extends ListFragment implements MyFragmentInterface{
     protected int mLayoutId;
-    protected Maid mMaid;
     protected Bridge mBridge;
+
     abstract public void setLayout(int id);
+    abstract public void setBridge(Maid maid);
 
     //Upkeeping Maid class must implement this interface
     public interface Bridge{
