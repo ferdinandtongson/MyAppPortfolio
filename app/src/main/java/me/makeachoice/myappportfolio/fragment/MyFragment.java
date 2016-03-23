@@ -1,11 +1,13 @@
 package me.makeachoice.myappportfolio.fragment;
 
+import android.support.v4.app.Fragment;
+
 import me.makeachoice.myappportfolio.controller.maid.Maid;
 
 /**
  * Fragment abstract used for all my fragments
  */
-public abstract class MyFragment {
+public abstract class MyFragment extends Fragment{
 
     /** onCreate(...) is called to do initial creation of a fragment. This is called after
      * onAttach(...) and before onCreateView(...)
@@ -72,3 +74,4 @@ public abstract class MyFragment {
     Maid mMaid;
     abstract void setLayout(int id);
 }
+
