@@ -1,16 +1,11 @@
 package me.makeachoice.myappportfolio.fragment;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import me.makeachoice.myappportfolio.controller.maid.Maid;
 
 /**
  * Fragment abstract used for all my fragments
  */
-public interface MyFragmentInterface {
+public abstract class MyFragment {
 
     /** onCreate(...) is called to do initial creation of a fragment. This is called after
      * onAttach(...) and before onCreateView(...)
@@ -22,7 +17,7 @@ public interface MyFragmentInterface {
      * created. As such, you can not rely on things like the activity's content view hierarchy being
      * initialized at this point; use onActivityCreated(...)
      */
-    public void onCreate(Bundle savedInstanceState);
+    //public void onCreate(Bundle savedInstanceState);
 
     /** onCreateView(...) is called when it's time for the fragment to draw its UI for the first
      * time. To draw a UI for your fragment, you must return a View from this method that is the
@@ -31,29 +26,28 @@ public interface MyFragmentInterface {
      * This is called between onCreate(...) and onActivityCreated(...). If you return a View from
      * here, you will later be called in onDestroyView() when the view is being released.
      */
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState);
+    //public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
     /** onStart called when the fragment is visible to the user. This is generally tied to
      * Activity.onStart of the containing Activity's lifecycle
      */
-    public void onStart();
+    //public void onStart();
 
     /** onResume is called when the fragment is visible to the user and actively running. This is
      * generally tied to Activity.onResume of the containning Activity's lifecycle
      */
-    public void onResume();
+    //public void onResume();
 
     /** onPause() is called when the Fragment is no longer resumed. This is generally tied to
      * Activity.onPause of the containing Activity's lifecylce.
      */
-    public void onPause();
+    //public void onPause();
 
     /** onStop() is called when the Fragment is no longer started. This is generally tied to
      * Activity.onStop of the containing Activity's lifecycle.
      *
      */
-    public void onStop();
+    //public void onStop();
 
     /** onDestroyView() is called when the view previously created by onCreateView(...) has been
      * detached from the fragment. The next time the fragment needs to be displayed, a new view
@@ -62,15 +56,19 @@ public interface MyFragmentInterface {
      * This is called after onStop() and before onDestroy(), it is called regardless of whether
      * onCreateView(...) returned a non-null view.
      */
-    public void onDestroyView();
+    //public void onDestroyView();
 
     /** onDestroy() is called when the fragment is no longer in use. This is called after onStop()
      * and before onDetach()
      */
-    public void onDestroy();
+    //public void onDestroy();
 
     /** onDetach() is called when the fragment is no longer attached to its activity. This is called
      * after onDestroy()
      */
-    public void onDetach();
+    //public void onDetach();
+
+    int mLayoutId;
+    Maid mMaid;
+    abstract void setLayout(int id);
 }
