@@ -6,6 +6,7 @@ import android.widget.ListAdapter;
 
 import me.makeachoice.myappportfolio.R;
 import me.makeachoice.myappportfolio.controller.Boss;
+import me.makeachoice.myappportfolio.fragment.MyFragment;
 import me.makeachoice.myappportfolio.fragment.SimpleGridFragment;
 import me.makeachoice.myappportfolio.fragment.list.SimpleListFragment;
 
@@ -33,6 +34,7 @@ import me.makeachoice.myappportfolio.fragment.list.SimpleListFragment;
  */
 public class AppListMaid extends Maid implements SimpleListFragment.Bridge, Boss.AppListBridge{
 
+    public final static String MAID_APP_LIST = "app_list_maid";
     public final static int TYPE_LIST_FRAGMENT = R.layout.list_fragment;
     public final static int TYPE_GRID_FRAGMENT = R.layout.grid_fragment;
 
@@ -67,18 +69,15 @@ public class AppListMaid extends Maid implements SimpleListFragment.Bridge, Boss
         else if(fragmentType == TYPE_GRID_FRAGMENT){
             //create Fragment with GridView, class extends Fragment
             fragment = new SimpleGridFragment();
-            //TODO - need to add setLayout method to SimpleGridFragment class
-
-        }
-        else{
-            //invalid fragment type, use default fragment type
-            mFragmentType = TYPE_LIST_FRAGMENT;
-
-            //create Fragment
-            fragment = new SimpleListFragment();
 
             //set layout id to use to inflate fragment
-            ((SimpleListFragment)fragment).setLayout(fragmentType);
+            ((SimpleGridFragment)fragment).setLayout(fragmentType);
+
+            //set communication bridge between Maid and fragment
+            ((SimpleGridFragment)fragment).setBridge(this);
+        }
+        else{
+            fragment = new Fragment();
         }
 
         return fragment;
