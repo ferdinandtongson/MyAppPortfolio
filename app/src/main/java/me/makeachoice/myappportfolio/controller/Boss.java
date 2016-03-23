@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import me.makeachoice.myappportfolio.R;
+import me.makeachoice.myappportfolio.adapter.ImageAdapter;
 import me.makeachoice.myappportfolio.adapter.TitleAdapter;
 import me.makeachoice.myappportfolio.adapter.item.TitleItem;
 import me.makeachoice.myappportfolio.controller.butler.AppDemoButler;
@@ -115,6 +116,10 @@ public class Boss extends Application{
     private ListAdapter initAppListAdapter(AppDemoModel model){
         Log.d("SimpleListFragment", "Boss.createListItems()");
 
+        return initTitleAdapter(model);
+    }
+
+    private ListAdapter initTitleAdapter(AppDemoModel model){
         ArrayList<TitleItem> itemList = new ArrayList<TitleItem>();
         int count = model.getAppCount();
         for(int i = 0; i < count; i++){
@@ -125,6 +130,13 @@ public class Boss extends Application{
         TitleAdapter adapter = new TitleAdapter(mActivityContext, itemList,
                 LAYOUT_APP_LIST_ITEM_ID, LAYOUT_APP_LIST_ITEM_TITLE_ID);
         adapter.setOnClickListener(mAppListOnClickListener);
+
+        return (ListAdapter)adapter;
+    }
+
+    private ListAdapter initIconAdapter(){
+        ImageAdapter adapter = new ImageAdapter(mActivityContext);
+
         return (ListAdapter)adapter;
     }
 
@@ -162,7 +174,7 @@ public class Boss extends Application{
 
     public AppListMaid getMaid(String name){
 
-        if(name == mAppListMaid.MAID_APP_LIST){
+        if(name == mAppListMaid.MAID_NAME){
             return mAppListMaid;
         }
 

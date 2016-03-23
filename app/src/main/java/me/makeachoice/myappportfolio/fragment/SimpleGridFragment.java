@@ -53,12 +53,6 @@ public class SimpleGridFragment extends MyFragment {
     public void onAttach(Context context){
         super.onAttach(context);
 
-        /*try{
-            mBridge = (Bridge)boss.getMaid();
-        }catch(ClassCastException e){
-            throw new ClassCastException(boss.toString() +
-                    " must implement OnSimpleListListener");
-        }*/
 
     }
 
@@ -77,8 +71,18 @@ public class SimpleGridFragment extends MyFragment {
         //check if bundle has been sent/saved
         if(savedInstanceState != null){
             //get layout id to inflate root view
-            mLayoutId = savedInstanceState.getInt(Bridge.KEY_LAYOUT);
+            mLayoutId = savedInstanceState.getInt(KEY_LAYOUT);
+            mMaidName = savedInstanceState.getString(KEY_MAID_NAME);
         }
+
+        Boss boss = (Boss)getActivity().getApplicationContext();
+        try{
+            mBridge = (Bridge)boss.getMaid(mMaidName);
+        }catch(ClassCastException e){
+            throw new ClassCastException(boss.toString() +
+                    " must implement OnSimpleListListener");
+        }
+
 
         //create and return fragment layout view from file found in res/layout/xxx.xml,
         // use R.layout.xxx (mLayoutId)
@@ -109,8 +113,8 @@ public class SimpleGridFragment extends MyFragment {
     public void onSaveInstanceState(Bundle saveState){
         super.onSaveInstanceState(saveState);
         Log.d("SimpleListFragment", "SimpleGridFragment.onSaveInstanceState");
-        saveState.putInt(Bridge.KEY_LAYOUT, mLayoutId);
-
+        saveState.putInt(KEY_LAYOUT, mLayoutId);
+        saveState.putString(KEY_MAID_NAME, mMaidName);
     }
 
 /**
@@ -138,10 +142,10 @@ public class SimpleGridFragment extends MyFragment {
 
 /**
  * void setMaid(Maid) sets the maid class that will maintain this fragment
- * @param maid - maid class that implements the Bridge interface
+ * @param name - maid name of class that implements the Bridge interface
  */
-    public void setBridge(Maid maid){
-        mBridge = (Bridge)maid;
+    public void setMaidName(String name){
+        mMaidName = name;
     }
 
 /**

@@ -34,7 +34,7 @@ import me.makeachoice.myappportfolio.fragment.list.SimpleListFragment;
  */
 public class AppListMaid extends Maid implements SimpleListFragment.Bridge, Boss.AppListBridge{
 
-    public final static String MAID_APP_LIST = "app_list_maid";
+    public final static String MAID_NAME = "app_list_maid";
     public final static int TYPE_LIST_FRAGMENT = R.layout.list_fragment;
     public final static int TYPE_GRID_FRAGMENT = R.layout.grid_fragment;
 
@@ -65,6 +65,9 @@ public class AppListMaid extends Maid implements SimpleListFragment.Bridge, Boss
 
             //set layout id to use to inflate fragment
             ((SimpleListFragment)fragment).setLayout(fragmentType);
+
+            //set communication bridge between Maid and fragment
+            ((SimpleListFragment)fragment).setMaidName(MAID_NAME);
         }
         else if(fragmentType == TYPE_GRID_FRAGMENT){
             //create Fragment with GridView, class extends Fragment
@@ -74,7 +77,7 @@ public class AppListMaid extends Maid implements SimpleListFragment.Bridge, Boss
             ((SimpleGridFragment)fragment).setLayout(fragmentType);
 
             //set communication bridge between Maid and fragment
-            ((SimpleGridFragment)fragment).setBridge(this);
+            ((SimpleGridFragment)fragment).setMaidName(MAID_NAME);
         }
         else{
             fragment = new Fragment();
@@ -146,6 +149,15 @@ public class AppListMaid extends Maid implements SimpleListFragment.Bridge, Boss
         //return list adapter to calling fragment
         return mListAdapter;
     }
+
+/**
+ * Bridge getBridge() - sends Maid service using the Bridge interface to calling class
+ * @return Bridge - Maid class casted as Bridge
+ */
+    public Maid getBridge(){
+        return this;
+    }
+
 
 /**
  * void onItemClick(int) - event listener call by the fragment when an app item has been clicked
