@@ -7,8 +7,8 @@ import me.makeachoice.myappportfolio.controller.maid.Maid;
 /**
  * Created by Usuario on 3/23/2016.
  */
-public abstract class MyListFragment extends ListFragment{
+public abstract class MyListFragment extends ListFragment implements MyFragmentInterface{
     int mLayoutId;
     Maid mMaid;
-    abstract void setLayout(int id);
+    abstract public void setLayout(int id);
 }
