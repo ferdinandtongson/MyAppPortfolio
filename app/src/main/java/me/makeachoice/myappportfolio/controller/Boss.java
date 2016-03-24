@@ -37,12 +37,15 @@ public class Boss extends Application{
 
 
     Context mActivityContext;
+    private int mAppListTypeId;
 
     AppDemoButler mButler;
     public void setActivityContext(Context ctx){
         mActivityContext = ctx;
         mButler = new AppDemoButler(mActivityContext);
+        mAppListTypeId = mAppListMaid.TYPE_LIST_FRAGMENT;
         mAppListMaid = getAppListMaid();
+
         createLayoutMap();
     }
 
@@ -61,6 +64,8 @@ public class Boss extends Application{
     private final static int LAYOUT_APP_LIST_FRAGMENT = R.layout.list_fragment;
     private final static int LAYOUT_APP_LIST_ITEM_ID = R.layout.item_titleicon;
     private final static int LAYOUT_APP_LIST_ITEM_TITLE_ID = R.id.item_title;
+
+    private final static int LAYOUT_APP_GRID_FRAGMENT = R.layout.grid_fragment;
 
     public interface AppListBridge{
         //Interface are methods the Maid has to implement but it is a one-way
@@ -92,12 +97,12 @@ public class Boss extends Application{
     private AppListMaid getAppListMaid(){
         Log.d("SimpleListFragment", "Boss.getAppListMaid");
         if(mAppListMaid == null){
-            mAppListMaid = new AppListMaid(this, AppListMaid.TYPE_LIST_FRAGMENT);
+            mAppListMaid = new AppListMaid(this, mAppListTypeId);
 
-            mAppListAdapter = initAppListAdapter(mButler.getModel());
-            //mAppListFragment = initAppListFragment();
+            mAppListAdapter = createAppListAdapter();
+
             mAppListMaid.setListAdapter(mAppListAdapter);
-            mAppListMaid.setFragmentType(AppListMaid.TYPE_LIST_FRAGMENT);
+            mAppListMaid.setFragmentType(mAppListTypeId);
             Log.d("SimpleListFragment", "     init Frag and set ListAdapter");
         }
         return mAppListMaid;
@@ -107,16 +112,17 @@ public class Boss extends Application{
     public ListAdapter createAppListAdapter(){
         Log.d("SimpleListFragment", "Boss.createAppListAdapter");
         if(mAppListAdapter == null){
-            mAppListAdapter = initAppListAdapter(mButler.getModel());
+
+            if(mAppListTypeId == mAppListMaid.TYPE_LIST_FRAGMENT){
+                mAppListAdapter = initTitleAdapter(mButler.getModel());
+            }
+            else{
+                Log.d("SimpleListFragment", "     icon adapter");
+                mAppListAdapter = initIconAdapter();
+            }
         }
 
         return mAppListAdapter;
-    }
-
-    private ListAdapter initAppListAdapter(AppDemoModel model){
-        Log.d("SimpleListFragment", "Boss.createListItems()");
-
-        return initTitleAdapter(model);
     }
 
     private ListAdapter initTitleAdapter(AppDemoModel model){
@@ -140,7 +146,7 @@ public class Boss extends Application{
         return (ListAdapter)adapter;
     }
 
-    Fragment mAppListFragment;
+    /*Fragment mAppListFragment;
     private Fragment initAppListFragment(){
         Log.d("SimpleListFragment", "Boss.initAppListFragment");
         // Create a new Fragment to be placed in the activity layout
@@ -150,7 +156,7 @@ public class Boss extends Application{
         Log.d("SimpleListFragment", "     setlayout to frag");
 
         return (Fragment)frag;
-    }
+    }*/
 
 /**************************************************************************************************/
 

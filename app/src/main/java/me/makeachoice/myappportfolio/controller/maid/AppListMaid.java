@@ -32,11 +32,13 @@ import me.makeachoice.myappportfolio.fragment.list.SimpleListFragment;
  *      ListAdapter getListAdapter() - Fragments' access to the ListAdapter
  *      void onItemClick() - list item click event
  */
-public class AppListMaid extends Maid implements SimpleListFragment.Bridge, Boss.AppListBridge{
+public class AppListMaid extends Maid implements SimpleListFragment.Bridge,
+        SimpleGridFragment.Bridge, Boss.AppListBridge{
 
     public final static String MAID_NAME = "app_list_maid";
     public final static int TYPE_LIST_FRAGMENT = R.layout.list_fragment;
     public final static int TYPE_GRID_FRAGMENT = R.layout.grid_fragment;
+    public final static int GRID_FRAG_CHILD_GRID = R.id.gridview;
 
     private ListAdapter mListAdapter;
     private Fragment mFragment;
@@ -75,6 +77,9 @@ public class AppListMaid extends Maid implements SimpleListFragment.Bridge, Boss
 
             //set layout id to use to inflate fragment
             ((SimpleGridFragment)fragment).setLayout(fragmentType);
+
+            //set layout id to use to inflate fragment
+            ((SimpleGridFragment)fragment).setGridViewId(GRID_FRAG_CHILD_GRID);
 
             //set communication bridge between Maid and fragment
             ((SimpleGridFragment)fragment).setMaidName(MAID_NAME);
@@ -122,6 +127,8 @@ public class AppListMaid extends Maid implements SimpleListFragment.Bridge, Boss
  * @param adapter - ListAdapter to be consumed by the fragment
  */
     public void setListAdapter(ListAdapter adapter){
+        Log.d("SimpleListFragment", "AppListMaid.setListAdapter");
+        Log.d("SimpleListFragment", "     adapter: " + adapter.toString());
         mListAdapter = adapter;
     }
 
@@ -142,10 +149,12 @@ public class AppListMaid extends Maid implements SimpleListFragment.Bridge, Boss
         Log.d("SimpleListFragment", "AppListMaid.getListAdapter");
         //checks if ListAdapter is null
         if(mListAdapter == null){
+            Log.d("SimpleListFragment", "     adapter null");
             //if null, request ListAdapter from Boss
             mListAdapter = mBoss.createAppListAdapter();
         }
 
+        Log.d("SimpleListFragment", "     adapter: " + mListAdapter.toString());
         //return list adapter to calling fragment
         return mListAdapter;
     }

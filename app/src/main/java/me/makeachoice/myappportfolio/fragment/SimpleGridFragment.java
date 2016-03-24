@@ -8,8 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import me.makeachoice.myappportfolio.R;
 import me.makeachoice.myappportfolio.controller.Boss;
-import me.makeachoice.myappportfolio.controller.maid.Maid;
+
 
 /**************************************************************************************************/
 /**
@@ -32,7 +33,9 @@ public class SimpleGridFragment extends MyFragment {
 
 /**************************************************************************************************/
 
-    private GridView mGridView;
+    private View mView;
+    private int mGridViewId;
+    String KEY_GRIDVIEW_ID = "GridViewId";
 
 /**************************************************************************************************/
 
@@ -72,6 +75,7 @@ public class SimpleGridFragment extends MyFragment {
         if(savedInstanceState != null){
             //get layout id to inflate root view
             mLayoutId = savedInstanceState.getInt(KEY_LAYOUT);
+            mGridViewId = savedInstanceState.getInt(KEY_GRIDVIEW_ID);
             mMaidName = savedInstanceState.getString(KEY_MAID_NAME);
         }
 
@@ -86,8 +90,9 @@ public class SimpleGridFragment extends MyFragment {
 
         //create and return fragment layout view from file found in res/layout/xxx.xml,
         // use R.layout.xxx (mLayoutId)
-        mGridView = (GridView)inflater.inflate(mLayoutId, container, false);
-        return mGridView;
+        mView = inflater.inflate(mLayoutId, container, false);
+
+        return mView;
     }
 
 /**
@@ -101,7 +106,8 @@ public class SimpleGridFragment extends MyFragment {
         Log.d("SimpleListFragment", "SimpleGridFragment.onActivityCreated");
 
         //create the list by setting the list adapter
-        mGridView.setAdapter(mBridge.getListAdapter());
+        GridView gridView = (GridView)mView.findViewById(mGridViewId);
+        gridView.setAdapter(mBridge.getListAdapter());
 
     }
 
@@ -114,6 +120,7 @@ public class SimpleGridFragment extends MyFragment {
         super.onSaveInstanceState(saveState);
         Log.d("SimpleListFragment", "SimpleGridFragment.onSaveInstanceState");
         saveState.putInt(KEY_LAYOUT, mLayoutId);
+        saveState.putInt(KEY_GRIDVIEW_ID, mGridViewId);
         saveState.putString(KEY_MAID_NAME, mMaidName);
     }
 
@@ -138,6 +145,17 @@ public class SimpleGridFragment extends MyFragment {
 
         //save layout id to an instance variable
         mLayoutId = id;
+    }
+
+/**
+ * void setGridViewId(int) allows the gridview id for the fragment to be dynamically added
+ * @param id - resource gridview id
+ */
+    public void setGridViewId(int id){
+        Log.d("SimpleListFragment", "SimpleGridFragment.setGridViewId");
+
+        //save gridview id to an instance variable
+        mGridViewId = id;
     }
 
 /**
