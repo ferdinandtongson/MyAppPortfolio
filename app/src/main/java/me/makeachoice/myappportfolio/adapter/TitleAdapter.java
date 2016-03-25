@@ -36,7 +36,7 @@ public class TitleAdapter extends MyBaseAdapter{
     //Default layout id found in project Resources res/layout
     public int DEFAULT_LAYOUT_ID = R.layout.item_onlytitle;
     //Default TextView id found in the default layout
-    public int DEFAULT_TITLE_VIEW_ID = R.id.item_onlytext_title;
+    public int DEFAULT_TITLE_VIEW_ID = R.id.item_title;
 
     //mItemLayoutId - id of the layout to be inflated
     int mItemLayoutId;
