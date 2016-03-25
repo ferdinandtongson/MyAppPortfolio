@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import me.makeachoice.myappportfolio.R;
 import me.makeachoice.myappportfolio.adapter.ImageAdapter;
@@ -17,6 +18,7 @@ import me.makeachoice.myappportfolio.adapter.TitleAdapter;
 import me.makeachoice.myappportfolio.adapter.item.TitleItem;
 import me.makeachoice.myappportfolio.controller.butler.AppDemoButler;
 import me.makeachoice.myappportfolio.controller.maid.AppListMaid;
+import me.makeachoice.myappportfolio.controller.maid.Maid;
 import me.makeachoice.myappportfolio.fragment.list.SimpleListFragment;
 import me.makeachoice.myappportfolio.model.AppDemoModel;
 
@@ -43,29 +45,22 @@ public class Boss extends Application{
     public void setActivityContext(Context ctx){
         mActivityContext = ctx;
         mButler = new AppDemoButler(mActivityContext);
-        mAppListTypeId = mAppListMaid.TYPE_LIST_FRAGMENT;
-        mAppListMaid = getAppListMaid();
 
-        createLayoutMap();
+        mAppListMaid = initializeAppListMaid();
+
+        //createLayoutMap();
     }
 
-    AppListMaid mAppListMaid;
-    public void requestMaid(String key){
-        if(key == KEY_MAIN_SCREEN){
-
-        }
-        else if(key == KEY_LIST_FRAG){
-            mAppListMaid = getAppListMaid();
-        }
-    }
 
 /**************************************************************************************************/
 
     private final static int LAYOUT_APP_LIST_FRAGMENT = R.layout.list_fragment;
-    private final static int LAYOUT_APP_LIST_ITEM_ID = R.layout.item_titleicon;
-    private final static int LAYOUT_APP_LIST_ITEM_TITLE_ID = R.id.item_title;
+    //private final static int LAYOUT_APP_LIST_ITEM_ID = R.layout.item_titleicon;
+    //private final static int LAYOUT_APP_LIST_ITEM_TITLE_ID = R.id.item_title;
 
     private final static int LAYOUT_APP_GRID_FRAGMENT = R.layout.grid_fragment;
+
+    AppListMaid mAppListMaid;
 
     public interface AppListBridge{
         //Interface are methods the Maid has to implement but it is a one-way
@@ -89,80 +84,116 @@ public class Boss extends Application{
     };
 
     public void onClickHere(View v){
-        TextView txtTitle = (TextView) v.findViewById(LAYOUT_APP_LIST_ITEM_TITLE_ID);
+        TextView txtTitle = (TextView) v.findViewById(R.id.item_title);
         Log.d("SimpleListFragment", "Boss.onClickHere");
         TitleItem item = (TitleItem)txtTitle.getTag();
         Log.d("SimpleListFragment", "     title: " + item.getTitle());
     }
-    private AppListMaid getAppListMaid(){
-        Log.d("SimpleListFragment", "Boss.getAppListMaid");
-        if(mAppListMaid == null){
-            mAppListMaid = new AppListMaid(this, mAppListTypeId);
 
-            mAppListAdapter = createAppListAdapter();
+    private int mListItemId;
+    private int mListItemTitleId;
 
-            mAppListMaid.setListAdapter(mAppListAdapter);
-            mAppListMaid.setFragmentType(mAppListTypeId);
-            Log.d("SimpleListFragment", "     init Frag and set ListAdapter");
-        }
-        return mAppListMaid;
+    public ListAdapter getAppListAdapter(){
+        ListAdapter adapter = initializeAppListAdapter(mButler.getModel(), mListItemId,
+                mListItemTitleId);
+
+        return adapter;
     }
 
-    ListAdapter mAppListAdapter;
-    public ListAdapter createAppListAdapter(){
+/**
+ * AppListMaid initializeAppListMaid()initializes the Maid class taking care of the AppList view
+ * fragment defined in the design of this application. It sets the view type of how the list of
+ * demo apps will be displayed, prepares and sets the list adapter to be consumed by the fragment.
+ * @return AppListMaid - return a reference to the AppListMaid
+ */
+    private AppListMaid initializeAppListMaid(){
+        mAppListTypeId = AppListMaid.TYPE_LIST_FRAGMENT;
+
+        AppListMaid maid = new AppListMaid(this, mAppListTypeId);
+
+        mListItemId = R.layout.item_titleicon;
+        mListItemTitleId = R.id.item_title;
+
+        ListAdapter adapter = initializeAppListAdapter(mButler.getModel(), mListItemId,
+                mListItemTitleId);
+
+        maid.setListAdapter(adapter);
+
+        //TODO - debug to see if this is redundant, fragment type is set when Maid is instantiated
+        maid.setFragmentType(mAppListTypeId);
+
+        return maid;
+    }
+
+/**
+ * ListAdapter initializeAppListAdapter() initializes the ListAdapter that will be used by the
+ * AppList fragment. Currently it will initialize a Title type adapter or an Icon type adapter.
+ * @return ListAdapter - will return a reference to the ListAdapter to be consumed
+ */
+    public ListAdapter initializeAppListAdapter(AppDemoModel model, int layoutId,
+                                                int childViewId){
         Log.d("SimpleListFragment", "Boss.createAppListAdapter");
-        if(mAppListAdapter == null){
 
-            if(mAppListTypeId == mAppListMaid.TYPE_LIST_FRAGMENT){
-                mAppListAdapter = initTitleAdapter(mButler.getModel());
-            }
-            else{
-                Log.d("SimpleListFragment", "     icon adapter");
-                mAppListAdapter = initIconAdapter();
-            }
+        //ListAdapter variable to be return
+        ListAdapter adapter;
+
+        //check type of fragment being used by the AppList Maid
+        if(mAppListTypeId == AppListMaid.TYPE_LIST_FRAGMENT){
+            //ListView fragment, initialize a Title type adapter using the data model for the apps
+            adapter = initTitleAdapter(model, layoutId, childViewId);
+        }
+        else if(mAppListTypeId == AppListMaid.TYPE_GRID_FRAGMENT){
+            //GridView fragment, initialize an Icon type adapter using the data model for the apps
+            adapter = initIconAdapter(model, layoutId, childViewId);
+        }
+        else{
+            adapter = initTitleAdapter(model, layoutId, childViewId);
         }
 
-        return mAppListAdapter;
+        return adapter;
     }
 
-    private ListAdapter initTitleAdapter(AppDemoModel model){
-        ArrayList<TitleItem> itemList = new ArrayList<TitleItem>();
+/**
+ * ListAdapter initTitleAdapter(model) used to initialize a Title type adapter typically used with
+ * a ListView. Uses the AppDemo data model
+ * @param model - data model for the application demos demoed in this app
+ * @return ListAdapter - will return a reference to the Title adapter create with the data model
+ */
+    private ListAdapter initTitleAdapter(AppDemoModel model, int layoutId, int childViewId){
+        //create an ArrayList to hold the list items to be consumed by the ListAdapter
+        ArrayList<TitleItem> itemList = new ArrayList<>();
+
+        //number of AppDemo data models
         int count = model.getAppCount();
+
+        //loop through the data models
         for(int i = 0; i < count; i++){
+            //initialize TitleItem with name of app taken from the model
             TitleItem item = new TitleItem(model.getApp(i).getName());
+
+            //add item into array list
             itemList.add(item);
         }
 
+        //instantiate TitleAdapter with layout id found in res/layout and the child
         TitleAdapter adapter = new TitleAdapter(mActivityContext, itemList,
-                LAYOUT_APP_LIST_ITEM_ID, LAYOUT_APP_LIST_ITEM_TITLE_ID);
+                layoutId, childViewId);
         adapter.setOnClickListener(mAppListOnClickListener);
 
-        return (ListAdapter)adapter;
+        return adapter;
     }
 
-    private ListAdapter initIconAdapter(){
+    private ListAdapter initIconAdapter(AppDemoModel model, int layoutId, int childViewId){
         ImageAdapter adapter = new ImageAdapter(mActivityContext);
 
-        return (ListAdapter)adapter;
+        return adapter;
     }
-
-    /*Fragment mAppListFragment;
-    private Fragment initAppListFragment(){
-        Log.d("SimpleListFragment", "Boss.initAppListFragment");
-        // Create a new Fragment to be placed in the activity layout
-        SimpleListFragment frag = new SimpleListFragment();
-
-        frag.setLayout(LAYOUT_APP_LIST_FRAGMENT);
-        Log.d("SimpleListFragment", "     setlayout to frag");
-
-        return (Fragment)frag;
-    }*/
 
 /**************************************************************************************************/
 
 
 
-    HashMap<String,Integer> mLayoutMap = new HashMap<String,Integer>();
+    HashMap<String,Integer> mLayoutMap = new HashMap<>();
     private void createLayoutMap(){
         mLayoutMap.put(KEY_MAIN_SCREEN, LAYOUT_MAIN);
         mLayoutMap.put(KEY_MAIN_CONTAINER, LAYOUT_MAIN_CONTAINER);
@@ -178,22 +209,20 @@ public class Boss extends Application{
         return mAppListMaid.getFragment();
     }
 
-    public AppListMaid getMaid(String name){
+    public Maid getMaid(String name){
 
-        if(name == mAppListMaid.MAID_NAME){
-            return mAppListMaid;
+        Maid maid;
+        if(name.equals(AppListMaid.MAID_NAME)){
+            if (mAppListMaid == null){
+                mAppListMaid = initializeAppListMaid();
+            }
+            maid = mAppListMaid;
+        }
+        else{
+            return null;
         }
 
-        return mAppListMaid;
+        return maid;
     }
 
- /*String KEY_APP_LIST_LAYOUT = "AppList Fragment";
-        String KEY_ITEM_VIEW_TITLE = "ListItem ViewTitle";
-
-        HashMap<String, Integer> mLayoutMap = new HashMap<String,Integer>(){
-            {
-                put(KEY_APP_LIST_LAYOUT, LAYOUT_APP_LIST_ITEM_ID);
-                put(KEY_ITEM_VIEW_TITLE, LAYOUT_APP_LIST_ITEM_TITLE_ID);
-            };
-        };*/
 }

@@ -150,7 +150,7 @@ public class AppListMaid extends Maid implements SimpleListFragment.Bridge,
         if(mListAdapter == null){
             Log.d("SimpleListFragment", "     adapter null");
             //if null, request ListAdapter from Boss
-            mListAdapter = mBoss.createAppListAdapter();
+            mListAdapter = mBoss.getAppListAdapter();
         }
 
         Log.d("SimpleListFragment", "     adapter: " + mListAdapter.toString());
