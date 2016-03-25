@@ -6,7 +6,6 @@ import android.widget.ListAdapter;
 
 import me.makeachoice.myappportfolio.R;
 import me.makeachoice.myappportfolio.controller.Boss;
-import me.makeachoice.myappportfolio.fragment.MyFragment;
 import me.makeachoice.myappportfolio.fragment.SimpleGridFragment;
 import me.makeachoice.myappportfolio.fragment.list.SimpleListFragment;
 
@@ -78,7 +77,7 @@ public class AppListMaid extends Maid implements SimpleListFragment.Bridge,
             //set layout id to use to inflate fragment
             ((SimpleGridFragment)fragment).setLayout(fragmentType);
 
-            //set layout id to use to inflate fragment
+            //set gridView id to be used in fragment
             ((SimpleGridFragment)fragment).setGridViewId(GRID_FRAG_CHILD_GRID);
 
             //set communication bridge between Maid and fragment
