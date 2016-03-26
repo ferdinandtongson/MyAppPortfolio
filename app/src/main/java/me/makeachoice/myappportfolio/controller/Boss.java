@@ -28,14 +28,8 @@ import me.makeachoice.myappportfolio.model.AppDemoModel;
  * prevented; in MVC (Model-View-Controller) model, the Model and View can communicate
  */
 public class Boss extends Application{
-    public final static String KEY_MAIN_SCREEN = "Main";
-    public final static String KEY_MAIN_CONTAINER = "Main Container";
     public final static String KEY_LIST_FRAG = "List Fragment";
     public final static String KEY_INFO_FRAG = "Information Fragment";
-
-    private final static int LAYOUT_MAIN = R.layout.activity_main;
-    private final static int LAYOUT_MAIN_CONTAINER = R.id.fragment_container;
-
 
 
     Context mActivityContext;
@@ -184,9 +178,8 @@ public class Boss extends Application{
     }
 
     private ListAdapter initIconAdapter(AppDemoModel model, int layoutId, int childViewId){
-        ImageAdapter adapter = new ImageAdapter(mActivityContext);
 
-        return adapter;
+        return new ImageAdapter(mActivityContext);
     }
 
 /**************************************************************************************************/
@@ -195,8 +188,6 @@ public class Boss extends Application{
 
     HashMap<String,Integer> mLayoutMap = new HashMap<>();
     private void createLayoutMap(){
-        mLayoutMap.put(KEY_MAIN_SCREEN, LAYOUT_MAIN);
-        mLayoutMap.put(KEY_MAIN_CONTAINER, LAYOUT_MAIN_CONTAINER);
         mLayoutMap.put(KEY_LIST_FRAG, LAYOUT_APP_LIST_FRAGMENT);
         mLayoutMap.put(KEY_INFO_FRAG, -1);
     }

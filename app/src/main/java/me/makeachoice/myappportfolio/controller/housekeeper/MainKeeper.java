@@ -1,5 +1,11 @@
 package me.makeachoice.myappportfolio.controller.housekeeper;
 
+import android.content.Context;
+import android.support.v4.app.FragmentManager;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+import me.makeachoice.myappportfolio.R;
 import me.makeachoice.myappportfolio.controller.Boss;
 
 /**
@@ -31,8 +37,68 @@ public class MainKeeper extends HouseKeeper{
  *
  *
  */
-    public MainKeeper(Boss boss){
+    private Context mActivityContext;
+    public MainKeeper(Boss boss, Context ctx){
         mBoss = boss;
+        mActivityContext = ctx;
+    }
+
+    private int LAYOUT_MAIN = R.layout.activity_main;
+    private int LAYOUT_MAIN_CONTAINER = R.id.fragment_container;
+
+    private int TOOLBAR_MAIN = R.id.toolbar;
+    private int MENU_MAIN = R.menu.menu_main;
+
+
+    public int getActivityLayout(){
+        return LAYOUT_MAIN;
+    }
+
+    public int getActivityContainer(){
+        return LAYOUT_MAIN_CONTAINER;
+    }
+
+
+
+    public int getMenuId(){
+        return MENU_MAIN;
+    }
+
+    public int getToolbarId(){
+        return TOOLBAR_MAIN;
+    }
+
+    public void onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        String strAction;
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_bar_main_simple) {
+            strAction = mBoss.getString(R.string.action_bar_main_simple);
+        }
+        else if (id == R.id.action_bar_main_advance) {
+            strAction = mBoss.getString(R.string.action_bar_main_advance);
+        }
+        else if (id == R.id.action_bar_main_grid) {
+            strAction = mBoss.getString(R.string.action_bar_main_grid);
+        }
+        else {
+            strAction = "no action selected";
+        }
+
+        Toast toast = Toast.makeText(mActivityContext, strAction, Toast.LENGTH_SHORT);
+        toast.show();
+
+    }
+
+
+
+
+
+    private FragmentManager mManager;
+    public void setFragmentManager(FragmentManager manager){
+        mManager = manager;
+        mManager.beginTransaction().add(LAYOUT_MAIN_CONTAINER, mBoss.getListFragment()).commit();
     }
 
 
