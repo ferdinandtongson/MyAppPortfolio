@@ -48,7 +48,7 @@ public class Boss extends Application{
 
         mAppListMaid = initializeAppListMaid();
 
-        //createLayoutMap();
+        createLayoutMap();
     }
 
 
@@ -111,7 +111,7 @@ public class Boss extends Application{
 
         AppListMaid maid = new AppListMaid(this, mAppListTypeId);
 
-        mListItemId = R.layout.item_titleicon;
+        mListItemId = R.layout.item_onlytitle;
         mListItemTitleId = R.id.item_title;
 
         ListAdapter adapter = initializeAppListAdapter(mButler.getModel(), mListItemId,
