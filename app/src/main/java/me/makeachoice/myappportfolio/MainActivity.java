@@ -51,8 +51,10 @@ public class MainActivity extends AppCompatActivity {
                     .add(mBoss.getLayout(mBoss.KEY_MAIN_CONTAINER), mBoss.getListFragment()).commit();
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        Log.d("SimpleListFragment", "Main.onCreate - create toolbar");
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Log.d("SimpleListFragment", "     toolbar: " + mToolbar.toString());
+        setSupportActionBar(mToolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -64,9 +66,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private Toolbar mToolbar;
     @Override
     public void onStart(){
         Log.d("SimpleListFragment", "Main.onStart");
+        if(mToolbar == null){
+            Log.d("SimpleListFragment", "     toolbar null");
+            mToolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(mToolbar);
+        }
+
+        Log.d("SimpleListFragment", "     toolbar: " + mToolbar.toString());
         super.onStart();
 
     }
@@ -97,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d("SimpleListFragment", "Main.onCreateOptionsMenu");
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
