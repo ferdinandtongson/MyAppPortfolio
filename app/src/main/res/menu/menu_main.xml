@@ -2,15 +2,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
 
-    <item android:id="@+id/action_bar_main_simple"
+    <item android:id="@+id/action_bar_item01"
         android:title="@string/action_bar_main_simple"
         android:orderInCategory="100" app:showAsAction="never" />
 
-    <item android:id="@+id/action_bar_main_advance"
+    <item android:id="@+id/action_bar_item02"
         android:title="@string/action_bar_main_advance"
         android:orderInCategory="101" app:showAsAction="never" />
 
-    <item android:id="@+id/action_bar_main_grid"
+    <item android:id="@+id/action_bar_item03"
         android:title="@string/action_bar_main_grid"
         android:orderInCategory="102" app:showAsAction="never" />
 </menu>
