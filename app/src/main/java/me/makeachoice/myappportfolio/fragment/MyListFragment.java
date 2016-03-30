@@ -5,14 +5,14 @@ import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import me.makeachoice.myappportfolio.controller.maid.Maid;
 
 /**
- * Created by Usuario on 3/23/2016.
+ * MyListFragment abstract class has a set of methods and an Interface class used mainly for trying
+ * to keep an MVP design structure. The abstract class ensure that the communication lines between
+ * the Presenter and the View are established.
  */
 public abstract class MyListFragment extends ListFragment implements MyFragmentInterface{
 
-    protected String mMaidName;
     protected int mLayoutId;
     protected Bridge mBridge;
 
