@@ -1,7 +1,9 @@
 package me.makeachoice.myappportfolio.fragment;
 
 import android.support.v4.app.ListFragment;
+import android.view.View;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import me.makeachoice.myappportfolio.controller.maid.Maid;
 
@@ -19,8 +21,8 @@ public abstract class MyListFragment extends ListFragment implements MyFragmentI
 
     //Upkeeping Maid class must implement this interface
     public interface Bridge{
-        void onItemClick(int position);
+        void onItemClick(ListView l, View v, int position, long id);
         ListAdapter getListAdapter();
+        void setListAdapter(ListAdapter adapter);
     }
-
 }
