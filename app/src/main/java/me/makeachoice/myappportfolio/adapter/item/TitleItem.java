@@ -2,8 +2,8 @@ package me.makeachoice.myappportfolio.adapter.item;
 
 /**
  * TitleItem extends MyBaseRowItem base class is used by a BaseAdapter to populate a ListView. This
- * class is associated with item_onlytitle.xml layout resource file and encapsulates the View
- * created by item_onlytitle.xml.
+ * class is associated with item_titlesimple.xmlml layout resource file and encapsulates the View
+ * created by item_titlesimplele.xml.
  *
  * TitleItem will be populated in the Presenter taking data from the Model.
  *
