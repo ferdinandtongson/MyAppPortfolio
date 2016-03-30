@@ -10,7 +10,8 @@ package me.makeachoice.myappportfolio.fragment;
  */
 public interface MyFragmentInterface {
     String KEY_LAYOUT = "Layout";
+    String KEY_SERVICE_NAME = "ServiceName";
 
     void setLayout(int id);
-
+    void setServiceName(String name);
 }

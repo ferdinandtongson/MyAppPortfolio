@@ -6,16 +6,16 @@ import android.widget.ListAdapter;
 import me.makeachoice.myappportfolio.controller.maid.Maid;
 
 /**
- * Fragment abstract used for all my fragments
+ * Fragment abstract used for all my non-list fragments
  */
 public abstract class MyFragment extends Fragment implements MyFragmentInterface{
 
-    protected String mMaidName;
     protected int mLayoutId;
-    protected Bridge mBridge;
+    protected String mServiceName;
+
 
     abstract public void setLayout(int id);
-    abstract public void setBridge(Bridge bridge);
+    abstract public void setServiceName(String name);
 
     //Upkeeping Maid class must implement this interface
     public interface Bridge{
@@ -23,5 +23,7 @@ public abstract class MyFragment extends Fragment implements MyFragmentInterface
         void onItemClick(int position);
         ListAdapter getListAdapter();
     }
+
+
 }
 

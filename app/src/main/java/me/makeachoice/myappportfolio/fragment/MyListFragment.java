@@ -14,10 +14,10 @@ import android.widget.ListView;
 public abstract class MyListFragment extends ListFragment implements MyFragmentInterface{
 
     protected int mLayoutId;
-    protected Bridge mBridge;
+    protected String mServiceName;
 
     abstract public void setLayout(int id);
-    abstract public void setBridge(Bridge bridge);
+    abstract public void setServiceName(String name);
 
     //Upkeeping Maid class must implement this interface
     public interface Bridge{
