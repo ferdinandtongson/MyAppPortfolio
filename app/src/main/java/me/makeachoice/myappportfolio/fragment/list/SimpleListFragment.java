@@ -74,7 +74,7 @@ public class SimpleListFragment extends MyListFragment {
 
         Boss boss = (Boss)getActivity().getApplicationContext();
         try{
-            mBridge = (Bridge)boss.getMaid("AppListMaid");
+            mBridge = (Bridge)boss.getMaid(mServiceName);
         }catch(ClassCastException e){
             throw new ClassCastException(boss.toString() +
                     " must implement OnSimpleListListener");
