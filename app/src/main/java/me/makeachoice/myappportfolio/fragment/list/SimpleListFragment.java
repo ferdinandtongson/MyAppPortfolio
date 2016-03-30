@@ -2,17 +2,12 @@ package me.makeachoice.myappportfolio.fragment.list;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import me.makeachoice.myappportfolio.controller.Boss;
-import me.makeachoice.myappportfolio.controller.maid.Maid;
-import me.makeachoice.myappportfolio.fragment.MyFragment;
 import me.makeachoice.myappportfolio.fragment.MyListFragment;
 
 /**************************************************************************************************/
@@ -73,17 +68,7 @@ public class SimpleListFragment extends MyListFragment {
         if(savedInstanceState != null){
             //get layout id to inflate root view
             mLayoutId = savedInstanceState.getInt(KEY_LAYOUT);
-            mMaidName = savedInstanceState.getString(KEY_MAID_NAME);
         }
-
-        Boss boss = (Boss)getActivity().getApplicationContext();
-        try{
-            mBridge = (Bridge)boss.getMaid(mMaidName);
-        }catch(ClassCastException e){
-            throw new ClassCastException(boss.toString() +
-                    " must implement OnSimpleListListener");
-        }
-
 
         //create and return fragment layout view from file found in res/layout/xxx.xml,
         // use R.layout.xxx (mLayoutId)
@@ -114,8 +99,6 @@ public class SimpleListFragment extends MyListFragment {
         super.onSaveInstanceState(saveState);
         Log.d(DEBUG, "SimpleListFragment.onSaveInstanceState");
         saveState.putInt(KEY_LAYOUT, mLayoutId);
-        saveState.putString(KEY_MAID_NAME, mMaidName);
-
     }
 
 /**
@@ -142,11 +125,11 @@ public class SimpleListFragment extends MyListFragment {
     }
 
 /**
- * void setMaid(Maid) sets the maid class that will maintain this fragment
- * @param name - maid name of class that implements the Bridge interface
+ * void setBridge(Bridge) sets the Maid class that implements the communication interface
+ * @param bridge - maid that implements the Bridge interface
  */
-    public void setMaidName(String name){
-        mMaidName = name;
+    public void setBridge(Bridge bridge){
+        mBridge = bridge;
     }
 
 
@@ -161,7 +144,7 @@ public class SimpleListFragment extends MyListFragment {
     public void onListItemClick(ListView l, View v, int position, long id){
         Log.d(DEBUG, "SimpleListFragment.onListItemClick");
         //sends the click event across the bridge for the activity to handle
-        mBridge.onItemClick(position);
+        mBridge.onItemClick(l, v, position, id);
     }
 /**************************************************************************************************/
 
