@@ -17,7 +17,7 @@ public abstract class MyListFragment extends ListFragment implements MyFragmentI
     protected Bridge mBridge;
 
     abstract public void setLayout(int id);
-    abstract public void setMaidName(String name);
+    abstract public void setBridge(Bridge bridge);
 
     //Upkeeping Maid class must implement this interface
     public interface Bridge{
