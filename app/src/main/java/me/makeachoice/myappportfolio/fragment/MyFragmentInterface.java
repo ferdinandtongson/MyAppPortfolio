@@ -1,15 +1,16 @@
 package me.makeachoice.myappportfolio.fragment;
 
-import me.makeachoice.myappportfolio.controller.maid.Maid;
 
 /**
- * Created by Usuario on 3/23/2016.
+ * MyFragmentInterface is used to keep both MyFragment and MyListFragment abstract classes as
+ * closely related as possible.
+ *
+ * At the moment, it seems that this interface is not very useful but time will tell once the apps
+ * being built become more complicated.
  */
 public interface MyFragmentInterface {
     String KEY_LAYOUT = "Layout";
-    String KEY_MAID_NAME = "MaidName";
-
 
     void setLayout(int id);
-    void setBridge(Bridge bridge);
+
 }
