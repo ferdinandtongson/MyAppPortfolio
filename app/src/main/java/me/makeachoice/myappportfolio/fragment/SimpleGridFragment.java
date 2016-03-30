@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
-import me.makeachoice.myappportfolio.R;
 import me.makeachoice.myappportfolio.controller.Boss;
 
 
@@ -75,13 +74,14 @@ public class SimpleGridFragment extends MyFragment {
         if(savedInstanceState != null){
             //get layout id to inflate root view
             mLayoutId = savedInstanceState.getInt(KEY_LAYOUT);
+            mServiceName = savedInstanceState.getString(KEY_SERVICE_NAME);
             mGridViewId = savedInstanceState.getInt(KEY_GRIDVIEW_ID);
-            mMaidName = savedInstanceState.getString(KEY_MAID_NAME);
+
         }
 
         Boss boss = (Boss)getActivity().getApplicationContext();
         try{
-            mBridge = (Bridge)boss.getMaid(mMaidName);
+            mBridge = (Bridge)boss.getMaid(mServiceName);
         }catch(ClassCastException e){
             throw new ClassCastException(boss.toString() +
                     " must implement OnSimpleListListener");
@@ -120,8 +120,9 @@ public class SimpleGridFragment extends MyFragment {
         super.onSaveInstanceState(saveState);
         Log.d("SimpleListFragment", "SimpleGridFragment.onSaveInstanceState");
         saveState.putInt(KEY_LAYOUT, mLayoutId);
+        saveState.putString(KEY_SERVICE_NAME, mServiceName);
         saveState.putInt(KEY_GRIDVIEW_ID, mGridViewId);
-        saveState.putString(KEY_MAID_NAME, mMaidName);
+
     }
 
 /**
@@ -159,14 +160,14 @@ public class SimpleGridFragment extends MyFragment {
     }
 
 /**
- * void setMaid(Maid) sets the maid class that will maintain this fragment
- * @param name - maid name of class that implements the Bridge interface
+ * void setServiceName(String) - sets the name of the server taking care of the fragment
  */
-    public void setMaidName(String name){
-        mMaidName = name;
+    public void setServiceName(String name){
+        mServiceName = name;
     }
 
-/**
+
+    /**
  * void onListItemClick(int) is called when the user clicks on a list item
  * @param position - position of the item; position is zero based (0 - x)
  */
