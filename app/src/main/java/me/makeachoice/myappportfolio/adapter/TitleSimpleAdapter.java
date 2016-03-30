@@ -13,11 +13,11 @@ import me.makeachoice.myappportfolio.adapter.item.TitleItem;
 import me.makeachoice.myappportfolio.adapter.util.ViewHolder;
 
 /**
- * TitleAdapter extends MyBaseAdapter base class and is used as a List Adapter for the Android
+ * TitleSimpleAdapter extends MyBaseAdapter base class and is used as a List Adapter for the Android
  * ListView widget. This adapter creates and updates the Views contained in the ListView.
  *
  * Default Item class: TitleItem
- * Default Layout: item_onlytitle.xml
+ * Default Layout: item_titlesimplele.xml
  *
  * Variables from MyBaseAdapter:
  *      Context mContext
@@ -28,13 +28,13 @@ import me.makeachoice.myappportfolio.adapter.util.ViewHolder;
  *
  * In your Presenter, in onActivityCreated(...) for Fragments or in onCreate for Activities and
  * after populating your ArrayList<TitleItem> with data:
- *      TitleAdapter adapter = new TitleAdapter(Context, ArrayList<TitleItem>)
+ *      TitleSimpleAdapter adapter = new TitleSimpleAdapter(Context, ArrayList<TitleItem>)
  *      setListAdapter(adapter)
  *
  */
-public class TitleAdapter extends MyBaseAdapter{
+public class TitleSimpleAdapter extends MyBaseAdapter{
     //Default layout id found in project Resources res/layout
-    public int DEFAULT_LAYOUT_ID = R.layout.item_onlytitle;
+    public int DEFAULT_LAYOUT_ID = R.layout.item_titlesimple;
     //Default TextView id found in the default layout
     public int DEFAULT_TITLE_VIEW_ID = R.id.item_title;
 
@@ -48,11 +48,11 @@ public class TitleAdapter extends MyBaseAdapter{
 
 /**************************************************************************************************/
 /**
- * TitleAdapter - constructor, uses default values for Layout and TextView (for Title)
+ * TitleSimpleAdapter - constructor, uses default values for Layout and TextView (for Title)
  * @param c - activity context
  * @param items - array list of TitleItem objects; data used to populate view objects
  */
-    public TitleAdapter(Context c, ArrayList<TitleItem> items) {
+    public TitleSimpleAdapter(Context c, ArrayList<TitleItem> items) {
         //initialize class variables
         mContext = c;
         mInflater = LayoutInflater.from(c);
@@ -64,13 +64,13 @@ public class TitleAdapter extends MyBaseAdapter{
     }
 
 /**
- * TitleAdapter - constructor, accept Presenter values for Layout and TextView (for Title)
+ * TitleSimpleAdapter - constructor, accept Presenter values for Layout and TextView (for Title)
  * @param c - activity context
  * @param items - array list of TitleItem objects; data used to populate view objects
  * @param layoutId - list item layout id
  * @param titleViewId - child view of list item layout, textView for "title" value
  */
-    public TitleAdapter(Context c, ArrayList<TitleItem> items, int layoutId, int titleViewId){
+    public TitleSimpleAdapter(Context c, ArrayList<TitleItem> items, int layoutId, int titleViewId){
         //initialize class varialbes
         mContext = c;
         mInflater = LayoutInflater.from(c);
