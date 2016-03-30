@@ -32,10 +32,11 @@ public class MainActivity extends AppCompatActivity {
         int getActivityLayoutId();
         int getFragmentContainerId();
         int getToolbarId();
+        int getMenuId();
         int getFloatingActionButtonId();
 
-        void onOptionsItemSelected(MenuItem item);
         View.OnClickListener getFABOnClickListener();
+        void onOptionsItemSelected(MenuItem item);
     }
 
 
