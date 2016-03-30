@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import me.makeachoice.myappportfolio.controller.Boss;
 import me.makeachoice.myappportfolio.fragment.MyListFragment;
 
 /**************************************************************************************************/
@@ -68,6 +69,15 @@ public class SimpleListFragment extends MyListFragment {
         if(savedInstanceState != null){
             //get layout id to inflate root view
             mLayoutId = savedInstanceState.getInt(KEY_LAYOUT);
+            mServiceName = savedInstanceState.getString(KEY_SERVICE_NAME);
+        }
+
+        Boss boss = (Boss)getActivity().getApplicationContext();
+        try{
+            mBridge = (Bridge)boss.getMaid("AppListMaid");
+        }catch(ClassCastException e){
+            throw new ClassCastException(boss.toString() +
+                    " must implement OnSimpleListListener");
         }
 
         //create and return fragment layout view from file found in res/layout/xxx.xml,
@@ -99,6 +109,7 @@ public class SimpleListFragment extends MyListFragment {
         super.onSaveInstanceState(saveState);
         Log.d(DEBUG, "SimpleListFragment.onSaveInstanceState");
         saveState.putInt(KEY_LAYOUT, mLayoutId);
+        saveState.putString(KEY_SERVICE_NAME, mServiceName);
     }
 
 /**
@@ -114,7 +125,7 @@ public class SimpleListFragment extends MyListFragment {
 
 /**************************************************************************************************/
 /**
- * setLayout(...) allows the layout id for the fragment to be dynamically added
+ * void setLayout(int) allows the layout id for the fragment to be dynamically added
  * @param id  - resource layout id
  */
     public void setLayout(int id){
@@ -125,16 +136,14 @@ public class SimpleListFragment extends MyListFragment {
     }
 
 /**
- * void setBridge(Bridge) sets the Maid class that implements the communication interface
- * @param bridge - maid that implements the Bridge interface
+ * void setServiceName(String) - sets the name of the server taking care of the fragment
  */
-    public void setBridge(Bridge bridge){
-        mBridge = bridge;
+    public void setServiceName(String name){
+        mServiceName = name;
     }
 
-
 /**
- * onListItemClick(...) is called when the user clicks on a list item
+ * void onListItemClick(...) is called when the user clicks on a list item
  * @param l - ListView containing view item
  * @param v - View item that was clicked by the user
  * @param position - position of the item; position is zero based (0 - x)
