@@ -12,7 +12,7 @@ public abstract class MyFragment extends Fragment implements MyFragmentInterface
 
     protected int mLayoutId;
     protected String mServiceName;
-
+    protected Bridge mBridge;
 
     abstract public void setLayout(int id);
     abstract public void setServiceName(String name);

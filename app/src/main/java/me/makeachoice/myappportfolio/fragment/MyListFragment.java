@@ -15,6 +15,7 @@ public abstract class MyListFragment extends ListFragment implements MyFragmentI
 
     protected int mLayoutId;
     protected String mServiceName;
+    protected Bridge mBridge;
 
     abstract public void setLayout(int id);
     abstract public void setServiceName(String name);
