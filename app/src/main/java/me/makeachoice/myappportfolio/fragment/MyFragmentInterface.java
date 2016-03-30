@@ -11,5 +11,5 @@ public interface MyFragmentInterface {
 
 
     void setLayout(int id);
-    void setMaidName(String name);
+    void setBridge(Bridge bridge);
 }
