@@ -16,9 +16,6 @@ import me.makeachoice.myappportfolio.adapter.util.ViewHolder;
  * TitleSimpleAdapter extends MyBaseAdapter base class and is used as a List Adapter for the Android
  * ListView widget. This adapter creates and updates the Views contained in the ListView.
  *
- * Default Item class: TitleItem
- * Default Layout: item_titlesimplele.xml
- *
  * Variables from MyBaseAdapter:
  *      Context mContext
  *      Inflater mInflator
@@ -34,17 +31,17 @@ import me.makeachoice.myappportfolio.adapter.util.ViewHolder;
  */
 public class TitleSimpleAdapter extends MyBaseAdapter{
     //Default layout id found in project Resources res/layout
-    public int DEFAULT_LAYOUT_ID = R.layout.item_titlesimple;
+    protected int DEFAULT_LAYOUT_ID = R.layout.item_titlesimple;
     //Default TextView id found in the default layout
-    public int DEFAULT_TITLE_VIEW_ID = R.id.item_title;
+    protected int DEFAULT_TITLE_VIEW_ID = R.id.item_title;
 
     //mItemLayoutId - id of the layout to be inflated
-    int mItemLayoutId;
+    protected int mItemLayoutId;
     //mTitleViewId - id of TextView to display Title
-    int mTitleViewId;
+    protected int mTitleViewId;
 
     //mItems - ArrayList of TitleItem objects holding data to be displayed
-    ArrayList<TitleItem> mItems;
+    private ArrayList<TitleItem> mItems;
 
 /**************************************************************************************************/
 /**
