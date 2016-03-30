@@ -22,15 +22,10 @@ import me.makeachoice.myappportfolio.fragment.list.SimpleListFragment;
  * Variables from Maid:
  *      HouseKeeper mHouseKeeper
  *
- * Implements Boss.AppListBridge Methods:
- *      Fragment getFragment( ) - returns fragment being managed by the Maid
- *      void setFragmentType(int) - receives the Fragment type from the Boss to be displayed
- *      void setListAdapter(ListAdapter) - receives the ListAdapter from Boss to be displayed
- *
  * Implements SimpleListFragment.Bridge
- *      int getLayoutId() - Fragments' access to the layout id used by the Fragment
  *      ListAdapter getListAdapter() - Fragments' access to the ListAdapter
- *      void onItemClick() - list item click event
+ *      void setListAdapter(ListAdapter) - receives the ListAdapter from Boss to be displayed
+ *      void onItemClick(...) - list item click event
  */
 public class AppListMaid extends Maid implements SimpleListFragment.Bridge,
         SimpleGridFragment.Bridge{
