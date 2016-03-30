@@ -9,7 +9,7 @@ import me.makeachoice.myappportfolio.fragment.SimpleGridFragment;
 import me.makeachoice.myappportfolio.fragment.list.SimpleListFragment;
 
 /**
- * AppListMaid initializes and takes care of communicating with the Fragment that hold the Portfolio
+ * AppSelectMaid initializes and takes care of communicating with the Fragment that hold the Portfolio
  * of Apps that the user can select from.
  *
  * Its main purpose is to handle events and request from the Fragment and if the Maid cannot handle
@@ -27,13 +27,13 @@ import me.makeachoice.myappportfolio.fragment.list.SimpleListFragment;
  *      void setListAdapter(ListAdapter) - receives the ListAdapter from Boss to be displayed
  *      void onItemClick(...) - list item click event
  */
-public class AppListMaid extends Maid implements SimpleListFragment.Bridge,
+public class AppSelectMaid extends Maid implements SimpleListFragment.Bridge,
         SimpleGridFragment.Bridge{
 
     private ListAdapter mListAdapter;
 
     private Bridge mBridge;
-    public AppListMaid(Bridge bridge){
+    public AppSelectMaid(Bridge bridge){
         mBridge = bridge;
 
     }
@@ -59,7 +59,7 @@ public class AppListMaid extends Maid implements SimpleListFragment.Bridge,
  * @return ListAdapter - returns a list adapter created by the Boss
  */
     public ListAdapter getListAdapter(){
-        Log.d("SimpleListFragment", "AppListMaid.getListAdapter");
+        Log.d("SimpleListFragment", "AppSelectMaid.getListAdapter");
         //checks if ListAdapter is null
         if(mListAdapter == null){
             Log.d("SimpleListFragment", "     adapter null");
@@ -77,7 +77,7 @@ public class AppListMaid extends Maid implements SimpleListFragment.Bridge,
  * @param adapter - ListAdapter to be consumed by the fragment
  */
     public void setListAdapter(ListAdapter adapter){
-        Log.d("SimpleListFragment", "AppListMaid.setListAdapter");
+        Log.d("SimpleListFragment", "AppSelectMaid.setListAdapter");
         Log.d("SimpleListFragment", "     adapter: " + adapter.toString());
         mListAdapter = adapter;
     }
