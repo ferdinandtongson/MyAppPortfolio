@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ListAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import me.makeachoice.myappportfolio.MainActivity;
 import me.makeachoice.myappportfolio.R;
@@ -59,13 +60,18 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge,
  *      int getToolbarId();
  *      int getFloatingActionButtonId();
  *
- *      void onOptionsItemSelected(MenuItem item)
+ *      int getFragmentType(String);
+ *      void setFragmentType(String, int);
+ *
+ *      void createFragment(Boolean);
+ *
+ *      void onOptionsItemSelected(MenuItem item);
  *      void setFABOnClickListener();
  *
  */
 /**************************************************************************************************/
-    //mActivityContext - context object that follows the Activity lifecycle
-    private Context mActivityContext;
+    //NAME - unique name of the HouseKeeper
+    public final static String NAME = "MainKeeper";
 
     //mAppSelectFrag - application demo selection fragment, where user can select app to look at
     private Fragment mAppSelectFrag;
@@ -73,7 +79,7 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge,
     private Fragment mAppInfoFrag;
 
     //mAppSelectType - type of app selection fragment
-    private int mAppSelectType;
+    public final static String FRAG_APP_SELECT = "AppSelectFragment";
 
     public final static int SELECT_TYPE_LIST_SIMPLE = 0;
     public final static int SELECT_TYPE_LIST_ICON = 1;
@@ -83,34 +89,22 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge,
 
     //mAppInfoType - type of information fragments
     private int mAppInfoType;
+    public final static String FRAG_APP_INFO = "AppInfoFragment";
 
-    private final static int TYPE_INFO_SIMPLE = 0;
+    public final static int INFO_TYPE_SIMPLE = 0;
 
 /**************************************************************************************************/
 
-    public MainKeeper(Boss boss, Context ctx){
+    public MainKeeper(Boss boss, Context ctx, FragmentManager manager){
         mBoss = boss;
         mActivityContext = ctx;
+        mFragmentManager = manager;
 
-        mBoss.registerHouseKeeper("MainKeeper", this);
+        mBoss.registerHouseKeeper(NAME, this);
         //TODO - need to be able to save user default fragment select type
+        mMapFragmentType = new HashMap<>();
 
         initHouseKeeping();
-    }
-
-    public void setFragmentType(int fragmentType){
-        Log.d("Simple", "MainKeeper.setFragmentType: " + fragmentType);
-        mAppSelectType = fragmentType;
-    }
-
-    public int getFragmentType(){
-        return mAppSelectType;
-    }
-
-    public void createFragment(){
-        createAppSelectAdapter();
-        mAppSelectFrag = initFragment(mAppSelectType);
-
     }
 
 /**************************************************************************************************/
@@ -165,7 +159,8 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge,
 
     private void createAppSelectAdapter(){
         //initialize and send ListAdapter to Maid
-        mAppSelectAdapter = initAppSelectAdapter(mBoss.getModel(), mAppSelectType);
+        mAppSelectAdapter = initAppSelectAdapter(mBoss.getModel(),
+                mMapFragmentType.get(FRAG_APP_SELECT));
         mAppSelectMaid.setListAdapter(mAppSelectAdapter);
     }
 
@@ -335,7 +330,10 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge,
  *      int getMenuId();
  *      int getFloatingActionButtonId();
  *
- *      void setFABOnClickListener();
+ *      int getFragmentType(String);
+ *      void setFragmentType(String, int);
+ *
+ *      OnClickListener getFABOnClickListener();
  *      void onOptionsItemSelected(MenuItem item)
  *
  */
@@ -384,6 +382,45 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge,
     }
 
 /**
+ * void setFragmentType(String, int) - put the key and fragment type into a hashmap
+ * @param fragmentType - variation of the fragment type to display
+ */
+    public void setFragmentType(String key, int fragmentType){
+        Log.d("Simple", "MainKeeper.setFragmentType: " + fragmentType);
+        //put fragment type and the variation of that time to a hashmap
+        mMapFragmentType.put(key, fragmentType);
+    }
+
+/**
+ * int getFragmentType(String) - returns the variation of a particular fragment type
+ * @param key - fragment type (list or info)
+ * @return int - variation of the fragment tpe
+ */
+    public int getFragmentType(String key){
+        return mMapFragmentType.get(key);
+    }
+
+/**
+ * void prepareFragment - createFragment to be displayed
+ * @param shouldAdd - used to determine if it should be added to the Fragment manager
+ */
+    public void prepareFragment(Boolean shouldAdd){
+        Log.d("Simple", "Keeper.createFragment");
+        //create the ListAdapter to be displayed by the AppSelect Fragment
+        createAppSelectAdapter();
+
+        //initialize the AppSelectFragment
+        mAppSelectFrag = initFragment(mMapFragmentType.get(FRAG_APP_SELECT));
+
+        //check if Fragment needs to be added to the Fragment manager
+        if(shouldAdd){
+            //add fragment to manager
+            addFragmentToManager(mAppSelectFrag);
+        }
+
+    }
+
+/**
  * OnClickListener getFABOnClickListener() - get the OnClick Listener for the Floating Action
  * Button object.
  * @return - View.OnClickListener object
@@ -398,8 +435,6 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge,
  * @param item - menu item selected in the toolbar
  */
     public void onOptionsItemSelected(MenuItem item){
-        Log.d("Simple", "MainKeeper.onOptionsItemSelected: " + item.toString());
-        Log.d("Simple", "     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11");
         //get id of item selected from ActionBar
         int id = item.getItemId();
 
@@ -424,8 +459,11 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge,
         }
 
         //check if selected display is different from current display
-        if(mAppSelectType != fragmentType){
-            changeFragment(fragmentType);
+        if(mMapFragmentType.get(FRAG_APP_SELECT) != fragmentType){
+            //fragment display selected is different from current display, save new fragment id
+            mMapFragmentType.put(FRAG_APP_SELECT, fragmentType);
+
+            replaceFragmentInManager();
         }
 
     }
@@ -443,66 +481,19 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge,
 
 /**************************************************************************************************/
 
-
-
-
-    private FragmentManager mManager;
-
+/**************************************************************************************************/
+/**
+ * Variables used for initializing Fragments
+ */
+    //simple list fragment layout
     private final static int LAYOUT_LIST_SIMPLE = R.layout.list_fragment;
+
+    //simple grid fragment layout
     private final static int LAYOUT_GRID_SIMPLE = R.layout.grid_fragment;
+    //child view in grid fragment layout, gridView child
     private final static int GRID_CHILD_GRID_VIEW = R.id.gridview;
 
-    //called by MainActivity
-    public void setFragmentManager(FragmentManager manager){
-        mManager = manager;
-
-        FragmentTransaction ft = mManager.beginTransaction();
-
-        /*ft.setCustomAnimations(R.anim.fragment_slide_left_enter,
-                R.anim.fragment_slide_left_exit,
-                R.anim.fragment_slide_right_enter,
-                R.anim.fragment_slide_right_exit);*/
-
-        ft.add(LAYOUT_MAIN_CONTAINER, mAppSelectFrag);
-        //ft.addToBackStack(null);
-        ft.commit();
-    }
-
-    private void changeFragment(int fragmentType){
-        Log.d("Simple", "MainKeeper.changeFragment");
-        //fragment display selected is different from current display, save new fragment id
-        mAppSelectType = fragmentType;
-
-        Log.d("Simple", "     here01");
-        if(fragmentType == SELECT_TYPE_LIST_SIMPLE || fragmentType == SELECT_TYPE_LIST_ICON){
-            Log.d("Simple", "     here01");
-            createAppSelectAdapter();
-
-            Log.d("Simple", "     here02");
-            //initialize new fragment
-            mAppSelectFrag = initFragment(mAppSelectType);
-            Log.d("Simple", "     here03");
-        }
-
-
-
-
-        FragmentTransaction ft = mManager.beginTransaction();
-
-        Log.d("Simple", "     here04");
-        /*ft.setCustomAnimations(R.anim.fragment_slide_left_enter,
-                R.anim.fragment_slide_left_exit,
-                R.anim.fragment_slide_right_enter,
-                R.anim.fragment_slide_right_exit);*/
-        Log.d("Simple", "     here05");
-        ft.replace(LAYOUT_MAIN_CONTAINER, mAppSelectFrag);
-        //ft.addToBackStack(null);
-        ft.commit();
-        Log.d("Simple", "     here06");
-        //((MainActivity)mActivityContext).initToolbar();
-        //((MainActivity)mActivityContext).initFloatButton();
-
-    }
+/**************************************************************************************************/
 
 /**************************************************************************************************/
 /**
@@ -511,21 +502,17 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge,
  * @return Fragment - returns an initialized and ready fragment
  */
     private Fragment initFragment(int fragmentType){
-        Log.d("Simple", "Keeper.initFragment: " + fragmentType);
         Fragment fragment;
 
         //check fragment type being requested
         if(fragmentType == SELECT_TYPE_LIST_SIMPLE || fragmentType == SELECT_TYPE_LIST_ICON) {
-            Log.d("Simple", "MainKeeper.initFragment");
             //create Fragment with a ListView, class extends ListFragment
             fragment = new SimpleListFragment();
 
-            Log.d("Simple", "     Keeper - fragment.setLayout");
             //set layout id to use to inflate fragment
             ((SimpleListFragment)fragment).setLayout(LAYOUT_LIST_SIMPLE);
 
-            Log.d("Simple", "     Keeper - fragment.setServiceName");
-            //set communication bridge between Maid and fragment
+            //set Maid name to fragment
             ((SimpleListFragment)fragment).setServiceName(NAME_APP_SELECT_MAID);
         }
         else if(fragmentType == SELECT_TYPE_GRID_SIMPLE){
@@ -538,12 +525,15 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge,
             //set gridView id to be used in fragment
             ((SimpleGridFragment)fragment).setGridViewId(GRID_CHILD_GRID_VIEW);
 
+            //setMaid name to fragment
+            ((SimpleGridFragment)fragment).setServiceName(NAME_APP_SELECT_MAID);
+
         }
         else if(fragmentType == SELECT_TYPE_LIST_COMPLEX){
             //TODO - create fragment for TYPE_LIST_COMPLEX
             fragment = new Fragment();
         }
-        else if(fragmentType == TYPE_INFO_SIMPLE){
+        else if(fragmentType == INFO_TYPE_SIMPLE){
             //TODO - create fragment for TYPE_INFO_SIMPLE
             fragment = new Fragment();
         }
@@ -554,20 +544,42 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge,
         return fragment;
     }
 
-
-
 /**
- * AppList will display a list of names of applications held in the portfolio. There are two types
- * that can be displayed 1)a simple list of names or 2)a list of names with a corresponding icon
+ * void addFragmentToManager(Fragment) - adds fragment to FragmentManager and commit to activity
+ * @param fragment - fragment object to be added
  */
+    private void addFragmentToManager(Fragment fragment){
+        //begin fragment transaction
+        FragmentTransaction ft = mFragmentManager.beginTransaction();
+        //TODO - need to add animation for Fragment transistion
+
+        //add fragment to the fragment container
+        ft.add(LAYOUT_MAIN_CONTAINER, fragment);
+
+        //commit fragment to activity
+        ft.commit();
+    }
 
     /**
-     * Bridge getBridge() - sends Maid service using the Bridge interface to calling class
-     * @return Bridge - Maid class casted as Bridge
+     * void replaceFragmentInManager(int) - replaces a fragment object held by the FragmentManager
+     * and commit to activity
      */
-    /*public HouseKeeper getBridge(){
-        return this;
-    }*/
+    private void replaceFragmentInManager(){
+        Log.d("Simple", "MainKeeper.changeFragment");
+        //prepare AppSelect fragment, do NOT add fragment to fragment manager, shouldAdd = false
+        prepareFragment(false);
+
+        //begin fragment transaction
+        FragmentTransaction ft = mFragmentManager.beginTransaction();
+
+        //replace fragment held by the FragmentManager
+        ft.replace(LAYOUT_MAIN_CONTAINER, mAppSelectFrag);
+
+        //commit fragment to activity
+        ft.commit();
+    }
+
+/**************************************************************************************************/
 
 
     /**

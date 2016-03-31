@@ -35,10 +35,14 @@ public class MainActivity extends AppCompatActivity {
         int getMenuId();
         int getFloatingActionButtonId();
 
+        int getFragmentType(String key);
+        void setFragmentType(String key, int fragmentType);
+
+        void prepareFragment(Boolean shouldAdd);
+
         View.OnClickListener getFABOnClickListener();
         void onOptionsItemSelected(MenuItem item);
     }
-
 
 
 /**************************************************************************************************/
@@ -62,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         mBoss.setActivityContext(this);
 
         //start HouseKeeper for this Activity
-        mHouseKeeper = new MainKeeper(mBoss, this);
+        mHouseKeeper = new MainKeeper(mBoss, this, getSupportFragmentManager());
 
         //Note setContent must happen before toolbar
         setContentView(mHouseKeeper.getActivityLayoutId());
@@ -73,16 +77,19 @@ public class MainActivity extends AppCompatActivity {
         if(savedInstanceState != null){
             Log.d("Simple", "     onCreate - has savedInstanceState");
             //Fragment is being reconstituted, need to recreate toolbar and float button
-            mHouseKeeper.setFragmentType(savedInstanceState.getInt(KEY_TYPE));
+            mHouseKeeper.setFragmentType(MainKeeper.FRAG_APP_SELECT,
+                    savedInstanceState.getInt(MainKeeper.FRAG_APP_SELECT));
+
+            //Create fragment, will be automatically added to fragment manager, shouldAdd = false
+            mHouseKeeper.prepareFragment(false);
         }
         else{
-            mHouseKeeper.setFragmentType(MainKeeper.DEFAULT_SELECT_TYPE);
+            mHouseKeeper.setFragmentType(MainKeeper.FRAG_APP_SELECT,
+                    MainKeeper.DEFAULT_SELECT_TYPE);
+
+            //Create the fragment, need to add to fragment manager, shouldAdd = true
+            mHouseKeeper.prepareFragment(true);
         }
-
-        mHouseKeeper.createFragment();
-
-        // Add the fragment to the 'fragment_container' FrameLayout
-        mHouseKeeper.setFragmentManager(getSupportFragmentManager());
 
         //Create toolbar with creation of Activity
         initToolbar();
@@ -91,10 +98,10 @@ public class MainActivity extends AppCompatActivity {
         initFloatButton();
     }
 
-    private String KEY_TYPE = "KeyType";
     public void onSaveInstanceState(Bundle saveState){
         super.onSaveInstanceState(saveState);
-        saveState.putInt(KEY_TYPE, mHouseKeeper.getFragmentType());
+        saveState.putInt(MainKeeper.FRAG_APP_SELECT,
+                mHouseKeeper.getFragmentType(MainKeeper.FRAG_APP_SELECT));
 
     }
 /**************************************************************************************************/
