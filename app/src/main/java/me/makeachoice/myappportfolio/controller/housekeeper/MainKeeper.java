@@ -2,27 +2,44 @@ package me.makeachoice.myappportfolio.controller.housekeeper;
 
 import android.content.Context;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.ListAdapter;
+
+import java.util.ArrayList;
 
 import me.makeachoice.myappportfolio.MainActivity;
 import me.makeachoice.myappportfolio.R;
+import me.makeachoice.myappportfolio.adapter.ImageAdapter;
+import me.makeachoice.myappportfolio.adapter.TitleSimpleAdapter;
+import me.makeachoice.myappportfolio.adapter.TitleIconAdapter;
+import me.makeachoice.myappportfolio.adapter.item.TitleIconItem;
+import me.makeachoice.myappportfolio.adapter.item.TitleItem;
 import me.makeachoice.myappportfolio.controller.Boss;
+import me.makeachoice.myappportfolio.controller.maid.AppSelectMaid;
+import me.makeachoice.myappportfolio.fragment.SimpleGridFragment;
+import me.makeachoice.myappportfolio.fragment.list.SimpleListFragment;
+import me.makeachoice.myappportfolio.model.AppDemoModel;
 
 /**
  * MainKeeper is the HouseKeeper class for MainActivity. It's primary responsibility is to
  * initializes and takes care of the MainActivity resource details.
+ *
+ * //TODO - need to dynamically set the Menus in the ActionBar, now currently hardcoded in xml file
+ * //TODO - initFrag is getting called twice after setListAdapter is called on the Maid
  *
  * It also handles the loading and unloading of Fragments and manages the Maid classes responsible
  * for the upkeep of the Fragments and the communication between the Maids, Activity and Boss.
  *
  * Finally, it directly communicates with the Boss to get all the necessary data for the Views.
  */
-public class MainKeeper extends HouseKeeper implements MainActivity.Bridge{
+public class MainKeeper extends HouseKeeper implements MainActivity.Bridge,
+        AppSelectMaid.Bridge{
 /**
- *
  * MainKeeper will be able to display the following fragments:
  *      AppList
  *      AppListIcon
@@ -46,11 +63,237 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge{
  *      void setFABOnClickListener();
  *
  */
+/**************************************************************************************************/
+    //mActivityContext - context object that follows the Activity lifecycle
     private Context mActivityContext;
+
+    //mAppSelectFrag - application demo selection fragment, where user can select app to look at
+    private Fragment mAppSelectFrag;
+    //mAppInfoFrag - application demo infromation fragment, where user can see info about app
+    private Fragment mAppInfoFrag;
+
+    //mAppSelectType - type of app selection fragment
+    private int mAppSelectType;
+
+    public final static int SELECT_TYPE_LIST_SIMPLE = 0;
+    public final static int SELECT_TYPE_LIST_ICON = 1;
+    public final static int SELECT_TYPE_GRID_SIMPLE = 2;
+    public final static int SELECT_TYPE_LIST_COMPLEX = 3;
+    public final static int DEFAULT_SELECT_TYPE = SELECT_TYPE_LIST_SIMPLE;
+
+    //mAppInfoType - type of information fragments
+    private int mAppInfoType;
+
+    private final static int TYPE_INFO_SIMPLE = 0;
+
+/**************************************************************************************************/
+
     public MainKeeper(Boss boss, Context ctx){
         mBoss = boss;
         mActivityContext = ctx;
+
+        mBoss.registerHouseKeeper("MainKeeper", this);
+        //TODO - need to be able to save user default fragment select type
+
+        initHouseKeeping();
     }
+
+    public void setFragmentType(int fragmentType){
+        Log.d("Simple", "MainKeeper.setFragmentType: " + fragmentType);
+        mAppSelectType = fragmentType;
+    }
+
+    public int getFragmentType(){
+        return mAppSelectType;
+    }
+
+    public void createFragment(){
+        createAppSelectAdapter();
+        mAppSelectFrag = initFragment(mAppSelectType);
+
+    }
+
+/**************************************************************************************************/
+/**
+ * AppSelectMaid is in charge of taking care of all the different types of demo application
+ * selection fragments. It will maintain all events or requests called by the fragment and will push
+ * these events or requests up to the HouseKeeper if the Maid cannot handle it.
+ *
+ * AppInfoMaid is in charge of taking care of all the different types of demo information fragments.
+ * It will maintain all events or requests called by the fragment and will push these events or
+ * requests up to the HouseKeeper if the Maid cannot handle it.
+ */
+/**************************************************************************************************/
+    //mAppSelectMaid - maid in charge of taking care of demo application selection fragments
+    private AppSelectMaid mAppSelectMaid;
+    //mAppInfoMaid - maid in charge of taking care of demo application info fragments
+    //private AppInfoMaid mAppInfoMaid //TODO - need to create AppInfoMaid class
+
+    //NAME_APP_SELECT_MAID - name registered to the Boss for AppSelectMaid
+    private final static String NAME_APP_SELECT_MAID = "AppSelectMaid";
+    //NAME_APP_INFO_MAID - name registered to the Boss for AppInfoMaid
+    private final static String NAME_APP_INFO_MAID = "AppInfoMaid";
+
+    //mAppSelectAdapter - list adapter of demo applications
+    ListAdapter mAppSelectAdapter;
+
+/**************************************************************************************************/
+/**
+ * void initHouseKeeping() - initializes the Maids that will take care of the fragments that
+ * will be added to MainKeepers' Activity.
+ *
+ * HouseKeeping:
+ *      AppSelectMaid
+ *      AppInfoMaid
+ */
+    private void initHouseKeeping(){
+        //initialize AppSelect Maid
+        initAppSelectMaid();
+
+        //TODO - need to create initialization methods for AppInfoMaid
+        initAppInfoMaid();
+    }
+
+/**
+ * void initAppSelectMaid() - initialize AppSelectMaid and register Maid to Boss
+ */
+    private void initAppSelectMaid(){
+        //initialize and register AppSelectMaid
+        mAppSelectMaid = new AppSelectMaid(this);
+        mBoss.registerMaid(NAME_APP_SELECT_MAID, mAppSelectMaid);
+    }
+
+    private void createAppSelectAdapter(){
+        //initialize and send ListAdapter to Maid
+        mAppSelectAdapter = initAppSelectAdapter(mBoss.getModel(), mAppSelectType);
+        mAppSelectMaid.setListAdapter(mAppSelectAdapter);
+    }
+
+/**
+ * void intitAppInfoMaid() - initialize AppInfoMaid and register Maid to Boss
+ */
+    private void initAppInfoMaid(){
+        //initialize and register AppInfoMaid
+        //mAppInfoMaid = new AppInfoMaid(this);
+        //mBoss.registerMaid(NAME_APP_INFO_MAID, mAppInfoMaid);
+
+    }
+
+/**************************************************************************************************/
+/**
+ * TitleSimpleAdapter - ListAdapter which only displays the name of the Application Demo. Adapter
+ * uses the following resource ids:
+ *      LAYOUT_ITEM_TITLESIMPLE
+ *      ITEM_TITLE_CHILD_TITLE_VIEW
+ *
+ * TitleIconAdapter - ListAdapter which displays the name and the icon of the Application Demo.
+ * Adapter uses the following resource ids:
+ *      LAYOUT_ITEM_TITLEICON
+ *      ITEM_TITLE_CHILD_TITLE_VIEW
+ *      ITEM_TITLE_CHILD_ICON_VIEW
+ */
+/**************************************************************************************************/
+    //LAYOUT_ITEM_TITLESIMPLE - item layout id used by TitleSimpleAdapter
+    private final static int LAYOUT_ITEM_TITLESIMPLE = R.layout.item_titlesimple;
+    //LAYOUT_ITEM_TITLEICON - item layout id used by TitleIconAdapter
+    private final static int LAYOUT_ITEM_TITLEICON = R.layout.item_titleicon;
+
+    //Child View ids from Item Layouts above
+    private final static int ITEM_TITLE_CHILD_TITLE_VIEW = R.id.item_title;
+    private final static int ITEM_TITLE_CHILD_ICON_VIEW = R.id.item_icon;
+
+/**************************************************************************************************/
+
+    /**
+ * ListAdapter initializeAppListAdapter() initializes the ListAdapter that will be used by the
+ * AppList fragment. Currently it will initialize a Title type adapter or an Icon type adapter.
+ * @return ListAdapter - will return a reference to the ListAdapter to be consumed
+ */
+    public ListAdapter initAppSelectAdapter(AppDemoModel model, int selectType){
+        Log.d("SimpleListFragment", "MainKeeper.initAppSelectAdapter: " + selectType);
+
+        //ListAdapter variable to be return
+        ListAdapter adapter;
+
+        //check type of fragment being used by the AppList Maid
+        if(selectType == SELECT_TYPE_LIST_SIMPLE){
+            //ListView fragment, initialize a Title type adapter using the data model for the apps
+            adapter = initTitleAdapter(model, LAYOUT_ITEM_TITLESIMPLE, ITEM_TITLE_CHILD_TITLE_VIEW);
+        }
+        else if(selectType == SELECT_TYPE_LIST_ICON){
+            //GridView fragment, initialize an Icon type adapter using the data model for the apps
+            adapter = initTitleIconAdapter(model, LAYOUT_ITEM_TITLEICON,
+                    ITEM_TITLE_CHILD_TITLE_VIEW, ITEM_TITLE_CHILD_ICON_VIEW);
+        }
+        else{
+            adapter = initTitleAdapter(model, LAYOUT_ITEM_TITLESIMPLE, ITEM_TITLE_CHILD_TITLE_VIEW);
+        }
+
+        return adapter;
+    }
+
+/**
+ * ListAdapter initTitleAdapter(model) used to initialize a Title type adapter typically used with
+ * a ListView. Uses the AppDemo data model
+ * @param model - data model for the application demos demoed in this app
+ * @return ListAdapter - will return a reference to the Title adapter create with the data model
+ */
+    private ListAdapter initTitleAdapter(AppDemoModel model, int layoutId, int titleViewId){
+        //create an ArrayList to hold the list items to be consumed by the ListAdapter
+        ArrayList<TitleItem> itemList = new ArrayList<>();
+
+        //number of AppDemo data models
+        int count = model.getAppCount();
+
+        //loop through the data models
+        for(int i = 0; i < count; i++){
+            //initialize TitleItem with name of app taken from the model
+            TitleItem item = new TitleItem(model.getApp(i).getName());
+
+            //add item into array list
+            itemList.add(item);
+        }
+
+        //instantiate TitleSimpleAdapter with layout id found in res/layout and the child
+        TitleSimpleAdapter adapter = new TitleSimpleAdapter(mActivityContext, itemList,
+                layoutId, titleViewId);
+        //TODO - setOnClickListener
+        //adapter.setOnClickListener(mAppListOnClickListener);
+
+        return adapter;
+    }
+
+    private ListAdapter initTitleIconAdapter(AppDemoModel model, int layoutId, int titleViewId,
+                                             int iconViewId){
+        ArrayList<TitleIconItem> itemList = new ArrayList<>();
+
+        int count = model.getAppCount();
+
+        for(int i = 0; i < count; i++){
+            TitleIconItem item = new TitleIconItem(model.getApp(i).getName(),
+                    model.getApp(i).getIcon());
+            itemList.add(item);
+        }
+
+        TitleIconAdapter adapter = new TitleIconAdapter(mActivityContext, itemList,
+                layoutId, titleViewId, iconViewId);
+
+        return adapter;
+    }
+
+    private ListAdapter initIconAdapter(AppDemoModel model, int layoutId, int childViewId){
+        Log.d("SimpleListFragment", "MainKeeper.initIconAdapter");
+        return new ImageAdapter(mActivityContext);
+    }
+
+    public ListAdapter getListAdapter(){
+        /*if(mListAdapter == null){
+            return initAppListAdapter(mBoss.getModel());
+        }*/
+
+        return null;
+    }
+
 
 /**************************************************************************************************/
 /**
@@ -65,6 +308,10 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge{
     private int TOOLBAR_MAIN = R.id.toolbar;
     //Menu for Toolbar found in menu_main menu file
     private int MENU_MAIN = R.menu.menu_main;
+    //Item id from Menu
+    private int MENU_ITEM01 = R.id.action_bar_item01;
+    private int MENU_ITEM02 = R.id.action_bar_item02;
+    private int MENU_ITEM03 = R.id.action_bar_item03;
 
     //FloatingActionButton Id found in float_button.xml layout file
     private int FLOATING_ACTION_BUTTON = R.id.fab;
@@ -79,6 +326,19 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge{
     };
 /**************************************************************************************************/
 
+/**************************************************************************************************/
+/**
+ * Implements MainActivity.Bridge Methods:
+ *      int getActivityLayoutId();
+ *      int getFragmentContainerId();
+ *      int getToolbarId();
+ *      int getMenuId();
+ *      int getFloatingActionButtonId();
+ *
+ *      void setFABOnClickListener();
+ *      void onOptionsItemSelected(MenuItem item)
+ *
+ */
 /**************************************************************************************************/
 /**
  * int getActivityLayoutId() - get layout id used for Main Activity
@@ -138,25 +398,35 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge{
  * @param item - menu item selected in the toolbar
  */
     public void onOptionsItemSelected(MenuItem item){
+        Log.d("Simple", "MainKeeper.onOptionsItemSelected: " + item.toString());
+        Log.d("Simple", "     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11");
+        //get id of item selected from ActionBar
         int id = item.getItemId();
 
-        String strAction;
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_bar_main_simple) {
-            strAction = mBoss.getString(R.string.action_bar_main_simple);
+        //create variable to hold fragment type selected
+        int fragmentType;
+
+        //get fragment type selected
+        if (id == MENU_ITEM01) {
+            //simple fragment list display
+            fragmentType = SELECT_TYPE_LIST_SIMPLE;
         }
-        else if (id == R.id.action_bar_main_advance) {
-            strAction = mBoss.getString(R.string.action_bar_main_advance);
+        else if (id == MENU_ITEM02) {
+            //fragment list display with icons
+            fragmentType = SELECT_TYPE_LIST_ICON;
         }
-        else if (id == R.id.action_bar_main_grid) {
-            strAction = mBoss.getString(R.string.action_bar_main_grid);
+        else if (id == MENU_ITEM03) {
+            //fragment grid display of icons
+            fragmentType = SELECT_TYPE_GRID_SIMPLE;
         }
         else {
-            strAction = "no action selected";
+            fragmentType = SELECT_TYPE_LIST_SIMPLE;
         }
 
-        Toast toast = Toast.makeText(mActivityContext, strAction, Toast.LENGTH_SHORT);
-        toast.show();
+        //check if selected display is different from current display
+        if(mAppSelectType != fragmentType){
+            changeFragment(fragmentType);
+        }
 
     }
 
@@ -177,10 +447,113 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge{
 
 
     private FragmentManager mManager;
+
+    private final static int LAYOUT_LIST_SIMPLE = R.layout.list_fragment;
+    private final static int LAYOUT_GRID_SIMPLE = R.layout.grid_fragment;
+    private final static int GRID_CHILD_GRID_VIEW = R.id.gridview;
+
+    //called by MainActivity
     public void setFragmentManager(FragmentManager manager){
         mManager = manager;
-        mManager.beginTransaction().add(LAYOUT_MAIN_CONTAINER, mBoss.getListFragment()).commit();
+
+        FragmentTransaction ft = mManager.beginTransaction();
+
+        /*ft.setCustomAnimations(R.anim.fragment_slide_left_enter,
+                R.anim.fragment_slide_left_exit,
+                R.anim.fragment_slide_right_enter,
+                R.anim.fragment_slide_right_exit);*/
+
+        ft.add(LAYOUT_MAIN_CONTAINER, mAppSelectFrag);
+        //ft.addToBackStack(null);
+        ft.commit();
     }
+
+    private void changeFragment(int fragmentType){
+        Log.d("Simple", "MainKeeper.changeFragment");
+        //fragment display selected is different from current display, save new fragment id
+        mAppSelectType = fragmentType;
+
+        Log.d("Simple", "     here01");
+        if(fragmentType == SELECT_TYPE_LIST_SIMPLE || fragmentType == SELECT_TYPE_LIST_ICON){
+            Log.d("Simple", "     here01");
+            createAppSelectAdapter();
+
+            Log.d("Simple", "     here02");
+            //initialize new fragment
+            mAppSelectFrag = initFragment(mAppSelectType);
+            Log.d("Simple", "     here03");
+        }
+
+
+
+
+        FragmentTransaction ft = mManager.beginTransaction();
+
+        Log.d("Simple", "     here04");
+        /*ft.setCustomAnimations(R.anim.fragment_slide_left_enter,
+                R.anim.fragment_slide_left_exit,
+                R.anim.fragment_slide_right_enter,
+                R.anim.fragment_slide_right_exit);*/
+        Log.d("Simple", "     here05");
+        ft.replace(LAYOUT_MAIN_CONTAINER, mAppSelectFrag);
+        //ft.addToBackStack(null);
+        ft.commit();
+        Log.d("Simple", "     here06");
+        //((MainActivity)mActivityContext).initToolbar();
+        //((MainActivity)mActivityContext).initFloatButton();
+
+    }
+
+/**************************************************************************************************/
+/**
+ * Fragment initFragment(int) - initialize the type of Fragment being requested.
+ * @param fragmentType - fragment type
+ * @return Fragment - returns an initialized and ready fragment
+ */
+    private Fragment initFragment(int fragmentType){
+        Log.d("Simple", "Keeper.initFragment: " + fragmentType);
+        Fragment fragment;
+
+        //check fragment type being requested
+        if(fragmentType == SELECT_TYPE_LIST_SIMPLE || fragmentType == SELECT_TYPE_LIST_ICON) {
+            Log.d("Simple", "MainKeeper.initFragment");
+            //create Fragment with a ListView, class extends ListFragment
+            fragment = new SimpleListFragment();
+
+            Log.d("Simple", "     Keeper - fragment.setLayout");
+            //set layout id to use to inflate fragment
+            ((SimpleListFragment)fragment).setLayout(LAYOUT_LIST_SIMPLE);
+
+            Log.d("Simple", "     Keeper - fragment.setServiceName");
+            //set communication bridge between Maid and fragment
+            ((SimpleListFragment)fragment).setServiceName(NAME_APP_SELECT_MAID);
+        }
+        else if(fragmentType == SELECT_TYPE_GRID_SIMPLE){
+            //create Fragment with GridView, class extends Fragment
+            fragment = new SimpleGridFragment();
+
+            //set layout id to use to inflate fragment
+            ((SimpleGridFragment)fragment).setLayout(LAYOUT_GRID_SIMPLE);
+
+            //set gridView id to be used in fragment
+            ((SimpleGridFragment)fragment).setGridViewId(GRID_CHILD_GRID_VIEW);
+
+        }
+        else if(fragmentType == SELECT_TYPE_LIST_COMPLEX){
+            //TODO - create fragment for TYPE_LIST_COMPLEX
+            fragment = new Fragment();
+        }
+        else if(fragmentType == TYPE_INFO_SIMPLE){
+            //TODO - create fragment for TYPE_INFO_SIMPLE
+            fragment = new Fragment();
+        }
+        else{
+            fragment = new Fragment();
+        }
+
+        return fragment;
+    }
+
 
 
 /**
@@ -188,5 +561,22 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge{
  * that can be displayed 1)a simple list of names or 2)a list of names with a corresponding icon
  */
 
+    /**
+     * Bridge getBridge() - sends Maid service using the Bridge interface to calling class
+     * @return Bridge - Maid class casted as Bridge
+     */
+    /*public HouseKeeper getBridge(){
+        return this;
+    }*/
+
+
+    /**
+     * void onItemClick(int) - event listener call by the fragment when an app item has been clicked
+     * @param position - list position of item clicked
+     */
+    public void onItemClick(int position){
+        Log.d("SimpleListFragment", "Maid.onListItemClick");
+        //TODO - need to connect onItemClick event to Boss
+    }
 
 }

@@ -94,10 +94,9 @@ public class SimpleListFragment extends MyListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d(DEBUG, "SimpleListFragment.onActivityCreated");
-
+        Log.d(DEBUG, "     bridge: " + mBridge.toString());
         //create the list by setting the list adapter
         setListAdapter(mBridge.getListAdapter());
-
     }
 
 /**

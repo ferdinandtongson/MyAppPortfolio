@@ -4,22 +4,20 @@ import android.app.Application;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.View;
 import android.widget.ListAdapter;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import me.makeachoice.myappportfolio.R;
 import me.makeachoice.myappportfolio.adapter.ImageAdapter;
-import me.makeachoice.myappportfolio.adapter.TitleAdapter;
+import me.makeachoice.myappportfolio.adapter.TitleSimpleAdapter;
 import me.makeachoice.myappportfolio.adapter.item.TitleItem;
 import me.makeachoice.myappportfolio.controller.butler.AppDemoButler;
-import me.makeachoice.myappportfolio.controller.maid.AppListMaid;
+import me.makeachoice.myappportfolio.controller.housekeeper.HouseKeeper;
+import me.makeachoice.myappportfolio.controller.housekeeper.MainKeeper;
+import me.makeachoice.myappportfolio.controller.maid.AppSelectMaid;
 import me.makeachoice.myappportfolio.controller.maid.Maid;
-import me.makeachoice.myappportfolio.fragment.list.SimpleListFragment;
 import me.makeachoice.myappportfolio.model.AppDemoModel;
 
 /**
@@ -40,11 +38,12 @@ public class Boss extends Application{
         mActivityContext = ctx;
         mButler = new AppDemoButler(mActivityContext);
 
-        mAppListMaid = initializeAppListMaid();
-
         createLayoutMap();
     }
 
+    public AppDemoModel getModel(){
+        return mButler.getModel();
+    }
 
 /**************************************************************************************************/
 
@@ -54,7 +53,7 @@ public class Boss extends Application{
 
     private final static int LAYOUT_APP_GRID_FRAGMENT = R.layout.grid_fragment;
 
-    AppListMaid mAppListMaid;
+    AppSelectMaid mAppListMaid;
 
     public interface AppListBridge{
         //Interface are methods the Maid has to implement but it is a one-way
@@ -66,86 +65,10 @@ public class Boss extends Application{
     }
 
 
-    View.OnClickListener mAppListOnClickListener = new View.OnClickListener(){
-        @Override
-        public void onClick(View v){
-            Log.d("SimpleListFragment", "Boss.onClickListner");
-            Log.d("SimpleListFragment", "     view: " + this.toString());
-            onClickHere(v);
-            //this.toString();
-            //Log.d("SimpleListFragment", "     position: " + v.getTag().toString());
-        }
-    };
-
-    public void onClickHere(View v){
-        TextView txtTitle = (TextView) v.findViewById(R.id.item_title);
-        Log.d("SimpleListFragment", "Boss.onClickHere");
-        TitleItem item = (TitleItem)txtTitle.getTag();
-        Log.d("SimpleListFragment", "     title: " + item.getTitle());
-    }
-
     private int mListItemId;
     private int mListItemTitleId;
 
-    public ListAdapter getAppListAdapter(){
-        ListAdapter adapter = initializeAppListAdapter(mButler.getModel(), mListItemId,
-                mListItemTitleId);
 
-        return adapter;
-    }
-
-/**
- * AppListMaid initializeAppListMaid()initializes the Maid class taking care of the AppList view
- * fragment defined in the design of this application. It sets the view type of how the list of
- * demo apps will be displayed, prepares and sets the list adapter to be consumed by the fragment.
- * @return AppListMaid - return a reference to the AppListMaid
- */
-    private AppListMaid initializeAppListMaid(){
-        mAppListTypeId = AppListMaid.TYPE_LIST_FRAGMENT;
-
-        AppListMaid maid = new AppListMaid(this, mAppListTypeId);
-
-        mListItemId = R.layout.item_onlytitle;
-        mListItemTitleId = R.id.item_title;
-
-        ListAdapter adapter = initializeAppListAdapter(mButler.getModel(), mListItemId,
-                mListItemTitleId);
-
-        maid.setListAdapter(adapter);
-
-        //TODO - debug to see if this is redundant, fragment type is set when Maid is instantiated
-        maid.setFragmentType(mAppListTypeId);
-
-        return maid;
-    }
-
-/**
- * ListAdapter initializeAppListAdapter() initializes the ListAdapter that will be used by the
- * AppList fragment. Currently it will initialize a Title type adapter or an Icon type adapter.
- * @return ListAdapter - will return a reference to the ListAdapter to be consumed
- */
-    public ListAdapter initializeAppListAdapter(AppDemoModel model, int layoutId,
-                                                int childViewId){
-        Log.d("SimpleListFragment", "Boss.createAppListAdapter");
-
-        //ListAdapter variable to be return
-        ListAdapter adapter;
-
-        //check type of fragment being used by the AppList Maid
-        if(mAppListTypeId == AppListMaid.TYPE_LIST_FRAGMENT){
-            //ListView fragment, initialize a Title type adapter using the data model for the apps
-            adapter = initTitleAdapter(model, layoutId, childViewId);
-        }
-        else if(mAppListTypeId == AppListMaid.TYPE_GRID_FRAGMENT){
-            //GridView fragment, initialize an Icon type adapter using the data model for the apps
-            adapter = initIconAdapter(model, layoutId, childViewId);
-        }
-        else{
-            adapter = initTitleAdapter(model, layoutId, childViewId);
-        }
-
-        return adapter;
-    }
 
 /**
  * ListAdapter initTitleAdapter(model) used to initialize a Title type adapter typically used with
@@ -169,10 +92,10 @@ public class Boss extends Application{
             itemList.add(item);
         }
 
-        //instantiate TitleAdapter with layout id found in res/layout and the child
-        TitleAdapter adapter = new TitleAdapter(mActivityContext, itemList,
+        //instantiate TitleSimpleAdapter with layout id found in res/layout and the child
+        TitleSimpleAdapter adapter = new TitleSimpleAdapter(mActivityContext, itemList,
                 layoutId, childViewId);
-        adapter.setOnClickListener(mAppListOnClickListener);
+        //adapter.setOnClickListener(mAppListOnClickListener);
 
         return adapter;
     }
@@ -196,24 +119,21 @@ public class Boss extends Application{
         return mLayoutMap.get(key);
     }
 
-    public Fragment getListFragment(){
-        return mAppListMaid.getFragment();
+
+
+    private HashMap<String, Maid> mMaidRegistry = new HashMap<>();
+    public void registerMaid(String key, Maid maid){
+        mMaidRegistry.put(key, maid);
     }
 
-    public Maid getMaid(String name){
+    public Maid getMaid(String key){
+        return mMaidRegistry.get(key);
+    }
 
-        Maid maid;
-        if(name.equals(AppListMaid.MAID_NAME)){
-            if (mAppListMaid == null){
-                mAppListMaid = initializeAppListMaid();
-            }
-            maid = mAppListMaid;
-        }
-        else{
-            return null;
-        }
 
-        return maid;
+    private HashMap<String, HouseKeeper> mHouseKeeperRegistry = new HashMap<>();
+    public void registerHouseKeeper(String key, HouseKeeper keeper) {
+        mHouseKeeperRegistry.put(key, keeper);
     }
 
 }

@@ -180,8 +180,10 @@ public class TitleIconAdapter extends MyBaseAdapter{
         if(imgIcon == null){
             imgIcon = (ImageView) convertView.findViewById(mIconViewId);
         }
+
+        //TODO - need to dynamically set icon resource
         //update child view data - title
-        imgIcon.setImageResource(item.getIcon());
+        imgIcon.setImageResource(R.drawable.sample_0);
 
 
 

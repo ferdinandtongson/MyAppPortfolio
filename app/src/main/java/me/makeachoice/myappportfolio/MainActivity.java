@@ -67,29 +67,35 @@ public class MainActivity extends AppCompatActivity {
         //Note setContent must happen before toolbar
         setContentView(mHouseKeeper.getActivityLayoutId());
 
-        // Check that the activity is using the layout version with
-        // the fragment_container FrameLayout
-        if (findViewById(mHouseKeeper.getFragmentContainerId()) != null) {
-
-            // However, if we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments.
-            if(savedInstanceState != null){
-                //Fragment is being reconstituted, need to recreate toolbar and float button
-                initToolbar();
-                initFloatButton();
-                return;
-            }
-
-            // Add the fragment to the 'fragment_container' FrameLayout
-            mHouseKeeper.setFragmentManager(getSupportFragmentManager());
+        // However, if we're being restored from a previous state,
+        // then we don't need to do anything and should return or else
+        // we could end up with overlapping fragments.
+        if(savedInstanceState != null){
+            Log.d("Simple", "     onCreate - has savedInstanceState");
+            //Fragment is being reconstituted, need to recreate toolbar and float button
+            mHouseKeeper.setFragmentType(savedInstanceState.getInt(KEY_TYPE));
         }
+        else{
+            mHouseKeeper.setFragmentType(MainKeeper.DEFAULT_SELECT_TYPE);
+        }
+
+        mHouseKeeper.createFragment();
+
+        // Add the fragment to the 'fragment_container' FrameLayout
+        mHouseKeeper.setFragmentManager(getSupportFragmentManager());
 
         //Create toolbar with creation of Activity
         initToolbar();
 
         //Create floating action button for Activity
         initFloatButton();
+    }
+
+    private String KEY_TYPE = "KeyType";
+    public void onSaveInstanceState(Bundle saveState){
+        super.onSaveInstanceState(saveState);
+        saveState.putInt(KEY_TYPE, mHouseKeeper.getFragmentType());
+
     }
 /**************************************************************************************************/
 
@@ -127,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 /**
  * void initToolbar() inflates the toolbar from the layout and then sets it into the Activity.
  */
-    private void initToolbar(){
+    public void initToolbar(){
         //check if toolbar is already inflated
         if(mToolbar == null){
             //if null, inflate the toolbar
@@ -140,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 /**
  * void initFloatButton() inflates the floating action button layout and sets Event Listeners
  */
-    private void initFloatButton(){
+    public void initFloatButton(){
 
         if(mFloatButton == null){
             mFloatButton = (FloatingActionButton)findViewById
