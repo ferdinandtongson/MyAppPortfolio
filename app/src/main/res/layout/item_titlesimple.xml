@@ -5,8 +5,9 @@
     <TextView
         android:id="@+id/item_title"
         android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:padding="5dp"
         android:textAlignment="center"
         android:text=""
-        android:textSize="40sp" />
+        android:textSize="35sp" />
 
 </RelativeLayout>
