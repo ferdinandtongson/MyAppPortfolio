@@ -11,6 +11,7 @@
         android:orderInCategory="101" app:showAsAction="never" />
 
     <item android:id="@+id/action_bar_item03"
+        android:visible="false"
         android:title="@string/action_bar_main_grid"
         android:orderInCategory="102" app:showAsAction="never" />
 </menu>
