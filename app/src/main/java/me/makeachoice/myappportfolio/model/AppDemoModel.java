@@ -15,7 +15,7 @@ public class AppDemoModel {
 
         private String mName;
         private String mDescription;
-        private int mIcon = -1;
+        private int mIconId = -1;
         private String[] mTags = null;
         private String mVideoFile = "";
         private String mAppLink = "";
@@ -30,31 +30,29 @@ public class AppDemoModel {
             mDescription = description;
         }
 
-        public AppDetail(String name, String description, int icon){
+        public AppDetail(String name, String description, int iconId){
             super();
-            Log.d(DEBUG, "AppDetail.create");
-            Log.d(DEBUG, "     name: " + name);
-            Log.d(DEBUG, "     info: " + description);
 
             mName = name;
             mDescription = description;
-            mIcon = icon;
+            mIconId = iconId;
         }
 
-        public AppDetail(String name, String description, String icon, String[] tags,
-                         String vidoeFile, String appLink){
+        public AppDetail(String name, String description, int iconId, String[] tags,
+                         String videoFile, String appLink){
             super();
-            Log.d(DEBUG, "AppDetail.create");
-            Log.d(DEBUG, "     name: " + name);
-            Log.d(DEBUG, "     info: " + description);
 
             mName = name;
             mDescription = description;
+            mIconId = iconId;
+            mTags = tags;
+            mVideoFile = videoFile;
+            mAppLink = appLink;
         }
 
         public String getName(){return mName;}
         public String getDescription(){return mDescription;}
-        public int getIcon(){return mIcon;}
+        public int getIconId(){return mIconId;}
         public String[] getTags(){return mTags;}
         public String getVideoFile(){return mVideoFile;}
         public String getAppLink(){return mAppLink;}
@@ -62,7 +60,7 @@ public class AppDemoModel {
 
         public void setName(String appName){mName = appName;}
         public void setDescription(String description){mDescription = description;}
-        public void setIcon(int icon){mIcon = icon;}
+        public void setIconId(int iconId){mIconId = iconId;}
         public void setTags(String[] tags){mTags = tags;}
         public void setVideoFile(String file){mVideoFile = file;}
         public void setAppLink(String link){mAppLink = link;}
@@ -81,6 +79,10 @@ public class AppDemoModel {
 
     public void addApp(String name, String description){
         mList.add(new AppDetail(name, description));
+    }
+
+    public void addApp(String name, String description, int iconId){
+        mList.add(new AppDetail(name, description, iconId));
     }
 
     public void addApp(AppDetail app){

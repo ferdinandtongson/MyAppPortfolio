@@ -266,7 +266,7 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge,
 
         for(int i = 0; i < count; i++){
             TitleIconItem item = new TitleIconItem(model.getApp(i).getName(),
-                    model.getApp(i).getIcon());
+                    model.getApp(i).getIconId());
             itemList.add(item);
         }
 

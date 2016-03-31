@@ -54,11 +54,11 @@ public class TitleIconItem extends TitleItem{
      * getIcon() returns the Icon; int
      * setIcon(String) sets the int value of the icon id
      */
-    public int getIcon(){
+    public int getIconId(){
         return mIconId;
     }
 
-    public void setIcon(int iconId){
+    public void setIconId(int iconId){
         mIconId = iconId;
     }
 /**************************************************************************************************/
