@@ -10,7 +10,7 @@
         android:layout_marginTop="7sp"
         android:layout_marginBottom="7sp"
         android:padding="10dp"
-        android:textAlignment="center"
+
         android:text=""
         android:textSize="18sp"
         android:background="@color/powderBlueish"/>

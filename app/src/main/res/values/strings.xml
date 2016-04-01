@@ -9,8 +9,8 @@
     <string name="app_reader">XYZ Reader</string>
     <string name="app_capstone">CAPSTONE: My Own App</string>
 
-    <string name="action_bar_main_simple">List</string>
-    <string name="action_bar_main_advance">List plus Icon</string>
+    <string name="action_bar_main_simple">Regular</string>
+    <string name="action_bar_main_advance">Fragment Testing</string>
     <string name="action_bar_main_grid">Grid</string>
 
 </resources>

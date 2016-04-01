@@ -27,22 +27,22 @@ public class AppDemoButler {
 
         mAppModel.addApp("Spotify Streamer",
                 "This button will launch my Spotify Streamer App",
-                R.drawable.sample_0);
+                R.drawable.sample_1);
         mAppModel.addApp("Scores App",
                 "This button will launch my Scores App",
-                R.drawable.sample_1);
+                R.drawable.sample_2);
         mAppModel.addApp("Library App",
                 "This button will launch my Library App",
-                R.drawable.sample_2);
+                R.drawable.sample_3);
         mAppModel.addApp("Build It Bigger",
                 "This button will launch my Build It Bigger App",
-                R.drawable.sample_3);
+                R.drawable.sample_4);
         mAppModel.addApp("XYZ Reader",
                 "This button will launch my XYZ Reader App",
-                R.drawable.sample_4);
+                R.drawable.sample_7);
         mAppModel.addApp("CAPSTONE: MY OWN APP",
                 "This button will launch my CAPSTONE App",
-                R.drawable.sample_4);
+                R.drawable.sample_6);
     }
 
 

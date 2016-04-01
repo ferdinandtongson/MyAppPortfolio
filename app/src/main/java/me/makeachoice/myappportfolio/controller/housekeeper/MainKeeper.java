@@ -87,7 +87,7 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge,
     public final static int SELECT_TYPE_LIST_ICON = 1;
     public final static int SELECT_TYPE_GRID_SIMPLE = 2;
     public final static int SELECT_TYPE_LIST_COMPLEX = 3;
-    public final static int DEFAULT_SELECT_TYPE = SELECT_TYPE_LIST_SIMPLE;
+    public final static int DEFAULT_SELECT_TYPE = SELECT_TYPE_LIST_ICON;
 
     //mAppInfoType - type of information fragments
     private int mAppInfoType;
