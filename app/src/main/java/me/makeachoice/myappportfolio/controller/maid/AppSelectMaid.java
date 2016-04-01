@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import me.makeachoice.myappportfolio.adapter.item.TitleItem;
 import me.makeachoice.myappportfolio.fragment.SimpleGridFragment;
 import me.makeachoice.myappportfolio.fragment.list.SimpleListFragment;
 
@@ -41,6 +42,7 @@ public class AppSelectMaid extends Maid implements SimpleListFragment.Bridge,
     public interface Bridge{
         //Interface methods needed to be implemented by the instantiating class
         ListAdapter getListAdapter();
+        void onItemClick(ListView l, View v, int position, long id);
     }
 
 
@@ -59,15 +61,12 @@ public class AppSelectMaid extends Maid implements SimpleListFragment.Bridge,
  * @return ListAdapter - returns a list adapter created by the Boss
  */
     public ListAdapter getListAdapter(){
-        Log.d("SimpleListFragment", "AppSelectMaid.getListAdapter");
         //checks if ListAdapter is null
         if(mListAdapter == null){
-            Log.d("SimpleListFragment", "     adapter null");
             //if null, request ListAdapter from Boss
             mListAdapter = mBridge.getListAdapter();
         }
 
-        Log.d("SimpleListFragment", "     adapter: " + mListAdapter.toString());
         //return list adapter to calling fragment
         return mListAdapter;
     }
@@ -77,8 +76,6 @@ public class AppSelectMaid extends Maid implements SimpleListFragment.Bridge,
  * @param adapter - ListAdapter to be consumed by the fragment
  */
     public void setListAdapter(ListAdapter adapter){
-        Log.d("SimpleListFragment", "AppSelectMaid.setListAdapter");
-        Log.d("SimpleListFragment", "     adapter: " + adapter.toString());
         mListAdapter = adapter;
     }
 
@@ -89,6 +86,7 @@ public class AppSelectMaid extends Maid implements SimpleListFragment.Bridge,
  */
     public void onItemClick(ListView l, View v, int position, long id){
         Log.d("SimpleListFragment", "Maid.onListItemClick");
+        mBridge.onItemClick(l, v, position, id);
         //TODO - need to connect onItemClick event to Boss
     }
 
@@ -101,6 +99,7 @@ public class AppSelectMaid extends Maid implements SimpleListFragment.Bridge,
      */
     public void onItemClick(int position){
         Log.d("SimpleListFragment", "Maid.onListItemClick");
+
         //TODO - need to connect onItemClick event to Boss
     }
 

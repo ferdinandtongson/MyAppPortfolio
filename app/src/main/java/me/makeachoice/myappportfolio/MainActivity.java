@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         initToolbar();
 
         //Create floating action button for Activity
-        initFloatButton();
+        //initFloatButton();
     }
 
     public void onSaveInstanceState(Bundle saveState){

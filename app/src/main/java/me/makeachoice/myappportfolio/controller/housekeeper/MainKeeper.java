@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -189,7 +191,7 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge,
  */
 /**************************************************************************************************/
     //LAYOUT_ITEM_TITLESIMPLE - item layout id used by TitleSimpleAdapter
-    private final static int LAYOUT_ITEM_TITLESIMPLE = R.layout.item_titlesimple;
+    private final static int LAYOUT_ITEM_TITLESIMPLE = R.layout.item_titleudacity;
     //LAYOUT_ITEM_TITLEICON - item layout id used by TitleIconAdapter
     private final static int LAYOUT_ITEM_TITLEICON = R.layout.item_titleicon;
 
@@ -586,9 +588,13 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge,
      * void onItemClick(int) - event listener call by the fragment when an app item has been clicked
      * @param position - list position of item clicked
      */
-    public void onItemClick(int position){
-        Log.d("SimpleListFragment", "Maid.onListItemClick");
-        //TODO - need to connect onItemClick event to Boss
+    public void onItemClick(ListView l, View v, int position, long id){
+        Log.d("Simple", "Keeper.onListItemClick");
+        AppDemoModel model = mBoss.getModel();
+        String msg = model.getApp(position).getDescription();
+
+        //display in long period of time
+        Toast.makeText(mActivityContext, msg, Toast.LENGTH_SHORT).show();
     }
 
 }
