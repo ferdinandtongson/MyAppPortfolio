@@ -63,7 +63,6 @@ public class SimpleListFragment extends MyListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(DEBUG, "SimpleListFragment.onCreateView");
 
         //check if bundle has been sent/saved
         if(savedInstanceState != null){
@@ -93,8 +92,6 @@ public class SimpleListFragment extends MyListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.d(DEBUG, "SimpleListFragment.onActivityCreated");
-        Log.d(DEBUG, "     bridge: " + mBridge.toString());
         //create the list by setting the list adapter
         setListAdapter(mBridge.getListAdapter());
     }
@@ -106,7 +103,6 @@ public class SimpleListFragment extends MyListFragment {
  */
     public void onSaveInstanceState(Bundle saveState){
         super.onSaveInstanceState(saveState);
-        Log.d(DEBUG, "SimpleListFragment.onSaveInstanceState");
         saveState.putInt(KEY_LAYOUT, mLayoutId);
         saveState.putString(KEY_SERVICE_NAME, mServiceName);
     }
@@ -118,7 +114,6 @@ public class SimpleListFragment extends MyListFragment {
     @Override
     public void onDetach(){
         super.onDetach();
-        Log.d(DEBUG, "SimpleListFragment.onDetach");
         //mBridge = null;
     }
 
@@ -128,8 +123,6 @@ public class SimpleListFragment extends MyListFragment {
  * @param id  - resource layout id
  */
     public void setLayout(int id){
-        Log.d(DEBUG, "SimpleListFragment.setLayout");
-
         //save layout id to an instance variable
         mLayoutId = id;
     }
@@ -150,7 +143,6 @@ public class SimpleListFragment extends MyListFragment {
  */
     @Override
     public void onListItemClick(ListView l, View v, int position, long id){
-        Log.d(DEBUG, "SimpleListFragment.onListItemClick");
         //sends the click event across the bridge for the activity to handle
         mBridge.onItemClick(l, v, position, id);
     }

@@ -25,22 +25,22 @@ public class AppDemoButler {
         Log.d("SimpleListFragment", "AppDemoButler.createModel()");
         mAppModel = new AppDemoModel();
 
-        mAppModel.addApp("Spotify Streamer",
+        mAppModel.addApp(mActivityContext.getString(R.string.app_spotify),
                 "This button will launch my Spotify Streamer App",
                 R.drawable.sample_1);
-        mAppModel.addApp("Scores App",
+        mAppModel.addApp(mActivityContext.getString(R.string.app_scores),
                 "This button will launch my Scores App",
                 R.drawable.sample_2);
-        mAppModel.addApp("Library App",
+        mAppModel.addApp(mActivityContext.getString(R.string.app_library),
                 "This button will launch my Library App",
                 R.drawable.sample_3);
-        mAppModel.addApp("Build It Bigger",
+        mAppModel.addApp(mActivityContext.getString(R.string.app_bigger),
                 "This button will launch my Build It Bigger App",
                 R.drawable.sample_4);
-        mAppModel.addApp("XYZ Reader",
+        mAppModel.addApp(mActivityContext.getString(R.string.app_reader),
                 "This button will launch my XYZ Reader App",
                 R.drawable.sample_7);
-        mAppModel.addApp("CAPSTONE: MY OWN APP",
+        mAppModel.addApp(mActivityContext.getString(R.string.app_capstone),
                 "This button will launch my CAPSTONE App",
                 R.drawable.sample_6);
     }

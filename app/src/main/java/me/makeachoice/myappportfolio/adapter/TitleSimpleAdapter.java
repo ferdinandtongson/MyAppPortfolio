@@ -1,6 +1,10 @@
 package me.makeachoice.myappportfolio.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.Layout;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -148,8 +152,9 @@ public class TitleSimpleAdapter extends MyBaseAdapter{
         //update child view data - title
         txtTitle.setText(item.getTitle());
 
-        //put item object i
-        txtTitle.setTag(item);
+        //center text
+        txtTitle.setGravity(Gravity.CENTER);
+
     }
 /**************************************************************************************************/
 }

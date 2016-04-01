@@ -87,7 +87,7 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge,
     public final static int SELECT_TYPE_LIST_ICON = 1;
     public final static int SELECT_TYPE_GRID_SIMPLE = 2;
     public final static int SELECT_TYPE_LIST_COMPLEX = 3;
-    public final static int DEFAULT_SELECT_TYPE = SELECT_TYPE_LIST_ICON;
+    public final static int DEFAULT_SELECT_TYPE = SELECT_TYPE_LIST_SIMPLE;
 
     //mAppInfoType - type of information fragments
     private int mAppInfoType;
@@ -207,7 +207,6 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge,
  * @return ListAdapter - will return a reference to the ListAdapter to be consumed
  */
     public ListAdapter initAppSelectAdapter(AppDemoModel model, int selectType){
-        Log.d("SimpleListFragment", "MainKeeper.initAppSelectAdapter: " + selectType);
 
         //ListAdapter variable to be return
         ListAdapter adapter;
@@ -279,7 +278,6 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge,
     }
 
     private ListAdapter initIconAdapter(AppDemoModel model, int layoutId, int childViewId){
-        Log.d("SimpleListFragment", "MainKeeper.initIconAdapter");
         return new ImageAdapter(mActivityContext);
     }
 
@@ -589,7 +587,6 @@ public class MainKeeper extends HouseKeeper implements MainActivity.Bridge,
      * @param position - list position of item clicked
      */
     public void onItemClick(ListView l, View v, int position, long id){
-        Log.d("Simple", "Keeper.onListItemClick");
         AppDemoModel model = mBoss.getModel();
         String msg = model.getApp(position).getDescription();
 

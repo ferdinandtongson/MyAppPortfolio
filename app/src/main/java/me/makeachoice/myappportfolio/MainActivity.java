@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.d("SimpleListFragment", "MainActivity.onCreate");
         //start Boss
         final Boss mBoss = (Boss)getApplicationContext();
         //register Activity context with Boss
@@ -75,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
         // then we don't need to do anything and should return or else
         // we could end up with overlapping fragments.
         if(savedInstanceState != null){
-            Log.d("Simple", "     onCreate - has savedInstanceState");
             //Fragment is being reconstituted, need to recreate toolbar and float button
             mHouseKeeper.setFragmentType(MainKeeper.FRAG_APP_SELECT,
                     savedInstanceState.getInt(MainKeeper.FRAG_APP_SELECT));
@@ -114,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
  */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.d("SimpleListFragment", "Main.onCreateOptionsMenu");
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(mHouseKeeper.getMenuId(), menu);
         return true;
